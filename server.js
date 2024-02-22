@@ -1,4 +1,5 @@
 const http = require("http");
+const mongoose = require("mongoose");
 const socketIo = require("socket.io");
 const app = require("./app");
 const server = http.createServer(app);
@@ -11,10 +12,22 @@ server.listen(PORT, () => {
   console.log(`Chat running on ${PORT}`);
 });
 
-// const userIo = io.of(`/user`);
-// userIo.on("connection", (socket) => {
-//   console.log(`Connected to user namespace`);
-// });
+const DB = process.env.DATABASE.replace(
+  "<password>",
+  process.env.DATABASE_PASSWORD
+);
+
+mongoose
+  .connect(DB)
+  .then(() => console.log(`DB connection successfully established`));
+
+process.on("uncaughtException", (err) => {
+  console.log("UncaughtException, shutting down...");
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
+// IO
 
 //handle chat messages
 io.on("connection", (socket) => {
