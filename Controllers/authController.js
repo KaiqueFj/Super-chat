@@ -1,6 +1,29 @@
-const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken")
 const User = require("../Model/userModel");
 const AppError = require("../utils/AppError");
+
+const signToken = (id) => {
+  return jwt.sign({id}, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN
+  })
+}
+
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id)
+ 
+  // hides the output password
+  user.password = undefined
+
+  res.status(statusCode).json({
+
+   status: 'success',
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
 
 exports.signUp = async (req, res, next) => {
   const newUser = await User.create({
@@ -9,10 +32,7 @@ exports.signUp = async (req, res, next) => {
     password: req.body.password,
   });
 
-  res.status(200).json({
-    status: "success",
-    data: newUser,
-  });
+  createSendToken(newUser,201,res)
 };
 
 exports.loginUser = async (req, res, next) => {
@@ -31,8 +51,5 @@ exports.loginUser = async (req, res, next) => {
   }
 
   //3 - if everything is ok, send token to client
-  res.status(200).json({
-    status: "success",
-    data: user,
-  });
-};
+  createSendToken(user, 200,res)
+}
