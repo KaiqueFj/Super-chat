@@ -1,0 +1,35 @@
+[33mcommit 29a83798d459d931f7ad85c321dd4344926e3459[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: KaiqueFj <kaiquelferraz@hotmail.com>
+Date:   Sat Mar 2 01:00:33 2024 -0300
+
+    feat: added jwt security into the creation of user, and login
+
+[33mcommit eaec9266362a568f4a0e753af146730d07af0930[m
+Author: KaiqueFj <kaiquelferraz@hotmail.com>
+Date:   Sat Mar 2 00:18:16 2024 -0300
+
+    feat: added login feature to authUser
+
+[33mcommit a5b9333cf07adac2eac12d238b0e7e16cb44e21d[m
+Author: KaiqueFj <kaiquelferraz@hotmail.com>
+Date:   Fri Feb 23 00:39:28 2024 -0300
+
+    feat: added signUp option and also created the collection to salve all documents
+
+[33mcommit 73f7efab66b05dc07ce52984009769ade3b0a08e[m
+Author: KaiqueFj <kaiquelferraz@hotmail.com>
+Date:   Thu Feb 22 15:36:54 2024 -0300
+
+    feat: added connection to the mongodb database and created the user table
+
+[33mcommit daa9720078eb3d57332734e7d47ad7926c43d7a3[m
+Author: KaiqueFj <kaiquelferraz@hotmail.com>
+Date:   Thu Feb 22 00:49:56 2024 -0300
+
+    feat: chat already with websocket connection using socketIo and feature to join rooms
+
+[33mcommit 8277ae212a044a972b883a7dfd3d433ef457e2fa[m
+Author: KaiqueFj <kaiquelferraz@hotmail.com>
+Date:   Thu Feb 22 00:44:08 2024 -0300
+
+    first commit

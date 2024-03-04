@@ -1,10 +1,12 @@
 const http = require("http");
+
 const mongoose = require("mongoose");
 const socketIo = require("socket.io");
 const app = require("./app");
 const server = http.createServer(app);
 const io = socketIo(server);
 const dotenv = require("dotenv");
+const Message = require("./Model/messageModel");
 dotenv.config({ path: "./.env" });
 
 const PORT = process.env.PORT || 8000;
@@ -21,6 +23,7 @@ mongoose
   .connect(DB)
   .then(() => console.log(`DB connection successfully established`));
 
+  
 process.on("uncaughtException", (err) => {
   console.log("UncaughtException, shutting down...");
   console.log(err.name, err.message);
@@ -32,17 +35,22 @@ process.on("uncaughtException", (err) => {
 //handle chat messages
 io.on("connection", (socket) => {
   socket.on("send-message", (message, room) => {
+
+    const newMessage = new Message(message)
+    newMessage.save()
     if (room === "") {
       socket.broadcast.emit("received-message", message);
     } else {
       socket.to(room).emit("received-message", message);
     }
+  })
+
     socket.on("join-room", (room, cb) => {
       socket.join(room);
       cb(`Joined ${room}`);
     });
   });
-});
+
 
 //handle disconnections
 io.on("connection", (socket) => {
@@ -50,3 +58,5 @@ io.on("connection", (socket) => {
     console.log("user disconnected");
   });
 });
+
+
