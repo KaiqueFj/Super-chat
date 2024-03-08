@@ -50,6 +50,8 @@ io.on('connection', (socket) => {
   socket.on('getUsers', async () => {
     try {
       const userMessage = await Message.find();
+      console.log(`cliente getMessage ${userMessage}`);
+
       socket.emit('users', userMessage);
     } catch (err) {
       console.error(err);

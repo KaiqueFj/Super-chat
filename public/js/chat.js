@@ -11,7 +11,7 @@ function displayMessage(message) {
 
 //capture the message
 socket.on('received-message', (message) => {
-  displayMessage(message);
+  displayMessage(`${message.message}`);
 });
 
 //forms used to put the message and room to be sent by the user
