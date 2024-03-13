@@ -5,6 +5,7 @@ const app = require('./app');
 const server = http.createServer(app);
 const dotenv = require('dotenv');
 const Message = require('./Model/messageModel');
+const AppError = require('./utils/AppError');
 const io = socketIo(server);
 dotenv.config({ path: './.env' });
 
@@ -37,24 +38,21 @@ io.on('connection', (socket) => {
         room: message.room,
       });
       await newMessage.save();
-      if (message.room === '') {
-        socket.broadcast.emit('received-message', message);
-      } else {
-        socket.to(room).emit('received-message', message);
-      }
+
+      message.room === ''
+        ? socket.broadcast.emit('received-message', message)
+        : socket.to(room).emit('received-message', message);
     } catch (err) {
-      console.error(err);
+      return next(new AppError('Could not send the messages properly'), 400);
     }
   });
 
   socket.on('getUsers', async () => {
     try {
       const userMessage = await Message.find();
-      console.log(`cliente getMessage ${userMessage}`);
-
       socket.emit('users', userMessage);
     } catch (err) {
-      console.error(err);
+      return next(new AppError('Could not load the messages properly'), 400);
     }
   });
 

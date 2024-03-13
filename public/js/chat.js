@@ -22,8 +22,8 @@ form.addEventListener('submit', (e) => {
   if (message === '') return;
 
   displayMessage(message);
-  const messageTest = { message, room };
-  socket.emit('send-message', messageTest);
+  const userMessageData = { message, room };
+  socket.emit('send-message', userMessageData);
   messageInput.value = '';
 });
 
