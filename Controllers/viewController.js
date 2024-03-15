@@ -3,3 +3,9 @@ exports.getChatPage = (req, res) => {
     title: 'Your account',
   });
 };
+
+exports.getSignUpPageUser = (req, res) => {
+  res.status(200).render('signUp', {
+    title: 'Your account',
+  });
+};
