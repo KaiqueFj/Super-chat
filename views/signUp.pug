@@ -1,22 +1,38 @@
 extends base
 
 block append head
-    link(rel="stylesheet" href='/styles/signUp/styles.css')
-
+  link(rel="stylesheet" type="text/css" href='/styles/signUp/styles.css')
 
 block content
 
-    main.main
-        .form
-            form.form-input(action="")
-                .inputContainer
-                    .inputOptions
-                        input.inputMessage 
-                    .inputOptions
-                        input.inputRoom
-        span.span
-        button.join     
-        text.informationForm
+  main.main
+    .form
+      h3.titleMessage Sign Up 
+
+        form.userSignIn(action="")
+          .inputContainer
+
+            .inputOptions
+              i.fa-regular.fa-user
+              input.inputName(placeholder="Name")
+
+            .inputOptions
+              i.fa-regular.fa-envelope
+              input.inputEmail(placeholder="E-mail" type="email")
+
+            .inputOptions
+              i.fa-solid.fa-lock
+              input.inputPassword(placeholder="Password" type="password")
+
+            .spanContainer
+              input.checkBox(type="checkbox")
+              span.span  I read and agree to 
+              a.formLink(href="#") Terms & Conditions
+
+            button.btnCreateAccount Create Account
+            .spanContainer
+              span.span Already have an account?
+              a.formLink(href="#")  Sign In
 
 
 

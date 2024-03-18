@@ -1,7 +1,11 @@
 extends base
 
 block append head
-    link(rel="stylesheet" href='/styles/overview/styles.css')
+  link(rel="stylesheet" href='/styles/overview/styles.css')
+  script(src="https://code.jquery.com/jquery-3.6.4.min.js")
+  script.
+    const socket = io();
+  script(defer src='/js/chat.js')
 
 
 block content
@@ -16,8 +20,4 @@ block content
           button 
         .inputbox
           input.inputRoom
-          button.join 
-
-
-
-
+          button.join

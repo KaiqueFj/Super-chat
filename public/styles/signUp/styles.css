@@ -1,0 +1,89 @@
+.main {
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  padding: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: rgba(223, 231, 253, 0.43) 0px 5px 15px;
+}
+
+.titleMessage {
+  font-size: 3rem;
+  text-align: center;
+  color: #171717;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputOptions {
+  position: relative;
+  padding: 1rem;
+}
+
+i {
+  position: absolute;
+  top: 40%;
+  font-size: 2.4rem;
+  padding-left: 1rem;
+}
+
+.inputName,
+.inputEmail,
+.inputPassword {
+  border: 1px solid #ccc;
+  box-shadow: rgb(223, 231, 253) 0px 12px 9px;
+  border-radius: 10px;
+  padding: 0.5rem;
+  height: 3.7rem;
+  padding-left: 4rem;
+  width: 34rem;
+}
+
+:where(.inputName, .inputEmail, .inputPassword):focus {
+  border-color: #b9c0d6;
+  outline: none;
+}
+
+.span {
+  font-size: 1.7rem;
+  color: #b9c0d6;
+}
+
+.btnCreateAccount {
+  align-self: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  width: 20rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 18px;
+
+  color: #ffffff;
+  background: rgb(136, 40, 225);
+  background: linear-gradient(
+    161deg,
+    rgba(136, 40, 225, 1) 44%,
+    rgba(60, 1, 243, 1) 100%
+  );
+}
+
+.formLink {
+  text-decoration: none;
+  font-size: 1.7rem;
+  color: #b6a8de;
+}
+
+/* width:34rem */
