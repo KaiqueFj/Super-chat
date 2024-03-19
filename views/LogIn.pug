@@ -1,0 +1,34 @@
+extends base
+
+block append head
+  link(rel="stylesheet" type="text/css" href='/styles/LogIn/styles.css')
+
+block content
+
+  main.main
+    .form
+      h3.titleMessage Sign In 
+
+        form.userLogIn
+          .inputContainer
+
+            .inputOptions
+              i.fa-regular.fa-envelope
+              input.inputEmail(placeholder="E-mail" type="email")
+
+            .inputOptions
+              i.fa-solid.fa-lock
+              input.inputPassword(placeholder="Password" type="password")
+
+
+            button.btnCreateAccount  Sign In
+
+            .spanContainer
+              span.span Don´t have an account?
+              a.formLink(href="/")  Sign up
+
+
+
+
+
+

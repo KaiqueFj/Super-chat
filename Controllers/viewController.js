@@ -9,3 +9,9 @@ exports.getSignUpPageUser = (req, res) => {
     title: 'Your account',
   });
 };
+
+exports.getLogInPageUser = (req, res) => {
+  res.status(200).render('Login', {
+    title: 'Your account',
+  });
+};
