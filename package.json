@@ -1,6 +1,7 @@
 {
   "name": "game-chat",
   "version": "1.0.0",
+  "source": "public/js/index.js",
   "description": "Project to develop an online chat using NodeJS and express",
   "main": "app.js",
   "targets": {
@@ -9,10 +10,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "SET NODE_ENV=development & nodemon server.js",
-    "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundled",
-    "build": "parcel build ./public/js/index.js --dist-dir ./public/js/bundled"  
+    "watch:js": "parcel watch --dist-dir public/bundled --no-cache",
+    "build:js": "parcel build --dist-dir public/bundled --no-cache"
   },
-
   "author": "Kaique Ferraz de Jesus",
   "license": "ISC",
   "dependencies": {
@@ -24,7 +24,6 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.3",
     "nodemon": "^3.0.3",
-    "parcel": "^2.12.0",
     "path": "^0.12.7",
     "pug": "^3.0.2",
     "socket.io": "^4.7.3",
@@ -32,6 +31,8 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "parcel": "^2.12.0",
+    "parcel-bundler": "^1.12.5"
   }
 }
