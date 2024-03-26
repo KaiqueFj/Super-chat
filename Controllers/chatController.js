@@ -19,6 +19,8 @@ exports.chatFeatures = (io) => {
       }
     });
 
+    //Function created to retrieve the user messages from the backend
+
     socket.on('getUsers', async () => {
       try {
         const userMessage = await Message.find();

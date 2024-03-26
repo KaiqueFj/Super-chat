@@ -8,6 +8,12 @@ const messageSchema = new mongoose.Schema({
   room: {
     type: String,
   },
+  user: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 const Message = mongoose.model('Messages', messageSchema);
