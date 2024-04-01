@@ -19,8 +19,4 @@ app.use(express.static(path.join(`${__dirname}/public`)));
 app.use('/', viewRouter);
 app.use('/api/v1/users', useRouter);
 
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can´t find ${req.originalUrl} on this server !`, 404));
-});
-
 module.exports = app;

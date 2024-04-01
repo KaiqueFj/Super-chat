@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const socketIo = require('socket.io');
 const app = require('./app');
 const server = http.createServer(app);
-const dotenv = require('dotenv');
 const io = socketIo(server);
+const dotenv = require('dotenv');
 const chatController = require('./Controllers/chatController');
 dotenv.config({ path: './.env' });
 

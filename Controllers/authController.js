@@ -102,17 +102,22 @@ exports.protect = catchAsync(async (req, res, next) => {
 // Only for rendered pages, no errors !
 exports.isLoggedIn = async (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log(token);
   if (token) {
     try {
       const decoded = await promisify(jwt.verify)(
         token,
         process.env.JWT_SECRET
       ).catch(() => false);
+
       if (!decoded) return next();
+
       const currentUser = await User.findById(decoded.id).catch(() => false);
       if (!currentUser) return next();
+
       if (currentUser.changedPasswordAfter(decoded.iat)) return next();
       res.locals.user = currentUser;
+
       return next();
     } catch (err) {
       return next();

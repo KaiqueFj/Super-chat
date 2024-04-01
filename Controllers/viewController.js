@@ -1,5 +1,3 @@
-const User = require('../Model/userModel');
-
 exports.getChatPage = (req, res) => {
   res.status(200).render('overview', {
     title: 'Your account',

@@ -19,22 +19,25 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
   const message = messageInput.value;
   const room = roomInput.value;
-  if (message === '') return;
+  let user;
+
+  if (!message) return;
 
   displayMessage(message);
-  const userMessageData = { message, room };
+
+  const userMessageData = { message, room, user };
   socket.emit('send-message', userMessageData);
   messageInput.value = '';
 });
 
 // When the 'users' event is received from the server
-socket.on('users', (users) => {
+socket.on('getUsersMessage', (users) => {
   users.map((user) => {
     displayMessage(user.message);
   });
 });
 
-socket.emit('getUsers');
+socket.emit('getUserMessageFromDatabase');
 
 //btn used to enter in room
 btnJoin.addEventListener('click', () => {

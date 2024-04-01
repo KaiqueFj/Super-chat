@@ -1,44 +1,58 @@
+const jwt = require('jsonwebtoken');
 const Message = require('../Model/messageModel');
+const User = require('../Model/userModel');
 const AppError = require('../utils/AppError');
+const { promisify } = require('util');
 
 exports.chatFeatures = (io) => {
-  io.on('connection', (socket) => {
+  io.on('connection', async (socket) => {
     socket.on('send-message', async (message) => {
       try {
-        const newMessage = new Message({
-          message: message.message,
-          room: message.room,
-        });
-        await newMessage.save();
+        const token = socket.handshake.headers.cookie.split('=')[1];
+        if (token) {
+          const decoded = await promisify(jwt.verify)(
+            token,
+            process.env.JWT_SECRET
+          );
 
-        message.room === ''
-          ? socket.broadcast.emit('received-message', message)
-          : socket.to(room).emit('received-message', message);
+          const currentUser = await User.findById(decoded.id);
+
+          const newMessage = new Message({
+            message: message.message,
+            room: message.room,
+            user: currentUser.id,
+          });
+          await newMessage.save();
+
+          message.room === ''
+            ? socket.broadcast.emit('received-message', message)
+            : socket.to(room).emit('received-message', message);
+        }
       } catch (err) {
-        return next(new AppError('Could not send the messages properly'), 400);
+        console.error('Error sending message:', err);
+        socket.emit('error', 'Could not send the message properly');
       }
     });
 
-    //Function created to retrieve the user messages from the backend
-
-    socket.on('getUsers', async () => {
+    socket.on('getUserMessageFromDatabase', async () => {
       try {
-        const userMessage = await Message.find();
-        socket.emit('users', userMessage);
+        const userMessages = await Message.find();
+        socket.emit('getUsersMessage', userMessages);
       } catch (err) {
-        return next(new AppError('Could not load the messages properly'), 400);
+        console.error('Error retrieving user messages:', err);
+        socket.emit('error', 'Could not load the messages properly');
       }
     });
 
-    //socket method used to join rooms
+    // Socket method used to join rooms
     socket.on('join-room', (room, cb) => {
       socket.join(room);
       cb(`Joined ${room}`);
     });
-  });
 
-  //handle disconnections
-  io.on('connection', (socket) => {
-    socket.on('disconnect', () => {});
+    // Handle disconnections
+    socket.on('disconnect', () => {
+      // Handle disconnection if needed
+    });
   });
 };

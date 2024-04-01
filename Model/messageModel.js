@@ -10,9 +10,10 @@ const messageSchema = new mongoose.Schema({
   },
   user: [
     {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-    },
+      required: [true, 'A message must belong to an user'],
+    }, // Reference to User model
   ],
 });
 
