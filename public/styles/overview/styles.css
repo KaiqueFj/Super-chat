@@ -1,117 +1,167 @@
-
 .main {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-  }
-  
-  .messages {
-    list-style-type: none;
-    margin: 0;
-    display: flex;
-    height: 90%;
-    padding: 2rem;
-    overflow: hidden;
-  }
-  
-  .messageList {
-    list-style: none;
-    display: flex;
-    overflow: auto;
-    width: 100%;
-    flex-direction: column;
-  }
-  .messageList > li {
-    background: linear-gradient(
-      90deg,
-      rgba(116, 190, 219, 1) 1%,
-      rgba(0, 93, 130, 1) 100%
-    );
-  
-    min-width: fit-content;
-    padding: 0.5rem 1rem;
-    color: white;
-    font-size: 2rem;
-    height: 6rem;
-    border-radius: 10px;
-    margin-right: auto;
-    margin-left: 0;
-  }
-  .messageList > li:nth-child(odd) {
-    background: linear-gradient(
-      90deg,
-      rgba(0, 93, 130, 1) 1%,
-      rgb(56, 108, 129) 100%
-    );
-    border-radius: 10px;
-    height: 6rem;
-    margin-left: auto;
-    margin-right: 0;
-  }
-  
-  /* Style the scrollbar */
-  .messageList::-webkit-scrollbar {
-    width: 5px; /* Set the width of the scrollbar */
-  }
-  
-  /* Style the scrollbar track */
-  .messageList::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  
-  /* Style the scrollbar handle */
-  .messageList::-webkit-scrollbar-thumb {
-    background-color: #888;
-  }
-  
-  /* Style the scrollbar handle on hover */
-  .messageList::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-  }
-  
-  .form {
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
-  
-  .inputbox {
-    display: flex;
-    align-content: space-around;
-    justify-content: center;
-    padding: 0.5rem;
-  }
-  
-  .inputbox :where(.inputMessage, .inputRoom) {
-    background: #131d36;
-    padding: 1rem 1rem 1rem;
-    height: 3rem;
-    width: 90%;
-    border-radius: 3px;
-    border: white 1px;
-    color: #fff;
-  }
-  
-  .input:focus {
-    outline: none;
-  }
-  
-  button {
-    background: transparent;
-  
-    background-image: url("../images/paper-plane-white-icon.png");
-  
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    border-radius: 30px;
-    transition: background-color 0.3s;
-  }  
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.leftMenu {
+  background-color: gray;
+  margin: 0;
+  display: flex;
+  height: 90%;
+  padding: 2rem;
+  overflow: hidden;
+}
+.listUser {
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
+}
+.users {
+  display: grid;
+  grid-template-areas:
+    'imageProfile userName messageTime'
+    'imageProfile userMessage ...'
+    '... ... ...';
+
+  background-color: rgb(78, 55, 144);
+}
+.users > .user-img {
+  grid-area: imageProfile;
+  height: 3.5rem;
+  width: 3.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.users > .userName {
+  grid-area: userName;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #dfe7fd;
+}
+
+.users > .userMessage {
+  grid-area: userMessage;
+  font-size: 1rem;
+  color: #d2d2d2;
+}
+
+.users > .userTime {
+  grid-area: messageTime;
+  font-size: 1rem;
+  color: #4c00cc;
+}
+
+.messages {
+  list-style-type: none;
+  margin: 0;
+  display: flex;
+  height: 90%;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.messageList {
+  list-style: none;
+  display: flex;
+  overflow: auto;
+  width: 100%;
+  flex-direction: column;
+}
+.messageList > li {
+  background: linear-gradient(
+    90deg,
+    rgba(116, 190, 219, 1) 1%,
+    rgba(0, 93, 130, 1) 100%
+  );
+
+  min-width: fit-content;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-size: 2rem;
+  height: 6rem;
+  border-radius: 10px;
+  margin-right: auto;
+  margin-left: 0;
+}
+.messageList > li:nth-child(odd) {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 93, 130, 1) 1%,
+    rgb(56, 108, 129) 100%
+  );
+  border-radius: 10px;
+  height: 6rem;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Style the scrollbar */
+.messageList::-webkit-scrollbar {
+  width: 5px; /* Set the width of the scrollbar */
+}
+
+/* Style the scrollbar track */
+.messageList::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Style the scrollbar handle */
+.messageList::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+/* Style the scrollbar handle on hover */
+.messageList::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.form {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.inputbox {
+  display: flex;
+  align-content: space-around;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.inputbox :where(.inputMessage, .inputRoom) {
+  background: #131d36;
+  padding: 1rem 1rem 1rem;
+  height: 3rem;
+  width: 90%;
+  border-radius: 3px;
+  border: white 1px;
+  color: #fff;
+}
+
+.input:focus {
+  outline: none;
+}
+
+button {
+  background: transparent;
+
+  background-image: url('../../images/paper-plane-white-icon.png');
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 30px;
+  transition: background-color 0.3s;
+}

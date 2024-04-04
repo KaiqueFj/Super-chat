@@ -1,8 +1,16 @@
-exports.getChatPage = (req, res) => {
+const User = require('../Model/userModel');
+const catchAsync = require('../utils/catchAsync');
+
+exports.getChatPage = catchAsync(async (req, res) => {
+  const users = await User.find().populate({
+    path: 'messages',
+  });
+
   res.status(200).render('overview', {
     title: 'Your account',
+    users: users,
   });
-};
+});
 
 exports.getSignUpPageUser = (req, res) => {
   res.status(200).render('signUp', {

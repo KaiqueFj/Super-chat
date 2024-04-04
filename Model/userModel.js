@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false,
     },
+    photo: {
+      type: String,
+      default: 'default.jpg',
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -28,6 +32,13 @@ const userSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+// Virtual populate
+userSchema.virtual('messages', {
+  ref: 'Messages',
+  foreignField: 'user',
+  localField: '_id',
+});
 
 userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 12);

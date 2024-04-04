@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
 const Message = require('../Model/messageModel');
 const User = require('../Model/userModel');
-const AppError = require('../utils/AppError');
 const { promisify } = require('util');
 
 exports.chatFeatures = (io) => {
   io.on('connection', async (socket) => {
-    socket.on('send-message', async (message) => {
+    socket.on('send-message', async (message, next) => {
       try {
         const token = socket.handshake.headers.cookie.split('=')[1];
         if (token) {
@@ -15,7 +14,11 @@ exports.chatFeatures = (io) => {
             process.env.JWT_SECRET
           );
 
+          if (!decoded) return next();
+
           const currentUser = await User.findById(decoded.id);
+
+          if (!currentUser) return next();
 
           const newMessage = new Message({
             message: message.message,
@@ -29,7 +32,6 @@ exports.chatFeatures = (io) => {
             : socket.to(room).emit('received-message', message);
         }
       } catch (err) {
-        console.error('Error sending message:', err);
         socket.emit('error', 'Could not send the message properly');
       }
     });
