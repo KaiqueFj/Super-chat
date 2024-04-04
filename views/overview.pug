@@ -11,24 +11,35 @@ block content
 
   main.main
     .leftMenu
+
       .listUser
         each user in users
           .users
             img.user-img(src=`/images/user/${user.photo}` alt=`Photo of ${user.name}`)
             span.userName= user.name
             each message in user.messages
+
               span.userMessage=`${message.message}`
               - const formattedTime = message.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
               span.messageTime=formattedTime
 
-    .messages
-      ul.messageList
 
-    .form
-      form.form-input(action="")
-        .inputbox
-          input.inputMessage
-          button 
-        .inputbox
-          input.inputRoom
-          button.join
+    .messageFormContainer
+      .userSelectedChat
+        .userContainer
+          .userInfo
+            img.user-img(src=`/images/user/${user.photo}` alt=`Photo of ${user.name}`)
+            span.userName= user.name
+
+
+      .messages
+        ul.messageList
+
+      .form
+        form.form-input(action="")
+          .inputbox
+            input.inputMessage(placeholder="Message")
+            button 
+          .inputbox
+            input.inputRoom
+            button.join

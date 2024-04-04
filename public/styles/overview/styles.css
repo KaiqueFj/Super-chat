@@ -7,61 +7,109 @@
 }
 
 .leftMenu {
-  background-color: gray;
+  background-color: #252837;
   margin: 0;
   display: flex;
-  height: 90%;
-  padding: 2rem;
+  height: 100%;
+  width: 25%;
+  padding: 1rem;
   overflow: hidden;
 }
 .listUser {
   display: flex;
+  width: 100%;
   flex-direction: column;
-  background-color: antiquewhite;
 }
 .users {
   display: grid;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  border-radius: 10px;
   grid-template-areas:
-    'imageProfile userName messageTime'
-    'imageProfile userMessage ...'
-    '... ... ...';
+    'imageProfile userName  messageTime'
+    'imageProfile userMessage userMessage'
+    'imageProfile ... ...';
 
-  background-color: rgb(78, 55, 144);
+  background-color: #303346;
 }
+
+.users:hover {
+  background-color: #434763;
+}
+
+/* Hover  */
 .users > .user-img {
   grid-area: imageProfile;
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 4.5rem;
+  width: 4.5rem;
   border-radius: 50%;
   margin-right: 1rem;
 }
 
 .users > .userName {
   grid-area: userName;
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: #dfe7fd;
 }
 
 .users > .userMessage {
   grid-area: userMessage;
-  font-size: 1rem;
+  font-size: 1.4rem;
   color: #d2d2d2;
 }
 
-.users > .userTime {
+.users > .messageTime {
   grid-area: messageTime;
-  font-size: 1rem;
-  color: #4c00cc;
+  text-align: end;
+  font-size: 1.4rem;
+  color: #d2d2d2;
+}
+
+.userSelectedChat {
+  display: flex;
+  border-radius: 10px;
+  background-color: #434763;
+}
+
+.userContainer {
+  padding: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userInfo > .userName {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #dfe7fd;
+}
+
+.userInfo > .user-img {
+  height: 4.5rem;
+  width: 4.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.messageFormContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 98%;
+  height: 100%;
 }
 
 .messages {
   list-style-type: none;
-  margin: 0;
   display: flex;
-  height: 90%;
-  padding: 2rem;
   overflow: hidden;
+  margin: 0;
+  height: 90%;
+  width: 100%;
+  padding: 1rem;
 }
 
 .messageList {
@@ -72,11 +120,7 @@
   flex-direction: column;
 }
 .messageList > li {
-  background: linear-gradient(
-    90deg,
-    rgba(116, 190, 219, 1) 1%,
-    rgba(0, 93, 130, 1) 100%
-  );
+  background: #6f83fb;
 
   min-width: fit-content;
   padding: 0.5rem 1rem;
@@ -88,11 +132,8 @@
   margin-left: 0;
 }
 .messageList > li:nth-child(odd) {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 93, 130, 1) 1%,
-    rgb(56, 108, 129) 100%
-  );
+  background: #7a84bd;
+
   border-radius: 10px;
   height: 6rem;
   margin-left: auto;
@@ -120,28 +161,25 @@
 }
 
 .form {
-  padding: 1rem;
-  display: flex;
-  justify-content: flex-end;
+  width: 98%;
+}
+
+.form-input {
   width: 100%;
-  position: absolute;
-  bottom: 0;
-  flex-direction: column;
-  box-sizing: border-box;
 }
 
 .inputbox {
   display: flex;
-  align-content: space-around;
-  justify-content: center;
+  position: relative;
+  justify-content: space-between;
   padding: 0.5rem;
 }
 
 .inputbox :where(.inputMessage, .inputRoom) {
-  background: #131d36;
+  background-color: #303346;
   padding: 1rem 1rem 1rem;
   height: 3rem;
-  width: 90%;
+  width: 95%;
   border-radius: 3px;
   border: white 1px;
   color: #fff;
@@ -153,15 +191,14 @@
 
 button {
   background: transparent;
-
-  background-image: url('../../images/paper-plane-white-icon.png');
-
+  background-color: #6587ff;
+  background-image: url('../../images/icons8-acima-50.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 10px 20px;
   cursor: pointer;
   border: none;
-  border-radius: 30px;
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
   transition: background-color 0.3s;
 }
