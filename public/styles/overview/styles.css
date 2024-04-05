@@ -123,10 +123,10 @@
 }
 .messageList > .messageContainer {
   height: fit-content;
-  max-width: 44rem;
-
   margin-right: auto;
+  text-align: justify;
   padding: 0.5rem 1rem;
+  max-width: 44rem;
   color: white;
   font-size: 2rem;
   border-radius: 10px;

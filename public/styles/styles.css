@@ -42,7 +42,7 @@ body {
 .header {
   background-color: #303346;
   padding: 0 5rem;
-  height: 8rem;
+  height: 5.5rem;
   position: relative;
   z-index: 100;
   display: flex;
@@ -59,8 +59,8 @@ body {
 }
 
 .header__logo img {
-  height: 4rem;
-  width: 4rem;
+  height: 3.3rem;
+  width: 3.3rem;
 }
 
 /* Alert */
