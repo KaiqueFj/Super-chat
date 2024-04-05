@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   position: relative;
+  overflow: hidden;
   width: 100vw;
   height: 100vh;
 }
@@ -102,7 +103,7 @@
   height: 100%;
 }
 
-.messages {
+.messagesContainer {
   list-style-type: none;
   display: flex;
   overflow: hidden;
@@ -118,26 +119,26 @@
   overflow: auto;
   width: 100%;
   flex-direction: column;
+  scroll-behavior: smooth;
 }
-.messageList > li {
-  background: #6f83fb;
+.messageList > .messageContainer {
+  height: fit-content;
+  max-width: 44rem;
 
-  min-width: fit-content;
+  margin-right: auto;
   padding: 0.5rem 1rem;
   color: white;
   font-size: 2rem;
-  height: 6rem;
   border-radius: 10px;
-  margin-right: auto;
+  margin-bottom: 1rem;
   margin-left: 0;
+  background: #6f83fb;
 }
-.messageList > li:nth-child(odd) {
+.messageList > .messageContainer:nth-child(odd) {
   background: #7a84bd;
-
-  border-radius: 10px;
-  height: 6rem;
   margin-left: auto;
-  margin-right: 0;
+  margin-right: 1rem;
+  max-width: 44rem;
 }
 
 /* Style the scrollbar */

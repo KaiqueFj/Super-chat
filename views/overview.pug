@@ -1,45 +1,42 @@
 extends base
 
 block append head
-  link(rel="stylesheet" href='/styles/overview/styles.css')
+  link(rel="stylesheet", href="/styles/overview/styles.css")
   script(src="https://code.jquery.com/jquery-3.6.4.min.js")
   script.
     const socket = io();
-  script(defer src='/js/chat.js')
+  script(defer, src="/js/chat.js")
 
 block content
 
   main.main
     .leftMenu
-
       .listUser
         each user in users
           .users
-            img.user-img(src=`/images/user/${user.photo}` alt=`Photo of ${user.name}`)
+            img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
             span.userName= user.name
-            each message in user.messages
-
-              span.userMessage=`${message.message}`
-              - const formattedTime = message.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-              span.messageTime=formattedTime
-
+            - if (user.messages && user.messages.length > 0)
+              - const lastMessage = user.messages.sort((a, b) => b.createdAt - a.createdAt)[0]
+              span.userMessage= lastMessage.message
+              - const formattedTime = lastMessage.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              span.messageTime= formattedTime
 
     .messageFormContainer
       .userSelectedChat
         .userContainer
           .userInfo
-            img.user-img(src=`/images/user/${user.photo}` alt=`Photo of ${user.name}`)
+            img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
             span.userName= user.name
 
-
-      .messages
-        ul.messageList
+      .messagesContainer
+        .messageList
 
       .form
         form.form-input(action="")
           .inputbox
             input.inputMessage(placeholder="Message")
-            button 
+            button(type="submit") 
           .inputbox
-            input.inputRoom
-            button.join
+            input.inputRoom(placeholder="Room")
+            button.join(type="submit") 

@@ -3,10 +3,29 @@ const messageInput = document.querySelector('.inputMessage');
 const roomInput = document.querySelector('.inputRoom');
 const messages = document.querySelector('messageList');
 const btnJoin = document.querySelector('.join');
+const parentElement = document.querySelector('.listUser');
+
+let userData = [];
+
+parentElement.addEventListener('click', (e) => {
+  e.preventDefault();
+  const target = e.target.closest('.users');
+
+  if (!target) return;
+
+  userData.push(target.textContent);
+
+  console.log(userData);
+  displayMessage(target.textContent);
+});
 
 //function used to display the messages in the form
 function displayMessage(message) {
-  $('.messageList').append($('<li>').text(message));
+  $('.messageList').append(
+    $('<div>')
+      .addClass('messageContainer')
+      .append($('<span>').addClass('spanMessage').text(message))
+  );
 }
 
 //capture the message
