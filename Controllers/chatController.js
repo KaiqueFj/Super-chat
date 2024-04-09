@@ -1,36 +1,44 @@
 const jwt = require('jsonwebtoken');
 const Message = require('../Model/messageModel');
-const User = require('../Model/userModel');
 const { promisify } = require('util');
+
+const getUserIDFromToken = async (socket) => {
+  try {
+    const token = socket.handshake.headers.cookie.split('=')[1];
+    if (token) {
+      const decoded = await promisify(jwt.verify)(
+        token,
+        process.env.JWT_SECRET
+      );
+
+      if (!decoded) return null;
+
+      return decoded.id;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error while extracting user ID from token:', error);
+    return null;
+  }
+};
 
 exports.chatFeatures = (io) => {
   io.on('connection', async (socket) => {
     socket.on('send-message', async (message, next) => {
       try {
-        const token = socket.handshake.headers.cookie.split('=')[1];
-        if (token) {
-          const decoded = await promisify(jwt.verify)(
-            token,
-            process.env.JWT_SECRET
-          );
+        const userID = await getUserIDFromToken(socket);
 
-          if (!decoded) return next();
+        const newMessage = new Message({
+          message: message.message,
+          room: message.room,
+          user: userID,
+          isOwner: true,
+        });
+        await newMessage.save();
 
-          const currentUser = await User.findById(decoded.id);
-          if (!currentUser) return next();
-
-          const newMessage = new Message({
-            message: message.message,
-            room: message.room,
-            user: currentUser.id,
-            isOwner: true,
-          });
-          await newMessage.save();
-
-          message.room === ''
-            ? socket.broadcast.emit('received-message', message)
-            : socket.to(room).emit('received-message', message);
-        }
+        message.room === ''
+          ? socket.broadcast.emit('received-message', message)
+          : socket.to(room).emit('received-message', message);
       } catch (err) {
         socket.emit('error', 'Could not send the message properly');
       }
@@ -38,7 +46,11 @@ exports.chatFeatures = (io) => {
 
     socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {
-        const userMessages = await Message.find({ room: roomName });
+        const userID = await getUserIDFromToken(socket);
+        const userMessages = await Message.find({
+          room: roomName,
+          user: userID,
+        });
         socket.emit('getUsersMessage', userMessages);
       } catch (err) {
         console.error('Error retrieving user messages:', err);
