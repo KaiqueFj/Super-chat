@@ -1,25 +1,10 @@
-const form = document.querySelector('.form-input');
-const messageInput = document.querySelector('.inputMessage');
-const roomInput = document.querySelector('.inputRoom');
-const messages = document.querySelector('messageList');
-const btnJoin = document.querySelector('.join');
-const parentElement = document.querySelector('.listUser');
+const form = $('.form-input');
+const messageInput = $('.inputMessage');
+const roomInput = $('.inputRoom');
+const parentElement = $('.listUser');
+let userData;
 
-let userData = [];
-
-parentElement.addEventListener('click', (e) => {
-  e.preventDefault();
-  const target = e.target.closest('.users');
-
-  if (!target) return;
-
-  userData.push(target.textContent);
-
-  console.log(userData);
-  displayMessage(target.textContent);
-});
-
-//function used to display the messages in the form
+// Function used to display messages in the form
 function displayMessage(message) {
   $('.messageList').append(
     $('<div>')
@@ -28,39 +13,46 @@ function displayMessage(message) {
   );
 }
 
-//capture the message
+// Capture the message and display it live
 socket.on('received-message', (message) => {
-  displayMessage(`${message.message}`);
+  displayMessage(message.message);
 });
 
-//forms used to put the message and room to be sent by the user
-form.addEventListener('submit', (e) => {
+// Forms used to put the message and room to be sent by the user
+form.on('submit', (e) => {
   e.preventDefault();
-  const message = messageInput.value;
-  const room = roomInput.value;
-  let user;
+  const message = messageInput.val();
+  const room = userData[0];
 
   if (!message) return;
 
   displayMessage(message);
 
-  const userMessageData = { message, room, user };
+  const userMessageData = { message, room };
   socket.emit('send-message', userMessageData);
-  messageInput.value = '';
+  messageInput.val('');
 });
 
-// When the 'users' event is received from the server
-socket.on('getUsersMessage', (users) => {
-  users.map((user) => {
-    displayMessage(user.message);
-  });
+// Define event listener for 'getUsersMessage' outside the click event handler
+socket.on('getUsersMessage', (messages) => {
+  $('.messageList').empty(); // Clear previous messages
+  messages.forEach((message) => displayMessage(message.message));
 });
 
-socket.emit('getUserMessageFromDatabase');
+// Add click event listener to parentElement
+parentElement.on('click', '.users', (e) => {
+  const target = $(e.target).closest('.users');
+  const data = target.text().split(' ');
+  userData = data;
 
-//btn used to enter in room
-btnJoin.addEventListener('click', () => {
-  const room = roomInput.value;
+  const room = userData[0];
+
+  if (!target) return;
+
+  // Emit event to server to get messages for the selected user
+  socket.emit('getUserMessageFromDatabase', room);
+
+  // Join room
   socket.emit('join-room', room, (message) => {
     displayMessage(message);
   });

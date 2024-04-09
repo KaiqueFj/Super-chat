@@ -6,9 +6,12 @@ exports.getChatPage = catchAsync(async (req, res) => {
     path: 'messages',
   });
 
+  const preparedMessages = users.flatMap((user) => user.messages);
+
   res.status(200).render('overview', {
     title: 'Your account',
     users: users,
+    message: preparedMessages,
   });
 });
 

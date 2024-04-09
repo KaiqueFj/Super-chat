@@ -8,15 +8,14 @@ block append head
   script(defer, src="/js/chat.js")
 
 block content
-
   main.main
     .leftMenu
       .listUser
         each user in users
           .users
             img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
-            span.userName= user.name
-            - if (user.messages && user.messages.length > 0)
+            span.userName= user.name 
+            if user.messages && user.messages.length > 0
               - const lastMessage = user.messages.sort((a, b) => b.createdAt - a.createdAt)[0]
               span.userMessage= lastMessage.message
               - const formattedTime = lastMessage.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -32,11 +31,11 @@ block content
       .messagesContainer
         .messageList
 
+
+
       .form
         form.form-input(action="")
           .inputbox
             input.inputMessage(placeholder="Message")
             button(type="submit") 
-          .inputbox
-            input.inputRoom(placeholder="Room")
-            button.join(type="submit") 
+

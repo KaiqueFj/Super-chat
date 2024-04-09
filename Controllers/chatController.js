@@ -17,13 +17,13 @@ exports.chatFeatures = (io) => {
           if (!decoded) return next();
 
           const currentUser = await User.findById(decoded.id);
-
           if (!currentUser) return next();
 
           const newMessage = new Message({
             message: message.message,
             room: message.room,
             user: currentUser.id,
+            isOwner: true,
           });
           await newMessage.save();
 
@@ -36,9 +36,9 @@ exports.chatFeatures = (io) => {
       }
     });
 
-    socket.on('getUserMessageFromDatabase', async () => {
+    socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {
-        const userMessages = await Message.find();
+        const userMessages = await Message.find({ room: roomName });
         socket.emit('getUsersMessage', userMessages);
       } catch (err) {
         console.error('Error retrieving user messages:', err);
@@ -49,7 +49,7 @@ exports.chatFeatures = (io) => {
     // Socket method used to join rooms
     socket.on('join-room', (room, cb) => {
       socket.join(room);
-      cb(`Joined ${room}`);
+      cb(`Joined ${room} chat`);
     });
 
     // Handle disconnections
