@@ -41,8 +41,11 @@ socket.on('getUsersMessage', (messages) => {
 
 // Add click event listener to parentElement
 parentElement.on('click', '.users', (e) => {
-  const target = $(e.target).closest('.users');
+  $('.users').removeClass('selected');
+
+  const target = $(e.target).closest('.users').addClass('selected');
   const data = target.text().split(' ');
+
   userData = data;
 
   const room = userData[0];

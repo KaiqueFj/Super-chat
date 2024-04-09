@@ -38,6 +38,12 @@
   background-color: #434763;
 }
 
+.users.selected {
+  background-color: #434763;
+
+  outline: none;
+}
+
 /* Hover  */
 .users > .user-img {
   grid-area: imageProfile;
