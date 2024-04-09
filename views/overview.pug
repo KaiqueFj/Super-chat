@@ -11,15 +11,18 @@ block content
   main.main
     .leftMenu
       .listUser
+        - const loggedInUserID = user.id // Assuming you have a function to get the logged-in user's ID
+
         each user in users
-          .users
-            img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
-            span.userName= user.name 
-            if user.messages && user.messages.length > 0
-              - const lastMessage = user.messages.sort((a, b) => b.createdAt - a.createdAt)[0]
-              span.userMessage= lastMessage.message
-              - const formattedTime = lastMessage.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-              span.messageTime= formattedTime
+          - if (loggedInUserID !== user.id )
+            .users
+              img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
+              span.userName= user.name 
+              if user.messages && user.messages.length > 0
+                - const lastMessage = user.messages.sort((a, b) => b.createdAt - a.createdAt)[0]
+                span.userMessage= lastMessage.message
+                - const formattedTime = lastMessage.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                span.messageTime= formattedTime
 
     .messageFormContainer
       .userSelectedChat
@@ -31,11 +34,8 @@ block content
       .messagesContainer
         .messageList
 
-
-
       .form
         form.form-input(action="")
           .inputbox
             input.inputMessage(placeholder="Message")
-            button(type="submit") 
-
+            button(type="submit")

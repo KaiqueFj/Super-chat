@@ -13,7 +13,6 @@ function displayMessage(message) {
   );
 }
 
-console.log(socket);
 // Capture the message and display it live
 socket.on('received-message', (message) => {
   displayMessage(message.message);
