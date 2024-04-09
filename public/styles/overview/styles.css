@@ -88,7 +88,7 @@
   align-items: center;
 }
 
-.userInfo > .userName {
+.userInfo > .userNameSelected {
   font-size: 1.6rem;
   font-weight: bold;
   color: #dfe7fd;

@@ -22,7 +22,7 @@ socket.on('received-message', (message) => {
 form.on('submit', (e) => {
   e.preventDefault();
   const message = messageInput.val();
-  const room = userData[0];
+  const room = userData;
 
   if (!message) return;
 
@@ -44,11 +44,12 @@ parentElement.on('click', '.users', (e) => {
   $('.users').removeClass('selected');
 
   const target = $(e.target).closest('.users').addClass('selected');
-  const data = target.text().split(' ');
+  const userName = target.find('.userName').text();
 
-  userData = data;
+  userData = userName;
 
-  const room = userData[0];
+  const room = userData;
+  $('.userNameSelected').text(room);
 
   if (!target) return;
 
