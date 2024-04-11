@@ -5,6 +5,8 @@ block append head
   script(src="https://code.jquery.com/jquery-3.6.4.min.js")
   script.
     const socket = io();
+    var userLoggedInId = "#{user.id}"; // Pass user ID to client-side JavaScript
+
   script(defer, src="/js/chat.js")
 
 block content
@@ -15,7 +17,7 @@ block content
 
         each user in users
           - if (loggedInUserID !== user.id )
-            .users
+            .users(data-user-room=user.id) 
               img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
               span.userName= user.name 
               if user.messages && user.messages.length > 0

@@ -1,11 +1,11 @@
 const form = $('.form-input');
 const messageInput = $('.inputMessage');
-const roomInput = $('.inputRoom');
 const parentElement = $('.listUser');
-let userData;
 
-// Function used to display messages in the form
-function displayMessage(message) {
+let userReceived;
+const userClientId = userLoggedInId;
+
+function displayMessageInChat(message) {
   $('.messageList').append(
     $('<div>')
       .addClass('messageContainer')
@@ -13,51 +13,45 @@ function displayMessage(message) {
   );
 }
 
-// Capture the message and display it live
-socket.on('received-message', (message) => {
-  displayMessage(message.message);
-});
+function createRoomID(userID1, userID2) {
+  const sortedIDs = [userID1, userID2].sort();
+  return sortedIDs.join('_');
+}
 
-// Forms used to put the message and room to be sent by the user
 form.on('submit', (e) => {
   e.preventDefault();
   const message = messageInput.val();
-  const room = userData;
+  const selectedUser = $('.listUser .users.selected');
+  if (!message || !selectedUser.length) return;
 
-  if (!message) return;
+  const userID = selectedUser.data('user-room');
+  const room = createRoomID(userClientId, userID);
 
-  displayMessage(message);
+  displayMessageInChat(message);
 
-  const userMessageData = { message, room };
+  const userMessageData = { message, room, userReceived };
   socket.emit('send-message', userMessageData);
   messageInput.val('');
 });
 
-// Define event listener for 'getUsersMessage' outside the click event handler
 socket.on('getUsersMessage', (messages) => {
-  $('.messageList').empty(); // Clear previous messages
-  messages.forEach((message) => displayMessage(message.message));
+  $('.messageList').empty();
+  messages.forEach((message) => displayMessageInChat(message.message));
 });
 
-// Add click event listener to parentElement
 parentElement.on('click', '.users', (e) => {
-  $('.users').removeClass('selected');
-
-  const target = $(e.target).closest('.users').addClass('selected');
+  const target = $(e.target).closest('.users');
   const userName = target.find('.userName').text();
+  const userID = target.data('user-room');
+  const room = createRoomID(userClientId, userID);
+  userReceived = userName;
 
-  userData = userName;
+  $('.userNameSelected').text(userName);
+  $('.users').removeClass('selected');
+  target.addClass('selected');
 
-  const room = userData;
-  $('.userNameSelected').text(room);
-
-  if (!target) return;
-
-  // Emit event to server to get messages for the selected user
   socket.emit('getUserMessageFromDatabase', room);
-
-  // Join room
   socket.emit('join-room', room, (message) => {
-    displayMessage(message);
+    displayMessageInChat(message);
   });
 });

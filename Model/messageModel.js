@@ -12,6 +12,12 @@ const messageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  userSender: {
+    type: String,
+  },
+  userReceiver: {
+    type: String,
+  },
   isOwner: {
     type: Boolean,
     default: false,

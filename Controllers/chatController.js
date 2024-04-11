@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Message = require('../Model/messageModel');
 const { promisify } = require('util');
+const User = require('../Model/userModel');
 
 const getUserIDFromToken = async (socket) => {
   try {
@@ -24,32 +25,39 @@ const getUserIDFromToken = async (socket) => {
 
 exports.chatFeatures = (io) => {
   io.on('connection', async (socket) => {
-    socket.on('send-message', async (message, next) => {
+    // Handle sending messages
+    socket.on('send-message', async (message) => {
       try {
         const userID = await getUserIDFromToken(socket);
+        const userSender = await User.findById(userID);
 
+        // Create a new message object
         const newMessage = new Message({
           message: message.message,
           room: message.room,
           user: userID,
-          isOwner: true,
+          userSender: userSender.name,
+          userReceiver: message.userReceived,
+          isOwner: true, // Assuming this is correct for your use case
         });
+
+        // Save the message to the database
         await newMessage.save();
 
-        message.room === ''
-          ? socket.broadcast.emit('received-message', message)
-          : socket.to(room).emit('received-message', message);
+        // Emit the saved message to the room
+        io.to(message.room).emit('received-message', newMessage);
       } catch (err) {
+        console.error('Error sending message:', err);
         socket.emit('error', 'Could not send the message properly');
       }
     });
 
+    // Handle fetching user messages from the database
     socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {
-        const userID = await getUserIDFromToken(socket);
+        // Fetch messages for the specific user in the room
         const userMessages = await Message.find({
           room: roomName,
-          user: userID,
         });
         socket.emit('getUsersMessage', userMessages);
       } catch (err) {
