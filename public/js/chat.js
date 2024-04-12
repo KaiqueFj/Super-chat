@@ -1,16 +1,28 @@
 const form = $('.form-input');
 const messageInput = $('.inputMessage');
 const parentElement = $('.listUser');
-
-let userReceived;
 const userClientId = userLoggedInId;
+let userReceived;
 
-function displayMessageInChat(message) {
-  $('.messageList').append(
-    $('<div>')
-      .addClass('messageContainer')
-      .append($('<span>').addClass('spanMessage').text(message))
-  );
+function displayMessageInChat(message, senderID) {
+  const userMessage = $('<span>').addClass('spanMessage').text(message);
+
+  const messageContainer = $('<div>')
+    .append(userMessage)
+    .addClass('messageContainer');
+
+  // Set data attribute for the sender ID
+  messageContainer.attr('data-user-message', senderID);
+
+  console.log(userClientId);
+  console.log(senderID);
+
+  // Add appropriate class based on the sender
+  if (userClientId !== senderID) {
+    messageContainer.addClass('owner-false');
+  }
+
+  $('.messageList').append(messageContainer);
 }
 
 function createRoomID(userID1, userID2) {
@@ -18,7 +30,7 @@ function createRoomID(userID1, userID2) {
   return sortedIDs.join('_');
 }
 
-form.on('submit', (e) => {
+form.on('submit', async (e) => {
   e.preventDefault();
   const message = messageInput.val();
   const selectedUser = $('.listUser .users.selected');
@@ -27,16 +39,23 @@ form.on('submit', (e) => {
   const userID = selectedUser.data('user-room');
   const room = createRoomID(userClientId, userID);
 
-  displayMessageInChat(message);
+  displayMessageInChat(message, userClientId);
 
   const userMessageData = { message, room, userReceived };
   socket.emit('send-message', userMessageData);
   messageInput.val('');
 });
 
-socket.on('getUsersMessage', (messages) => {
+socket.on('getUsersMessage', async (messages) => {
   $('.messageList').empty();
-  messages.forEach((message) => displayMessageInChat(message.message));
+
+  // Map each message to a promise that displays the message
+  const displayPromises = messages.map((message) =>
+    displayMessageInChat(message.message, message.user)
+  );
+
+  // Wait for all display promises to complete
+  await Promise.all(displayPromises);
 });
 
 parentElement.on('click', '.users', (e) => {
@@ -51,6 +70,7 @@ parentElement.on('click', '.users', (e) => {
   target.addClass('selected');
 
   socket.emit('getUserMessageFromDatabase', room);
+
   socket.emit('join-room', room, (message) => {
     displayMessageInChat(message);
   });
