@@ -41,11 +41,13 @@ exports.chatFeatures = (io) => {
           isOwner: true, // Assuming this is correct for your use case
         });
 
-        // Save the message to the database
         await newMessage.save();
 
         // Emit the saved message to the room
         io.to(message.room).emit('received-message', newMessage);
+
+        // Fetch messages for the specific room and emit them to the sender
+        io.to(message.room).emit('getUserMessageFromDatabase', message.room);
       } catch (err) {
         console.error('Error sending message:', err);
         socket.emit('error', 'Could not send the message properly');

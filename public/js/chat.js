@@ -3,75 +3,88 @@ const messageInput = $('.inputMessage');
 const parentElement = $('.listUser');
 const userClientId = userLoggedInId;
 let userReceived;
+let roomName;
 
-function displayMessageInChat(message, senderID) {
+// Function to create a message container
+function createMessageContainer(message, senderID) {
   const userMessage = $('<span>').addClass('spanMessage').text(message);
-
   const messageContainer = $('<div>')
     .append(userMessage)
     .addClass('messageContainer');
-
-  // Set data attribute for the sender ID
   messageContainer.attr('data-user-message', senderID);
-
-  console.log(userClientId);
-  console.log(senderID);
-
-  // Add appropriate class based on the sender
   if (userClientId !== senderID) {
     messageContainer.addClass('owner-false');
   }
+  return messageContainer;
+}
 
+// Function to display a message in the chat
+function displayMessageInChat(message, senderID) {
+  const messageContainer = createMessageContainer(message, senderID);
   $('.messageList').append(messageContainer);
 }
 
+// Function to get the room ID
 function createRoomID(userID1, userID2) {
   const sortedIDs = [userID1, userID2].sort();
   return sortedIDs.join('_');
 }
 
-form.on('submit', async (e) => {
-  e.preventDefault();
-  const message = messageInput.val();
-  const selectedUser = $('.listUser .users.selected');
-  if (!message || !selectedUser.length) return;
+// Function to handle form submission
+function handleFormSubmission() {
+  form.on('submit', async (e) => {
+    e.preventDefault();
+    const message = messageInput.val();
+    const selectedUser = $('.listUser .users.selected');
+    if (!message || !selectedUser.length) return;
 
-  const userID = selectedUser.data('user-room');
-  const room = createRoomID(userClientId, userID);
+    const userID = selectedUser.data('user-room');
+    const room = createRoomID(userClientId, userID);
 
-  displayMessageInChat(message, userClientId);
+    const userMessageData = { message, room, userReceived };
+    socket.emit('send-message', userMessageData);
 
-  const userMessageData = { message, room, userReceived };
-  socket.emit('send-message', userMessageData);
-  messageInput.val('');
+    messageInput.val('');
+  });
+}
+
+// Function to handle click event on user
+function handleUserClick() {
+  parentElement.on('click', '.users', (e) => {
+    const target = $(e.target).closest('.users');
+    const userName = target.find('.userName').text();
+    const userID = target.data('user-room');
+    const room = createRoomID(userClientId, userID);
+    userReceived = userName;
+    roomName = room;
+
+    $('.userNameSelected').text(userName);
+    $('.users').removeClass('selected');
+    target.addClass('selected');
+    socket.emit('getUserMessageFromDatabase', roomName);
+
+    socket.emit('join-room', roomName, (message) => {
+      displayMessageInChat(message);
+    });
+  });
+}
+
+// Listen for incoming messages from the server
+socket.on('received-message', (message) => {
+  displayMessageInChat(message.message, message.user);
 });
 
+// Listen for messages from the server and display them
 socket.on('getUsersMessage', async (messages) => {
   $('.messageList').empty();
-
-  // Map each message to a promise that displays the message
   const displayPromises = messages.map((message) =>
     displayMessageInChat(message.message, message.user)
   );
-
-  // Wait for all display promises to complete
   await Promise.all(displayPromises);
 });
 
-parentElement.on('click', '.users', (e) => {
-  const target = $(e.target).closest('.users');
-  const userName = target.find('.userName').text();
-  const userID = target.data('user-room');
-  const room = createRoomID(userClientId, userID);
-  userReceived = userName;
+// Initialize form submission handler
+handleFormSubmission();
 
-  $('.userNameSelected').text(userName);
-  $('.users').removeClass('selected');
-  target.addClass('selected');
-
-  socket.emit('getUserMessageFromDatabase', room);
-
-  socket.emit('join-room', room, (message) => {
-    displayMessageInChat(message);
-  });
-});
+// Initialize user click handler
+handleUserClick();
