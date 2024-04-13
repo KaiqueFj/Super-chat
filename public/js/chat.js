@@ -1,21 +1,29 @@
 const form = $('.form-input');
 const messageInput = $('.inputMessage');
 const parentElement = $('.listUser');
+const chatContainer = $('.messageList');
 const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
 
+function scrollToBottom() {
+  chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+}
+
 function createMessageContainer(message, senderID, createdAt) {
   const userMessage = $('<span>').addClass('spanMessage').text(message);
   const createdAtDate = new Date(createdAt);
-  const formattedTime = createdAtDate.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const formattedTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  const formattedTimeResult = formattedTime(createdAtDate);
 
   const userMessageCreatedAt = $('<span>')
-    .addClass('spanMessage')
-    .text(formattedTime);
+    .addClass('spanCreatedAt')
+    .text(formattedTimeResult);
 
   const messageContainer = $('<div>')
     .append(userMessage)
@@ -35,6 +43,7 @@ function createMessageContainer(message, senderID, createdAt) {
 function displayMessageInChat(message, senderID, createdAt) {
   const messageContainer = createMessageContainer(message, senderID, createdAt);
   $('.messageList').append(messageContainer);
+  scrollToBottom();
 }
 
 // Function to get the room ID
