@@ -38,7 +38,7 @@ exports.chatFeatures = (io) => {
           user: userID,
           userSender: userSender.name,
           userReceiver: message.userReceived,
-          isOwner: true, // Assuming this is correct for your use case
+          isOwner: true,
         });
 
         await newMessage.save();
