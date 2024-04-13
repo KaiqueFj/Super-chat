@@ -5,22 +5,35 @@ const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
 
-// Function to create a message container
-function createMessageContainer(message, senderID) {
+function createMessageContainer(message, senderID, createdAt) {
   const userMessage = $('<span>').addClass('spanMessage').text(message);
+  const createdAtDate = new Date(createdAt);
+  const formattedTime = createdAtDate.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  const userMessageCreatedAt = $('<span>')
+    .addClass('spanMessage')
+    .text(formattedTime);
+
   const messageContainer = $('<div>')
     .append(userMessage)
+    .append(userMessageCreatedAt)
     .addClass('messageContainer');
+
   messageContainer.attr('data-user-message', senderID);
+
   if (userClientId !== senderID) {
     messageContainer.addClass('owner-false');
   }
+
   return messageContainer;
 }
 
 // Function to display a message in the chat
-function displayMessageInChat(message, senderID) {
-  const messageContainer = createMessageContainer(message, senderID);
+function displayMessageInChat(message, senderID, createdAt) {
+  const messageContainer = createMessageContainer(message, senderID, createdAt);
   $('.messageList').append(messageContainer);
 }
 
@@ -71,14 +84,15 @@ function handleUserClick() {
 
 // Listen for incoming messages from the server
 socket.on('received-message', (message) => {
-  displayMessageInChat(message.message, message.user);
+  console.log(message);
+  displayMessageInChat(message.message, message.user, message.createdAt);
 });
 
 // Listen for messages from the server and display them
 socket.on('getUsersMessage', async (messages) => {
   $('.messageList').empty();
   const displayPromises = messages.map((message) =>
-    displayMessageInChat(message.message, message.user)
+    displayMessageInChat(message.message, message.user, message.createdAt)
   );
   await Promise.all(displayPromises);
 });
