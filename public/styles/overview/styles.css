@@ -7,6 +7,8 @@
   height: 100vh;
 }
 
+/* Left menu containing the users */
+
 .leftMenu {
   background-color: #252836;
   margin: 0;
@@ -44,7 +46,6 @@
   outline: none;
 }
 
-/* Hover  */
 .users > .user-img {
   grid-area: imageProfile;
   height: 4.5rem;
@@ -73,8 +74,11 @@
   color: #d2d2d2;
 }
 
+/* User Selected to chat */
+
 .userSelectedChat {
   display: flex;
+  justify-content: space-between;
   border-radius: 10px;
   background-color: #434763;
 }
@@ -100,6 +104,49 @@
   border-radius: 50%;
   margin-right: 1rem;
 }
+
+.buttonSearch {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+}
+
+.searchForm > .searchTextInChatBtn {
+  background: transparent;
+  background-image: url('../../images/search-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  border: none;
+  margin-left: 2rem;
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  transition: background-color 0.3s;
+}
+
+.searchInput {
+  background-color: #303346;
+  padding: 1rem 1rem 1rem;
+  height: 3rem;
+  width: 82%;
+  border-radius: 6px;
+  border: white 1px;
+  color: #fff;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+/* Message in the chat */
 
 .messageFormContainer {
   display: flex;
@@ -188,6 +235,8 @@
 .messageList::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+/* Forms to handle and send the messages*/
 
 .form {
   width: 98%;

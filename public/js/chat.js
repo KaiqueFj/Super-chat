@@ -2,9 +2,19 @@ const form = $('.form-input');
 const messageInput = $('.inputMessage');
 const parentElement = $('.listUser');
 const chatContainer = $('.messageList');
+const searchButtonChat = $('.searchTextInChatBtn');
+const searchInputChat = $('.searchInput');
 const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
+
+$(document).ready(function (e) {
+  searchButtonChat.on('click', function (e) {
+    e.preventDefault();
+
+    searchInputChat.toggleClass('hidden');
+  });
+});
 
 function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));

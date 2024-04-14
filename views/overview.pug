@@ -33,6 +33,13 @@ block content
             img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
             span.userNameSelected
 
+        .buttonSearch
+          form.searchForm
+            input.searchInput.hidden(type="text"  placeholder="Search messages...")
+            button.searchTextInChatBtn 
+
+
+
       .messagesContainer
         .messageList
 
