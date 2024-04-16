@@ -216,6 +216,39 @@
   max-width: 44rem;
 }
 
+@keyframes highlight {
+  0% {
+    background-color: yellow;
+    border-radius: 5px;
+    color: #333;
+  }
+  50% {
+    background-color: transparent;
+    border-radius: 5px;
+    color: #333;
+  }
+  100% {
+    background-color: yellow;
+    border-radius: 5px;
+    color: #333;
+  }
+}
+
+.messageContainer.owner-false.highlight {
+  border: 5px solid white;
+}
+
+.messageContainer.highlight {
+  border: 5px solid white;
+}
+
+.messageContainer.owner-false.highlight .spanMessage {
+  animation: highlight 2s 1;
+}
+
+.messageContainer.highlight .spanMessage {
+  animation: highlight 2s 1;
+}
 /* Style the scrollbar */
 .messageList::-webkit-scrollbar {
   width: 5px; /* Set the width of the scrollbar */

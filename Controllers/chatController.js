@@ -55,15 +55,21 @@ exports.chatFeatures = (io) => {
     });
 
     // Handle fetching user messages from the database
-    socket.on('getUserMessageFromDatabase', async (roomName) => {
+    socket.on('getUserMessageFromDatabase', async (roomName, messagesUser) => {
       try {
         // Fetch messages for the specific user in the room
         const userMessages = await Message.find({
           room: roomName,
         });
+        const searchedMessage = await Message.find({
+          message: messagesUser,
+          room: roomName,
+        });
+
         socket.emit('getUsersMessage', userMessages);
+
+        socket.emit('getMessagesSearched', searchedMessage);
       } catch (err) {
-        console.error('Error retrieving user messages:', err);
         socket.emit('error', 'Could not load the messages properly');
       }
     });

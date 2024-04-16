@@ -2,22 +2,33 @@ const form = $('.form-input');
 const messageInput = $('.inputMessage');
 const parentElement = $('.listUser');
 const chatContainer = $('.messageList');
+const chatParentElement = $('.searchForm');
 const searchButtonChat = $('.searchTextInChatBtn');
 const searchInputChat = $('.searchInput');
+const searchForm = $('.searchForm');
+
 const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
 
-$(document).ready(function (e) {
-  searchButtonChat.on('click', function (e) {
-    e.preventDefault();
-
-    searchInputChat.toggleClass('hidden');
-  });
-});
-
 function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+}
+
+function scrollToMessage(messageID) {
+  // Find the message element
+  const messageElement = $(
+    `.messageContainer[data-user-message="${messageID}"]`
+  );
+
+  // Check if the message element exists
+  if (messageElement.length) {
+    // Calculate the position of the message element relative to the chat container
+    const position = messageElement.position().top;
+
+    // Scroll to the position of the message element
+    chatContainer.scrollTop(position);
+  }
 }
 
 function createMessageContainer(message, senderID, createdAt) {
@@ -101,9 +112,19 @@ function handleUserClick() {
   });
 }
 
+function handleUserSearch() {
+  chatParentElement.on('click', '.searchTextInChatBtn', (e) => {
+    e.preventDefault();
+
+    searchInputChat.toggleClass('hidden');
+    const searchQuery = searchInputChat.val().trim();
+
+    socket.emit('getUserMessageFromDatabase', roomName, searchQuery);
+  });
+}
+
 // Listen for incoming messages from the server
 socket.on('received-message', (message) => {
-  console.log(message);
   displayMessageInChat(message.message, message.user, message.createdAt);
 });
 
@@ -116,8 +137,25 @@ socket.on('getUsersMessage', async (messages) => {
   await Promise.all(displayPromises);
 });
 
+socket.on('getMessagesSearched', async (messages) => {
+  $('.messageContainer').removeClass('highlight');
+
+  messages.forEach((message) => {
+    $('.messageContainer').each(function () {
+      const messageText = $(this).find('.spanMessage').text();
+      if (messageText.includes(message.message)) {
+        $(this).addClass('highlight');
+        scrollToMessage(message.user);
+      }
+    });
+  });
+});
+
 // Initialize form submission handler
 handleFormSubmission();
 
 // Initialize user click handler
 handleUserClick();
+
+// Initialize user search handler
+handleUserSearch();
