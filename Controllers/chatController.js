@@ -89,6 +89,22 @@ exports.chatFeatures = (io) => {
       }
     });
 
+    socket.on('delete-message', async (messageID) => {
+      try {
+        const result = await Message.deleteOne({
+          _id: messageID,
+        });
+        if (result.deletedCount > 0) {
+          console.log('Message deleted successfully.');
+          io.emit('message-deleted', messageID);
+        } else {
+          console.log('No message found with the given ID.');
+        }
+      } catch (error) {
+        console.error('Error deleting message:', error);
+      }
+    });
+
     // Socket method used to join rooms
     socket.on('join-room', (room, cb) => {
       socket.join(room);
