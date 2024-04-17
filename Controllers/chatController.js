@@ -3,6 +3,10 @@ const Message = require('../Model/messageModel');
 const { promisify } = require('util');
 const User = require('../Model/userModel');
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
+}
+
 const getUserIDFromToken = async (socket) => {
   try {
     const token = socket.handshake.headers.cookie.split('=')[1];
@@ -55,18 +59,29 @@ exports.chatFeatures = (io) => {
     });
 
     // Handle fetching user messages from the database
-    socket.on('getUserMessageFromDatabase', async (roomName, messagesUser) => {
+    socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {
         // Fetch messages for the specific user in the room
         const userMessages = await Message.find({
           room: roomName,
         });
-        const searchedMessage = await Message.find({
-          message: messagesUser,
-          room: roomName,
-        });
 
         socket.emit('getUsersMessage', userMessages);
+      } catch (err) {
+        socket.emit('error', 'Could not load the messages properly');
+      }
+    });
+
+    socket.on('getUserMessageSearched', async (roomName, messagesUser) => {
+      try {
+        let searchedMessage;
+
+        messagesUser.trim() === ''
+          ? (searchedMessage = [])
+          : (searchedMessage = await Message.find({
+              message: { $regex: new RegExp(escapeRegExp(messagesUser), 'i') },
+              room: roomName,
+            }));
 
         socket.emit('getMessagesSearched', searchedMessage);
       } catch (err) {

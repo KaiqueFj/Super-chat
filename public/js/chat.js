@@ -6,31 +6,29 @@ const chatParentElement = $('.searchForm');
 const searchButtonChat = $('.searchTextInChatBtn');
 const searchInputChat = $('.searchInput');
 const searchForm = $('.searchForm');
-
 const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
 
+//Function to scroll the chat to the bottom when it loads
 function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
 }
 
+//Function to scroll the chat to the message that was found after the search
 function scrollToMessage(messageID) {
-  // Find the message element
   const messageElement = $(
     `.messageContainer[data-user-message="${messageID}"]`
   );
 
-  // Check if the message element exists
   if (messageElement.length) {
-    // Calculate the position of the message element relative to the chat container
     const position = messageElement.position().top;
 
-    // Scroll to the position of the message element
     chatContainer.scrollTop(position);
   }
 }
 
+//Function to create the container of the message that is being sent by the user
 function createMessageContainer(message, senderID, createdAt) {
   const userMessage = $('<span>').addClass('spanMessage').text(message);
   const createdAtDate = new Date(createdAt);
@@ -64,7 +62,6 @@ function createMessageContainer(message, senderID, createdAt) {
 function displayMessageInChat(message, senderID, createdAt) {
   const messageContainer = createMessageContainer(message, senderID, createdAt);
   $('.messageList').append(messageContainer);
-  scrollToBottom();
 }
 
 // Function to get the room ID
@@ -112,20 +109,26 @@ function handleUserClick() {
   });
 }
 
+// Update the event listener for the search button
 function handleUserSearch() {
   chatParentElement.on('click', '.searchTextInChatBtn', (e) => {
     e.preventDefault();
 
     searchInputChat.toggleClass('hidden');
+
     const searchQuery = searchInputChat.val().trim();
 
-    socket.emit('getUserMessageFromDatabase', roomName, searchQuery);
+    // Emit the search query to the server
+    socket.emit('getUserMessageSearched', roomName, searchQuery);
+
+    searchInputChat.val('');
   });
 }
 
 // Listen for incoming messages from the server
 socket.on('received-message', (message) => {
   displayMessageInChat(message.message, message.user, message.createdAt);
+  scrollToBottom();
 });
 
 // Listen for messages from the server and display them
@@ -135,8 +138,10 @@ socket.on('getUsersMessage', async (messages) => {
     displayMessageInChat(message.message, message.user, message.createdAt)
   );
   await Promise.all(displayPromises);
+  scrollToBottom();
 });
 
+//Listen for the messages that was searched by the user, and display it
 socket.on('getMessagesSearched', async (messages) => {
   $('.messageContainer').removeClass('highlight');
 
@@ -145,6 +150,7 @@ socket.on('getMessagesSearched', async (messages) => {
       const messageText = $(this).find('.spanMessage').text();
       if (messageText.includes(message.message)) {
         $(this).addClass('highlight');
+        console.log(message.user);
         scrollToMessage(message.user);
       }
     });
