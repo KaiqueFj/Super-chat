@@ -10,7 +10,7 @@
 /* Left menu containing the users */
 
 .leftMenu {
-  background-color: #252836;
+  background-color: var(--chat-leftMenu-bgColor);
   margin: 0;
   display: flex;
   height: 100%;
@@ -32,16 +32,14 @@
     'imageProfile userName  messageTime'
     'imageProfile userMessage userMessage'
     'imageProfile ... ...';
-
-  background-color: #303346;
 }
 
 .users:hover {
-  background-color: #434763;
+  background-color: var(--chat-leftMenu-users-hover-color);
 }
 
 .users.selected {
-  background-color: #434763;
+  background-color: var(--chat-leftMenu-users-hover-color);
 
   outline: none;
 }
@@ -58,20 +56,20 @@
   grid-area: userName;
   font-size: 1.6rem;
   font-weight: bold;
-  color: #dfe7fd;
+  color: var(--chat-leftMenu-users-name-color);
 }
 
 .users > .userMessage {
   grid-area: userMessage;
   font-size: 1.4rem;
-  color: #d2d2d2;
+  color: var(--chat-leftMenu-users-message-color);
 }
 
 .users > .messageTime {
   grid-area: messageTime;
   text-align: end;
   font-size: 1.4rem;
-  color: #d2d2d2;
+  color: var(--chat-leftMenu-users-message-color);
 }
 
 /* User Selected to chat */
@@ -79,8 +77,7 @@
 .userSelectedChat {
   display: flex;
   justify-content: space-between;
-  border-radius: 10px;
-  background-color: #434763;
+  background-color: var(--chat-selected-users-background-color);
 }
 
 .userContainer {
@@ -95,7 +92,7 @@
 .userInfo > .userNameSelected {
   font-size: 1.6rem;
   font-weight: bold;
-  color: #dfe7fd;
+  color: var(--chat-leftMenu-users-message-color);
 }
 
 .userInfo > .user-img {
@@ -118,26 +115,26 @@
 
 .searchForm > .searchTextInChatBtn {
   background: transparent;
-  background-image: url('../../images/search-icon.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   cursor: pointer;
   border: none;
-  margin-left: 2rem;
   border-radius: 10px;
   padding: 1.5rem 2rem;
   transition: background-color 0.3s;
 }
 
+.fa-solid.fa-magnifying-glass {
+  color: var(--chat-leftMenu-users-message-color);
+  font-size: 2rem;
+}
+
 .searchInput {
-  background-color: #303346;
+  background-color: var(--chat-selected-users-background-input-color);
   padding: 1rem 1rem 1rem;
   height: 3rem;
   width: 82%;
   border-radius: 6px;
-  border: white 1px;
-  color: #fff;
+  border: var(--border-chat-bgColor) 1px;
+  color: var(--chat-leftMenu-users-name-color);
   transition: opacity 0.3s ease-in-out;
   opacity: 1;
 }
@@ -151,9 +148,9 @@
 .messageFormContainer {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
   width: 98%;
   height: 100%;
+  background-color: var(--chat-container-background-color);
 }
 
 .messagesContainer {
@@ -188,29 +185,29 @@
 
   padding: 0.5rem 1rem;
   max-width: 44rem;
-  color: white;
   font-size: 2rem;
   border-radius: 10px;
   margin-bottom: 1rem;
   margin-right: 1rem;
-  background: #6f83fb;
+  color: var(--chat-container-messages-text-color);
+  background: var(--chat-container-messages-background-color);
 }
 
 .spanMessage {
   font-size: 1.6rem;
-  color: #dfe7fd;
+  color: var(--chat-container-messages-text-color);
   grid-area: userMessage;
 }
 
 .spanCreatedAt {
   font-size: 1.2rem;
-  color: #d2d2d2;
+  color: var(--chat-container-messages-createdAt-color);
   grid-area: createdAt;
   justify-self: right;
 }
 
 .messageContainer.owner-false {
-  background: #7a84bd;
+  background: var(--chat-container-messages-ownerFalse-background-color);
   margin-left: 1rem;
   margin-right: auto;
   max-width: 44rem;
@@ -295,7 +292,7 @@
   cursor: pointer;
   border-radius: 10px;
   border: 1px solid #dfe7fd;
-  color: #dfe7fd;
+  color: var(--chat-container-messages-text-color);
 }
 
 .menuItemContextMenu:hover {
@@ -325,7 +322,7 @@
 /* Forms to handle and send the messages*/
 
 .form {
-  width: 98%;
+  width: 100%;
 }
 
 .form-input {
@@ -336,33 +333,40 @@
   display: flex;
   position: relative;
   justify-content: space-between;
+  align-items: center;
   padding: 0.5rem;
+  background-color: var(--chat-input-send-messages-background-color);
 }
 
 .inputbox :where(.inputMessage) {
-  background-color: #303346;
+  background: transparent;
   padding: 1rem 1rem 1rem;
   height: 5rem;
   width: 95%;
+  flex: 1;
   border-radius: 3px;
-  border: white 1px;
-  color: #fff;
+  border: none;
+  color: var(--chat-container-messages-text-color);
 }
 
-.input:focus {
+.inputbox :where(.inputMessage) {
   outline: none;
 }
 
 button {
   background: transparent;
-  background-color: #6587ff;
-  background-image: url('../../images/icons8-acima-50.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   cursor: pointer;
   border: none;
   border-radius: 10px;
   padding: 1.5rem 2rem;
   transition: background-color 0.3s;
+}
+
+.fa-regular.fa-paper-plane {
+  color: var(--chat-leftMenu-users-message-color);
+  font-size: 1.7rem;
+}
+
+input::placeholder {
+  color: var(--chat-container-messages-text-color);
 }
