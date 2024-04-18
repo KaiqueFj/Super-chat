@@ -11,7 +11,7 @@ const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
 
-//Function to scroll the chat to the bottom when it loads
+// Function to scroll the chat to the bottom
 function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
 }
@@ -31,7 +31,10 @@ function scrollToMessage(messageID) {
 
 //Function to create the container of the message that is being sent by the user
 function createMessageContainer(message, messageID, senderID, createdAt) {
-  const userMessage = $('<span>').addClass('spanMessage').text(message);
+  const userMessage = $('<span>')
+    .addClass('spanMessage')
+    .text(message)
+    .attr('data-message', messageID);
 
   const createdAtDate = new Date(createdAt);
 
@@ -50,40 +53,54 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
   const messageContainer = $('<div>')
     .append(userMessage)
     .append(userMessageCreatedAt)
-    .addClass('messageContainer');
+    .addClass('messageContainer')
+    .attr('data-user-message', senderID);
 
   messageContainer.on('contextmenu', function (event) {
     event.preventDefault();
-    // Show your custom context menu or perform any other action
-    const contextMenu = $('<div>').addClass('contextMenu');
+    event.stopPropagation();
 
-    const posX = event.clientX;
-    const posY = event.clientY;
-
-    contextMenu.css({
-      top: posY + 'px',
-      left: posX + 'px',
-    });
-
-    const editButton = $('<button>').text('Edit').addClass('menuItem');
-    const deleteButton = $('<button>').text('Delete').addClass('menuItem');
-
-    contextMenu.append(editButton).append(deleteButton);
-
-    messageContainer.append(contextMenu);
-
-    deleteButton.on('click', function (e) {
-      e.preventDefault();
-
-      const messageID = userMessage.attr('data-message');
-      console.log('Delete button clicked for message:', messageID);
-
-      if (senderID === userClientId) {
-        socket.emit('delete-message', messageID);
-        messageContainer.remove();
-      }
+    const contextMenu = $(this).find('.contextMenu');
+    if (contextMenu.length) {
       contextMenu.remove();
-    });
+    } else {
+      const containerPos = $(this).offset();
+      const containerHeight = $(this).outerHeight();
+
+      const posX = event.clientX;
+      const posY = containerPos.top + containerHeight - 50;
+
+      const newContextMenu = $('<div>').addClass('contextMenu');
+      newContextMenu.css({
+        top: posY + 'px',
+        left: posX + 'px',
+      });
+
+      const editButton = $('<button>')
+        .text('Edit')
+        .addClass('menuItemContextMenu');
+      const deleteButton = $('<button>')
+        .text('Delete')
+        .addClass('menuItemContextMenu');
+
+      newContextMenu.append(editButton).append(deleteButton);
+      $(this).append(newContextMenu);
+
+      setTimeout(() => {
+        newContextMenu.addClass('show');
+      }, 10);
+
+      deleteButton.on('click', function (e) {
+        e.preventDefault();
+        const messageID = userMessage.attr('data-message');
+        console.log('Delete button clicked for message:', messageID);
+        if (senderID === userClientId) {
+          socket.emit('delete-message', messageID);
+          messageContainer.remove();
+        }
+        newContextMenu.remove();
+      });
+    }
   });
 
   messageContainer.attr('data-user-message', senderID);

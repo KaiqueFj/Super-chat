@@ -202,32 +202,6 @@
   grid-area: userMessage;
 }
 
-.contextMenu {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  background: #2c2c2c;
-  padding: 1rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(7.4px);
-  -webkit-backdrop-filter: blur(7.4px);
-  border: 1px solid rgba(255, 255, 255, 0.63);
-}
-
-.menuItem {
-  padding: 1rem;
-  background-color: #2c2c2c;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 10px;
-  color: #dfe7fd;
-}
-
-.menuItem:hover {
-  background-color: #383838; /* Change background color on hover */
-}
-
 .spanCreatedAt {
   font-size: 1.2rem;
   color: #d2d2d2;
@@ -274,6 +248,58 @@
 
 .messageContainer.highlight .spanMessage {
   animation: highlight 2s 1;
+}
+
+/* Edit the context Menu */
+
+@keyframes highlightContextMenu {
+  0% {
+    background: transparent;
+    border-radius: 5px;
+  }
+  50% {
+    background: rgba(67, 71, 99, 0.484);
+  }
+  100% {
+    background: rgba(67, 71, 99, 0.77);
+  }
+}
+
+.contextMenu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  padding: 1rem;
+  min-width: 10rem;
+  min-height: 15rem;
+  background: rgba(67, 71, 99, 0.77);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(63, 61, 61, 0.603);
+  backdrop-filter: blur(13.3px);
+  border: 1px solid rgba(67, 71, 99, 0.56);
+  transition: opacity 1s ease, transform 1s ease; /* Add transition properties */
+}
+
+.contextMenu.show {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  animation: highlightContextMenu 1s 1;
+}
+
+.menuItemContextMenu {
+  padding: 1rem;
+  background-color: #2c2c2c;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid #dfe7fd;
+  color: #dfe7fd;
+}
+
+.menuItemContextMenu:hover {
+  background-color: #383838; /* Change background color on hover */
 }
 /* Style the scrollbar */
 .messageList::-webkit-scrollbar {
