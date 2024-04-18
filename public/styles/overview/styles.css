@@ -301,6 +301,7 @@
 .menuItemContextMenu:hover {
   background-color: #383838; /* Change background color on hover */
 }
+
 /* Style the scrollbar */
 .messageList::-webkit-scrollbar {
   width: 5px; /* Set the width of the scrollbar */

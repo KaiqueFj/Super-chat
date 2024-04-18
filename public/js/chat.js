@@ -100,6 +100,31 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
         }
         newContextMenu.remove();
       });
+
+      editButton.on('click', function (e) {
+        e.preventDefault();
+        const currentMessage = $(this)
+          .closest('.messageContainer')
+          .find('.spanMessage')
+          .text();
+
+        const editedMessage = prompt('Edit message:', currentMessage);
+        if (editedMessage !== null && editedMessage.trim() !== '') {
+          $(this)
+            .closest('.messageContainer')
+            .find('.spanMessage')
+            .text(editedMessage);
+
+          const messageID = $(this)
+            .closest('.messageContainer')
+            .find('.spanMessage')
+            .attr('data-message');
+
+          socket.emit('edit-message', { messageID, editedMessage });
+        }
+
+        newContextMenu.remove();
+      });
     }
   });
 

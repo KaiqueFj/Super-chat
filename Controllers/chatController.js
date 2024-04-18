@@ -105,6 +105,25 @@ exports.chatFeatures = (io) => {
       }
     });
 
+    socket.on('edit-message', async ({ messageID, editedMessage }) => {
+      try {
+        const updatedMessage = await Message.findByIdAndUpdate(
+          messageID,
+          { message: editedMessage },
+          { new: true }
+        );
+
+        if (updatedMessage) {
+          console.log('Message updated successfully.');
+          io.emit('edit-message', updatedMessage);
+        } else {
+          console.log('No message found with the given ID.');
+        }
+      } catch (error) {
+        console.error('Error editing message:', error);
+      }
+    });
+
     // Socket method used to join rooms
     socket.on('join-room', (room, cb) => {
       socket.join(room);
