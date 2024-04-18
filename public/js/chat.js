@@ -6,8 +6,9 @@ const chatParentElement = $('.searchForm');
 const searchButtonChat = $('.searchTextInChatBtn');
 const searchInputChat = $('.searchInput');
 const searchForm = $('.searchForm');
+const dropDownMenuBtn = $('.dropBtn');
+const dropDownMenuItems = $('.dropDownItems');
 const userClientId = userLoggedInId;
-
 let userReceived;
 let roomName;
 
@@ -210,6 +211,22 @@ function handleUserSearch() {
   });
 }
 
+dropDownMenuBtn.on('click', function (e) {
+  e.preventDefault();
+
+  dropDownMenuItems.toggleClass('show');
+
+  const dropdownBtnPos = $(this).offset();
+  const dropdownBtnHeight = $(this).outerHeight();
+
+  dropDownMenuItems.css({
+    top: dropdownBtnPos.top + dropdownBtnHeight - 70,
+    left: dropdownBtnPos.left,
+  });
+
+  console.log('clicked');
+});
+
 // Listen for incoming messages from the server
 socket.on('received-message', (message) => {
   displayMessageInChat(
@@ -245,7 +262,6 @@ socket.on('getMessagesSearched', async (messages) => {
       const messageText = $(this).find('.spanMessage').text();
       if (messageText.includes(message.message)) {
         $(this).addClass('highlight');
-        console.log(message.user);
         scrollToMessage(message.user);
       }
     });

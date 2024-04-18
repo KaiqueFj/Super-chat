@@ -11,7 +11,24 @@ block append head
 
 block content
   main.main
+
     .leftMenu
+      .userInformations
+
+
+        .dropDownMenuList
+
+          button.dropBtn
+            i.fa-solid.fa-bars
+
+          .dropDownItems
+            button.dropDownMenuBtns Dark mode
+              i.fa-regular.fa-sun
+            button.dropDownMenuBtns.logout Logout
+              i.fa-solid.fa-arrow-right-from-bracket
+        .users 
+          img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
+
       .listUser
         - const loggedInUserID = user.id // Assuming you have a function to get the logged-in user's ID
 

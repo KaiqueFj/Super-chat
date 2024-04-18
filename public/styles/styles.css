@@ -3,8 +3,10 @@
 :root {
   --section-rotate: 9vw;
   --main-color: #171617;
+  --icon-sun: #ffd700;
   --border-chat-bgColor: #e9e3d5;
   --chat-leftMenu-bgColor: #1f1f1f;
+  --chat-leftMenu-dropDownMenu-bgColor: #212121dd;
   --chat-leftMenu-users-hover-color: #515151;
   --chat-leftMenu-users-name-color: #dfe7fd;
   --chat-leftMenu-users-message-color: #d2d2d2;

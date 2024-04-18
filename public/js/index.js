@@ -2,11 +2,14 @@
 import '@babel/polyfill';
 
 import { signUp } from './signUp';
-import { signIn } from './Login';
+import { signIn, logout } from './Login';
 
 //DOM elements
 const signUpForm = document.querySelector('.userSignIn');
 const signInForm = document.querySelector('.userLogIn');
+const logoutBtn = document.querySelector('.dropDownMenuBtns.logout');
+
+if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
 if (signUpForm) {
   signUpForm.addEventListener('submit', (e) => {
