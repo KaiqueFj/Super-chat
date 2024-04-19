@@ -329,10 +329,10 @@
     border-radius: 5px;
   }
   50% {
-    background: rgba(67, 71, 99, 0.484);
+    background: rgba(28, 28, 32, 0.774);
   }
   100% {
-    background: rgba(67, 71, 99, 0.77);
+    background: var(--chat-leftMenu-dropDownMenu-bgColor);
   }
 }
 
@@ -344,12 +344,11 @@
   padding: 1rem;
   min-width: 10rem;
   min-height: 15rem;
-  background: rgba(67, 71, 99, 0.77);
+  background: var(--chat-leftMenu-dropDownMenu-bgColor);
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(63, 61, 61, 0.603);
-  backdrop-filter: blur(13.3px);
-  border: 1px solid rgba(67, 71, 99, 0.56);
+  backdrop-filter: blur(10px);
   transition: opacity 1s ease, transform 1s ease; /* Add transition properties */
+  z-index: 1;
 }
 
 .contextMenu.show {
