@@ -15,6 +15,11 @@ app.set('view engine', 'pug');
 app.engine('jade', require('pug').__express);
 app.use(express.static(path.join(`${__dirname}/public`)));
 
+app.use('/styles', (req, res, next) => {
+  res.setHeader('Content-Type', 'text/css');
+  next();
+});
+
 //Routes
 app.use('/', viewRouter);
 app.use('/api/v1/users', useRouter);

@@ -4,25 +4,36 @@
   --background-white-color: #f8f9fb;
   --left-menu-white-bgColor: #007aff;
   --chatInput-white-bgColor: #ebebeb;
-  --chatInput-textColor-white-bgColor: #373737;
-  --chat-message-ownerFalse-white-bgColor: #ebebeb;
-  --section-rotate: 9vw;
+  --chat-text-Message-color: #fbfbfb;
+  --chat-text-createdAt-color: #d2d2d2;
+  --chat-border-header: #303030;
+
+  /* Black background */
   --main-color: #171617;
+  --section-rotate: 9vw;
   --icon-sun: #ffd700;
-  --border-chat-bgColor: #e9e3d5;
-  --chat-leftMenu-bgColor: #1f1f1f;
+
+  /* Left menu */
+  --chat-leftMenu-bgColor: #595959.;
   --chat-leftMenu-dropDownMenu-bgColor: #212121dd;
   --chat-leftMenu-users-hover-color: #515151;
   --chat-leftMenu-users-name-color: #dfe7fd;
   --chat-leftMenu-users-message-color: #d2d2d2;
-  --chat-selected-users-background-color: #2c2c2c;
+  --border-chat-bgColor: #e9e3d5;
+
+  /* Selected user */
   --chat-selected-users-background-input-color: #515151;
-  --chat-container-background-color: #171617;
-  --chat-container-messages-background-color: #1e7ac2;
-  --chat-container-messages-ownerFalse-background-color: #2c2c2c;
-  --chat-container-messages-text-color: #e6ecff;
+  --chat-selected-users-background-color: #0f0f10;
+
+  /* Chat colors */
+  --chat-input-send-messages-background-color: #212121;
+  --chat-container-messages-background-color: #262626;
+  --chat-container-messages-ownerFalse-background-color: #595959;
+  --chat-container-messages-text-color: #fbfbfb;
   --chat-container-messages-createdAt-color: #d2d2d2;
-  --chat-input-send-messages-background-color: #1f1f1f;
+  --chat-container-background-color: #0f0f10;
+  --chatInput-textColor-white-bgColor: #bfbfbf;
+  --chat-message-ownerFalse-white-bgColor: #ebebeb;
 }
 
 *,
@@ -44,7 +55,8 @@ html {
 body {
   line-height: 1.6;
   font-weight: 300;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   color: #777;
   height: 100vh;
   min-height: 100vh;
@@ -56,32 +68,6 @@ body {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
-}
-
-/* Header */
-
-.header {
-  background-color: var(--main-color);
-  padding: 0 5rem;
-  height: 5.5rem;
-  position: relative;
-  z-index: 100;
-  display: flex;
-  display: -webkit-box;
-  display: -ms-flexbox;
-
-  align-items: center;
-  justify-content: space-between;
-
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-}
-
-.header__logo img {
-  height: 3.3rem;
-  width: 3.3rem;
 }
 
 /* Alert */

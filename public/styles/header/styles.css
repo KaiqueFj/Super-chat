@@ -1,0 +1,156 @@
+/* Header */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--main-color);
+  width: 100%;
+}
+
+.chatHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100vw;
+}
+
+/* Edit of menu header and dropdown */
+
+.userInformations {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dropDownMenuList {
+  display: flex;
+  width: 30%;
+  border-right: var(--chat-border-header) 1px solid;
+}
+
+.dropDownItems {
+  display: none;
+}
+
+.dropDownItems.show {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  min-height: 16rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--chat-leftMenu-dropDownMenu-bgColor);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transform-origin: left top;
+  z-index: 1;
+}
+
+.dropDownMenuBtns {
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: center;
+  border: none;
+  padding: 1rem;
+  color: var(--chat-container-messages-text-color);
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  transition: background-color 0.3s;
+}
+
+.fa-solid.fa-bars {
+  color: var(--chat-container-messages-text-color);
+  font-size: 1.7rem;
+}
+
+.fa-regular.fa-sun {
+  color: var(--icon-sun);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+}
+
+.fa-solid.fa-arrow-right-from-bracket {
+  color: var(--chat-container-messages-text-color);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+}
+
+.dropDownMenuBtns:hover {
+  background: var(--chat-container-background-color);
+}
+
+/* User Selected to chat */
+
+.userSelectedChat {
+  display: flex;
+  justify-content: space-between;
+  transition: background-color 1s ease-in-out;
+  background: var(--chat-leftMenu-bgColor);
+  width: 97%;
+}
+
+.userContainer {
+  padding: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userInfo > .userNameSelected {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--chat-text-Message-color);
+}
+
+.userInfo > .user-img {
+  height: 4.5rem;
+  width: 4.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.buttonSearch {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+}
+
+.searchForm > .searchTextInChatBtn {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  transition: background-color 1s ease-in-out;
+}
+
+.fa-solid.fa-magnifying-glass {
+  color: var(--chat-text-Message-color);
+  font-size: 2rem;
+}
+
+.searchInput {
+  background-color: var(--chat-selected-users-background-input-color);
+  padding: 1rem 1rem 1rem;
+  height: 3rem;
+  width: 82%;
+  border-radius: 6px;
+  border: var(--border-chat-bgColor) 1px;
+  color: var(--chat-text-Message-color);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
