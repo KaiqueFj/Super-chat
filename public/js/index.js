@@ -3,6 +3,8 @@ import '@babel/polyfill';
 
 import { signUp } from './signUp';
 import { signIn, logout } from './Login';
+import { toggleBackground } from './toggleBackground';
+import { dropDownMenu } from './dropDownMenu';
 
 //DOM elements
 const signUpForm = document.querySelector('.userSignIn');
@@ -31,3 +33,6 @@ if (signInForm) {
     signIn(email, password);
   });
 }
+
+toggleBackground();
+dropDownMenu();
