@@ -1,6 +1,11 @@
 /* Root styles */
 
 :root {
+  --background-white-color: #f8f9fb;
+  --left-menu-white-bgColor: #007aff;
+  --chatInput-white-bgColor: #ebebeb;
+  --chatInput-textColor-white-bgColor: #373737;
+  --chat-message-ownerFalse-white-bgColor: #ebebeb;
   --section-rotate: 9vw;
   --main-color: #171617;
   --icon-sun: #ffd700;

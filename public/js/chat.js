@@ -1,4 +1,12 @@
+const body = $('body');
+const footer = $('.footer');
+const header = $('.header');
+const leftMenu = $('.leftMenu');
+const messageFormContainer = $('.messageFormContainer');
+const inputBox = $('.inputBox');
 const form = $('.form-input');
+const messageOwnerFalse = $('.messageContainer.owner-false');
+const userSelectedToChat = $('.userSelectedChat');
 const messageInput = $('.inputMessage');
 const parentElement = $('.listUser');
 const chatContainer = $('.messageList');
@@ -6,11 +14,37 @@ const chatParentElement = $('.searchForm');
 const searchButtonChat = $('.searchTextInChatBtn');
 const searchInputChat = $('.searchInput');
 const searchForm = $('.searchForm');
+const searchIcon = $('.fa-solid.fa-magnifying-glass');
+const sendMessageIcon = $('.fa-regular.fa-paper-plane');
 const dropDownMenuBtn = $('.dropBtn');
 const dropDownMenuItems = $('.dropDownItems');
+const toggleBackgroundButton = $('.dropDownMenuBtns.toggleBackground');
+const userNameSelected = $('.userNameSelected');
 const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
+
+function toggleBackground() {
+  toggleBackgroundButton.on('click', function (e) {
+    e.preventDefault();
+    chatContainer
+      .add(body)
+      .add(footer)
+      .add(header)
+      .add(messageFormContainer)
+      .toggleClass('light-mode');
+
+    leftMenu.toggleClass('light-mode-leftMenu');
+    messageInput.toggleClass('light-mode-inputMessage');
+    userSelectedToChat.toggleClass('light-mode-inputMessage');
+    searchInputChat.toggleClass('light-mode-userNameSelected');
+    inputBox.toggleClass('light-mode-inputMessage');
+
+    messageOwnerFalse.toggleClass('light-mode-messageContainerFalse');
+    userNameSelected.toggleClass('light-mode-userNameSelected');
+    searchIcon.add(sendMessageIcon).toggleClass('fa.icons');
+  });
+}
 
 // Function to scroll the chat to the bottom
 function scrollToBottom() {
@@ -276,3 +310,5 @@ handleUserClick();
 
 // Initialize user search handler
 handleUserSearch();
+
+toggleBackground();
