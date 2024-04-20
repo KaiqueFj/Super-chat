@@ -24,6 +24,8 @@
 }
 
 .dropDownMenuList {
+  position: relative;
+
   display: flex;
   width: 30%;
   border-right: var(--chat-border-header) 1px solid;
@@ -39,8 +41,8 @@
   flex-direction: column;
   min-height: 16rem;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 4.7rem !important;
+  left: 1rem !important;
   background: var(--chat-leftMenu-dropDownMenu-bgColor);
   border-radius: 16px;
   backdrop-filter: blur(10px);
@@ -59,23 +61,6 @@
   border-radius: 10px;
   padding: 1.5rem 2rem;
   transition: background-color 0.3s;
-}
-
-.fa-solid.fa-bars {
-  color: var(--chat-container-messages-text-color);
-  font-size: 1.7rem;
-}
-
-.fa-regular.fa-sun {
-  color: var(--icon-sun);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-}
-
-.fa-solid.fa-arrow-right-from-bracket {
-  color: var(--chat-container-messages-text-color);
-  font-size: 1.7rem;
-  padding: 0.5rem;
 }
 
 .dropDownMenuBtns:hover {
@@ -134,11 +119,6 @@
   transition: background-color 1s ease-in-out;
 }
 
-.fa-solid.fa-magnifying-glass {
-  color: var(--chat-text-Message-color);
-  font-size: 2rem;
-}
-
 .searchInput {
   background-color: var(--chat-selected-users-background-input-color);
   padding: 1rem 1rem 1rem;
@@ -153,4 +133,27 @@
 
 .hidden {
   opacity: 0;
+}
+
+/* Icons */
+.fa-solid.fa-magnifying-glass {
+  color: var(--chat-text-Message-color);
+  font-size: 2rem;
+}
+
+.fa-regular.fa-sun {
+  color: var(--icon-sun);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+}
+
+.fa-solid.fa-bars {
+  color: var(--chat-container-messages-text-color);
+  font-size: 1.7rem;
+}
+
+.fa-solid.fa-arrow-right-from-bracket {
+  color: var(--chat-container-messages-text-color);
+  font-size: 1.7rem;
+  padding: 0.5rem;
 }

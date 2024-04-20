@@ -1,6 +1,9 @@
 const body = $('body');
 const footer = $('.footer');
 const header = $('.header');
+const users = $('.users');
+const usersSelected = $('.users.selected');
+const dropDownMenuList = $('.dropDownMenuList');
 const leftMenu = $('.leftMenu');
 const messageFormContainer = $('.messageFormContainer');
 const inputBox = $('.inputBox');
@@ -24,7 +27,11 @@ export const toggleBackground = () => {
       .add(messageFormContainer)
       .toggleClass('light-mode');
 
+    users.toggleClass('light-mode-leftMenu-users-hover-color');
+    usersSelected.toggleClass('light-mode usersselected');
+
     leftMenu.toggleClass('light-mode-leftMenu');
+    dropDownMenuList.toggleClass('light-mode-dropDownMenuList');
     messageInput.toggleClass('light-mode-inputMessage');
     userSelectedToChat.toggleClass('light-mode-inputMessage');
     searchInputChat.toggleClass('light-mode-userNameSelected');

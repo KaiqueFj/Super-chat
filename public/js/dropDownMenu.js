@@ -6,13 +6,5 @@ export const dropDownMenu = () => {
     e.preventDefault();
 
     dropDownMenuItems.toggleClass('show');
-
-    const dropdownBtnPos = $(this).offset();
-    const dropdownBtnHeight = $(this).outerHeight();
-
-    dropDownMenuItems.css({
-      top: dropdownBtnPos.top + dropdownBtnHeight - 70,
-      left: dropdownBtnPos.left,
-    });
   });
 };

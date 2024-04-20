@@ -315,19 +315,31 @@ input::placeholder {
   transition: background-color 1s ease-in-out;
 }
 
+.light-mode-leftMenu-users-hover-color:hover {
+  background-color: var(--left-menu-users-hover-color);
+}
+
+.light-mode .users.selected {
+  background-color: var(--left-menu-users-hover-color) !important;
+}
 .light-mode-leftMenu {
+  background-color: var(--left-menu-white-bgColor);
+  transition: background-color 1s ease-in-out;
+}
+
+.light-mode-dropDownMenuList {
   background-color: var(--left-menu-white-bgColor);
   transition: background-color 1s ease-in-out;
 }
 
 .light-mode-inputMessage {
   background-color: var(--chatInput-white-bgColor);
-  color: var(--chatInput-textColor-white-bgColor);
+  color: var(--chat-input-placeholder-color);
   transition: background-color 1s ease-in-out;
 }
 
 .light-mode-inputMessage::placeholder {
-  color: var(--chatInput-textColor-white-bgColor);
+  color: var(--chat-input-placeholder-color);
   transition: background-color 1s ease-in-out;
 }
 
@@ -337,7 +349,9 @@ input::placeholder {
 }
 
 .light-mode-userNameSelected {
-  color: var(--chatInput-textColor-white-bgColor) !important;
+  color: var(--chat-User-selected-textColor) !important;
+  background-color: var(--left-menu-users-hover-color);
+
   transition: background-color 1s ease-in-out;
 }
 

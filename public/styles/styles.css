@@ -1,9 +1,12 @@
 /* Root styles */
 
 :root {
-  --background-white-color: #f8f9fb;
+  --background-white-color: #f8f8ff;
   --left-menu-white-bgColor: #007aff;
-  --chatInput-white-bgColor: #ebebeb;
+  --chat-User-selected-textColor: #242423;
+  --chatInput-white-bgColor: #ebebebb1;
+  --left-menu-users-hover-color: #ebebebb1;
+  --chat-input-placeholder-color: #b4b4b4;
   --chat-text-Message-color: #fbfbfb;
   --chat-text-createdAt-color: #d2d2d2;
   --chat-border-header: #303030;
@@ -99,7 +102,6 @@ body {
 /* Footer */
 
 .footer {
-  padding: 1rem;
   font-size: 1.4rem;
   background-color: var(--main-color);
   display: grid;
