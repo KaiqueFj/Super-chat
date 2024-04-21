@@ -3,13 +3,15 @@
 :root {
   --background-white-color: #f8f8ff;
   --left-menu-white-bgColor: #007aff;
-  --chat-User-selected-textColor: #242423;
-  --chatInput-white-bgColor: #ebebebb1;
+  --chat-User-selected-textColor: #111b21;
+  --chatInput-white-bgColor: #f0f2f5;
   --left-menu-users-hover-color: #ebebebb1;
-  --chat-input-placeholder-color: #b4b4b4;
+  --chat-input-placeholder-color: #667781;
   --chat-text-Message-color: #fbfbfb;
   --chat-text-createdAt-color: #d2d2d2;
   --chat-border-header: #303030;
+  --chat-icon-send-plane-color: #667781;
+  --chat-input-search-bgColor: #f0f2f5;
 
   /* Black background */
   --main-color: #171617;
@@ -35,7 +37,7 @@
   --chat-container-messages-text-color: #fbfbfb;
   --chat-container-messages-createdAt-color: #d2d2d2;
   --chat-container-background-color: #0f0f10;
-  --chatInput-textColor-white-bgColor: #bfbfbf;
+  --chatInput-textColor-white-bgColor: #111b21;
   --chat-message-ownerFalse-white-bgColor: #ebebeb;
 }
 

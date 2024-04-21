@@ -34,11 +34,12 @@ export const toggleBackground = () => {
     dropDownMenuList.toggleClass('light-mode-dropDownMenuList');
     messageInput.toggleClass('light-mode-inputMessage');
     userSelectedToChat.toggleClass('light-mode-inputMessage');
-    searchInputChat.toggleClass('light-mode-userNameSelected');
     inputBox.toggleClass('light-mode-inputMessage');
+    searchInputChat.toggleClass('light-mode-userSearch');
 
     messageOwnerFalse.toggleClass('light-mode-messageContainerFalse');
     userNameSelected.toggleClass('light-mode-userNameSelected');
-    searchIcon.add(sendMessageIcon).toggleClass('fa.icons');
+    sendMessageIcon.toggleClass('light-mode-icons-sendPlane');
+    searchIcon.toggleClass('light-mode-icons-searchIcon');
   });
 };

@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 30%;
+  width: 34%;
   padding: 1rem;
   overflow: hidden;
   transition: background-color 1s ease-in-out;
@@ -34,9 +34,9 @@
   margin-bottom: 0.8rem;
   border-radius: 10px;
   grid-template-areas:
-    'imageProfile userName  messageTime'
-    'imageProfile userMessage userMessage'
-    'imageProfile ... ...';
+    'imageProfile userName . messageTime'
+    'imageProfile userMessage userMessage userMessage'
+    'imageProfile . . ...';
 }
 
 .users:hover {
@@ -55,7 +55,6 @@
   height: 4.5rem;
   width: 4.5rem;
   border-radius: 50%;
-  margin-right: 1rem;
 }
 
 .users > .userName {
@@ -272,7 +271,7 @@
   position: relative;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.7rem;
   background-color: var(--chat-input-send-messages-background-color);
   transition: background-color 1s ease-in-out;
 }
@@ -350,9 +349,22 @@ input::placeholder {
 
 .light-mode-userNameSelected {
   color: var(--chat-User-selected-textColor) !important;
-  background-color: var(--left-menu-users-hover-color);
 
   transition: background-color 1s ease-in-out;
+}
+
+.light-mode-userSearch {
+  color: var(--chat-input-search-bgColor) !important;
+
+  transition: background-color 1s ease-in-out;
+}
+
+.light-mode-icons-sendPlane {
+  color: var(--chat-icon-send-plane-color) !important;
+}
+
+.light-mode-icons-searchIcon {
+  color: var(--chat-icon-send-plane-color) !important;
 }
 
 .fa.icons {

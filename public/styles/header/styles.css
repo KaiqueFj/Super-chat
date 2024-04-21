@@ -27,7 +27,7 @@
   position: relative;
 
   display: flex;
-  width: 30%;
+  width: 34%;
   border-right: var(--chat-border-header) 1px solid;
 }
 
