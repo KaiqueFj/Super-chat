@@ -12222,7 +12222,6 @@ const chatApplication = ()=>{
                 deleteButton.on("click", function(e) {
                     e.preventDefault();
                     const messageID = userMessage.attr("data-message");
-                    console.log("Delete button clicked for message:", messageID);
                     if (senderID === userClientId) {
                         socket.emit("delete-message", messageID);
                         messageContainer.remove();
@@ -12295,7 +12294,6 @@ const chatApplication = ()=>{
             $(".users").removeClass("selected");
             target.addClass("selected");
             socket.emit("getUserMessageFromDatabase", roomName);
-            console.log(clickedInUser);
         });
     }
     // Update the event listener for the search button
