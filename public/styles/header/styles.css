@@ -36,9 +36,9 @@
 }
 
 .dropDownItems.show {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
   min-height: 16rem;
   position: absolute;
   top: 4.7rem !important;
@@ -143,6 +143,12 @@
 
 .fa-regular.fa-sun {
   color: var(--icon-sun);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+}
+
+.fa-solid.fa-moon {
+  display: none;
   font-size: 1.7rem;
   padding: 0.5rem;
 }
