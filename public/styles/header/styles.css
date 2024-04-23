@@ -25,10 +25,10 @@
 
 .dropDownMenuList {
   position: relative;
-
   display: flex;
   width: 34%;
   border-right: var(--chat-border-header) 1px solid;
+  transition: background-color 1s ease-in-out;
 }
 
 .dropDownItems {

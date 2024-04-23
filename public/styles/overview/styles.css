@@ -10,7 +10,7 @@
 /* Left menu containing the users */
 
 .leftMenu {
-  background-color: var(--chat-leftMenu-bgColor);
+  background: var(--chat-leftMenu-bgColor);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -95,6 +95,9 @@
   margin: 0;
   height: 90%;
   width: 100%;
+  background-color: var(--chat-container-background-color);
+  transition: background-color 1s ease-in-out;
+
   padding: 1rem;
 }
 

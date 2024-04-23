@@ -124,12 +124,6 @@ exports.chatFeatures = (io) => {
       }
     });
 
-    // Socket method used to join rooms
-    socket.on('join-room', (room, cb) => {
-      socket.join(room);
-      cb(`Joined ${room} chat`);
-    });
-
     // Handle disconnections
     socket.on('disconnect', () => {
       // Handle disconnection if needed

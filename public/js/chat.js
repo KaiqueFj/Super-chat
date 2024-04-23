@@ -185,10 +185,6 @@ export const chatApplication = () => {
       $('.users').removeClass('selected');
       target.addClass('selected');
       socket.emit('getUserMessageFromDatabase', roomName);
-
-      socket.emit('join-room', roomName, (message) => {
-        displayMessageInChat(message);
-      });
     });
   }
 

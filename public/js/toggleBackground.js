@@ -4,6 +4,7 @@ const header = $('.header');
 const users = $('.users');
 const usersSelected = $('.users.selected');
 const dropDownMenuList = $('.dropDownMenuList');
+const messagesContainer = $('.messagesContainer');
 const leftMenu = $('.leftMenu');
 const messageFormContainer = $('.messageFormContainer');
 const inputBox = $('.inputBox');
@@ -29,6 +30,7 @@ export const toggleBackground = () => {
       .add(footer)
       .add(header)
       .add(messageFormContainer)
+      .add(messagesContainer)
       .toggleClass('light-mode');
 
     users.toggleClass('light-mode-leftMenu-users-hover-color');
