@@ -6,18 +6,18 @@ block append head
   script(src="https://code.jquery.com/jquery-3.6.4.min.js")
   script.
     const socket = io();
-    var userLoggedInId = "#{user.id}"; // Pass user ID to client-side JavaScript
-
+    var userLoggedInId = "#{user.id}"; 
 
 block content
   main.main
 
     .leftMenu
       .listUser
-        - const loggedInUserID = user.id // Assuming you have a function to get the logged-in user's ID
+        - const loggedInUserID = user.id
 
         each user in users
           - if (loggedInUserID !== user.id )
+
             .users(data-user-room=user.id) 
               img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
               span.userName= user.name 
@@ -27,13 +27,10 @@ block content
                 - const formattedTime = lastMessage.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                 span.messageTime= formattedTime
 
+
     .messageFormContainer
-
-
       .messagesContainer
         .messageList
-
-
       .form
         form.form-input(action="")
           .inputBox

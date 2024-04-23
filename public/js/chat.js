@@ -5,6 +5,7 @@ const chatContainer = $('.messageList');
 const chatParentElement = $('.searchForm');
 const searchInputChat = $('.searchInput');
 const userClientId = userLoggedInId;
+
 let userReceived;
 let roomName;
 
@@ -174,6 +175,8 @@ export const chatApplication = () => {
   // Function to handle click event on user
   function handleUserClick() {
     parentElement.on('click', '.users', (e) => {
+      $('.messageFormContainer').addClass('visible');
+
       const target = $(e.target).closest('.users');
       const userName = target.find('.userName').text();
       const userID = target.data('user-room');
@@ -185,6 +188,8 @@ export const chatApplication = () => {
       $('.users').removeClass('selected');
       target.addClass('selected');
       socket.emit('getUserMessageFromDatabase', roomName);
+
+      console.log(clickedInUser);
     });
   }
 

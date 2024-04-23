@@ -26,8 +26,7 @@
 .dropDownMenuList {
   position: relative;
   display: flex;
-  width: 34%;
-  border-right: var(--chat-border-header) 1px solid;
+  width: 9%;
   transition: background-color 1s ease-in-out;
 }
 
@@ -65,6 +64,44 @@
 
 .dropDownMenuBtns:hover {
   background: var(--chat-container-background-color);
+}
+
+/* Search for users */
+
+.buttonSearchUsers {
+  display: flex;
+  align-items: center;
+  width: 24.7%;
+  padding: 1rem;
+  border-right: var(--chat-border-header) 1px solid;
+}
+
+.searchFormUsers {
+  display: flex;
+  align-items: center;
+  background-color: var(--chat-selected-users-background-input-color);
+  border-radius: 1.375rem;
+}
+
+.searchFormUsers > .searchInputUsers {
+  background: transparent;
+  padding: 1rem 1rem 1rem;
+  height: 3rem;
+  width: 82%;
+  border: none;
+  border-radius: 6px;
+  color: var(--chat-text-Message-color);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.searchUsersBtn {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  transition: background-color 1s ease-in-out;
 }
 
 /* User Selected to chat */

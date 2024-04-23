@@ -16,6 +16,7 @@
   flex-direction: column;
   height: 100%;
   width: 34%;
+  max-width: 27%;
   padding: 1rem;
   overflow: hidden;
   transition: background-color 1s ease-in-out;
@@ -80,12 +81,16 @@
 /* Message in the chat */
 
 .messageFormContainer {
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 98%;
   height: 100%;
   background-color: var(--chat-container-background-color);
   transition: background-color 1s ease-in-out;
+}
+
+.messageFormContainer.visible {
+  display: flex;
 }
 
 .messagesContainer {

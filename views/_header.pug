@@ -4,12 +4,21 @@ header.header
       .dropDownMenuList
         button.dropBtn
           i.fa-solid.fa-bars
+
+
+      .buttonSearchUsers
+        form.searchFormUsers(action="")
+          input.searchInputUsers(type="text"  placeholder="Search")
+          button.searchUsersBtn(type="submit")
+            i.fa-solid.fa-magnifying-glass
+
       .dropDownItems
         button.dropDownMenuBtns.toggleBackground Dark mode
         i.fa-regular.fa-sun
         i.fa-solid.fa-moon
         button.dropDownMenuBtns.logout Logout
         i.fa-solid.fa-arrow-right-from-bracket
+
 
 
       .userSelectedChat
