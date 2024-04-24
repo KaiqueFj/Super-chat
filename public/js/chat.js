@@ -3,256 +3,277 @@ const messageInput = $('.inputMessage');
 const parentElement = $('.listUser');
 const chatContainer = $('.messageList');
 const chatParentElement = $('.searchForm');
+const searchUserParentElement = $('.searchForUsers');
 const searchInputChat = $('.searchInput');
+const userSelectedToChat = $('.userSelectedChat');
+const messageFormContainer = $('.messageFormContainer');
 const userClientId = userLoggedInId;
+
+console.log(userLoggedInId);
 
 let userReceived;
 let roomName;
 
-export const chatApplication = () => {
-  // Function to scroll the chat to the bottom
-  function scrollToBottom() {
-    chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+// Update the event listener for the search button
+function handleUserSearchForUsers() {
+  searchUserParentElement.on('click', '.searchInputUsers', (e) => {
+    e.preventDefault();
+    searchUserParentElement.addClass('has-focus');
+
+    const searchQuery = searchInputChat.val().trim();
+
+    // Emit the search query to the server
+    socket.emit('getUserMessageSearched', roomName, searchQuery);
+
+    searchInputChat.val('');
+  });
+}
+
+// Function to scroll the chat to the bottom
+function scrollToBottom() {
+  chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+}
+
+//Function to scroll the chat to the message that was found after the search
+function scrollToMessage(messageID) {
+  const messageElement = $(
+    `.messageContainer[data-user-message="${messageID}"]`
+  );
+
+  if (messageElement.length) {
+    const position = messageElement.position().top;
+
+    chatContainer.scrollTop(position);
   }
+}
 
-  //Function to scroll the chat to the message that was found after the search
-  function scrollToMessage(messageID) {
-    const messageElement = $(
-      `.messageContainer[data-user-message="${messageID}"]`
-    );
+//Function to create the container of the message that is being sent by the user
+function createMessageContainer(message, messageID, senderID, createdAt) {
+  const userMessage = $('<span>')
+    .addClass('spanMessage')
+    .text(message)
+    .attr('data-message', messageID);
 
-    if (messageElement.length) {
-      const position = messageElement.position().top;
+  const createdAtDate = new Date(createdAt);
 
-      chatContainer.scrollTop(position);
-    }
-  }
+  const formattedTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
 
-  //Function to create the container of the message that is being sent by the user
-  function createMessageContainer(message, messageID, senderID, createdAt) {
-    const userMessage = $('<span>')
-      .addClass('spanMessage')
-      .text(message)
-      .attr('data-message', messageID);
+  const formattedTimeResult = formattedTime(createdAtDate);
 
-    const createdAtDate = new Date(createdAt);
+  const userMessageCreatedAt = $('<span>')
+    .addClass('spanCreatedAt')
+    .text(formattedTimeResult);
 
-    const formattedTime = (date) => {
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-      return `${hours}:${minutes}`;
-    };
+  const messageContainer = $('<div>')
+    .append(userMessage)
+    .append(userMessageCreatedAt)
+    .addClass('messageContainer')
+    .attr('data-user-message', senderID);
 
-    const formattedTimeResult = formattedTime(createdAtDate);
+  messageContainer.on('contextmenu', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
 
-    const userMessageCreatedAt = $('<span>')
-      .addClass('spanCreatedAt')
-      .text(formattedTimeResult);
+    const contextMenu = $(this).find('.contextMenu');
+    if (contextMenu.length) {
+      contextMenu.remove();
+    } else {
+      const containerPos = $(this).offset();
+      const containerHeight = $(this).outerHeight();
 
-    const messageContainer = $('<div>')
-      .append(userMessage)
-      .append(userMessageCreatedAt)
-      .addClass('messageContainer')
-      .attr('data-user-message', senderID);
+      const posX = event.clientX;
+      const posY = containerPos.top + containerHeight - 50;
 
-    messageContainer.on('contextmenu', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
+      const newContextMenu = $('<div>').addClass('contextMenu');
+      newContextMenu.css({
+        top: posY + 'px',
+        left: posX + 'px',
+      });
 
-      const contextMenu = $(this).find('.contextMenu');
-      if (contextMenu.length) {
-        contextMenu.remove();
-      } else {
-        const containerPos = $(this).offset();
-        const containerHeight = $(this).outerHeight();
+      const editButton = $('<button>')
+        .text('Edit')
+        .addClass('menuItemContextMenu');
+      const deleteButton = $('<button>')
+        .text('Delete')
+        .addClass('menuItemContextMenu');
 
-        const posX = event.clientX;
-        const posY = containerPos.top + containerHeight - 50;
+      newContextMenu.append(editButton).append(deleteButton);
+      $(this).append(newContextMenu);
 
-        const newContextMenu = $('<div>').addClass('contextMenu');
-        newContextMenu.css({
-          top: posY + 'px',
-          left: posX + 'px',
-        });
+      setTimeout(() => {
+        newContextMenu.addClass('show');
+      }, 10);
 
-        const editButton = $('<button>')
-          .text('Edit')
-          .addClass('menuItemContextMenu');
-        const deleteButton = $('<button>')
-          .text('Delete')
-          .addClass('menuItemContextMenu');
+      deleteButton.on('click', function (e) {
+        e.preventDefault();
+        const messageID = userMessage.attr('data-message');
+        if (senderID === userClientId) {
+          socket.emit('delete-message', messageID);
+          messageContainer.remove();
+        }
+        newContextMenu.remove();
+      });
 
-        newContextMenu.append(editButton).append(deleteButton);
-        $(this).append(newContextMenu);
+      editButton.on('click', function (e) {
+        e.preventDefault();
+        const currentMessage = $(this)
+          .closest('.messageContainer')
+          .find('.spanMessage')
+          .text();
 
-        setTimeout(() => {
-          newContextMenu.addClass('show');
-        }, 10);
-
-        deleteButton.on('click', function (e) {
-          e.preventDefault();
-          const messageID = userMessage.attr('data-message');
-          if (senderID === userClientId) {
-            socket.emit('delete-message', messageID);
-            messageContainer.remove();
-          }
-          newContextMenu.remove();
-        });
-
-        editButton.on('click', function (e) {
-          e.preventDefault();
-          const currentMessage = $(this)
+        const editedMessage = prompt('Edit message:', currentMessage);
+        if (editedMessage !== null && editedMessage.trim() !== '') {
+          $(this)
             .closest('.messageContainer')
             .find('.spanMessage')
-            .text();
+            .text(editedMessage);
 
-          const editedMessage = prompt('Edit message:', currentMessage);
-          if (editedMessage !== null && editedMessage.trim() !== '') {
-            $(this)
-              .closest('.messageContainer')
-              .find('.spanMessage')
-              .text(editedMessage);
+          const messageID = $(this)
+            .closest('.messageContainer')
+            .find('.spanMessage')
+            .attr('data-message');
 
-            const messageID = $(this)
-              .closest('.messageContainer')
-              .find('.spanMessage')
-              .attr('data-message');
+          socket.emit('edit-message', { messageID, editedMessage });
+        }
 
-            socket.emit('edit-message', { messageID, editedMessage });
-          }
-
-          newContextMenu.remove();
-        });
-      }
-    });
-
-    messageContainer.attr('data-user-message', senderID);
-    userMessage.attr('data-message', messageID);
-
-    if (userClientId !== senderID) {
-      messageContainer.addClass('owner-false');
+        newContextMenu.remove();
+      });
     }
+  });
 
-    return messageContainer;
+  messageContainer.attr('data-user-message', senderID);
+  userMessage.attr('data-message', messageID);
+
+  if (userClientId !== senderID) {
+    messageContainer.addClass('owner-false');
   }
 
-  // Function to display a message in the chat
-  function displayMessageInChat(message, messageID, senderID, createdAt) {
-    const messageContainer = createMessageContainer(
-      message,
-      messageID,
-      senderID,
-      createdAt
-    );
-    $('.messageList').append(messageContainer);
-  }
+  return messageContainer;
+}
 
-  // Function to get the room ID
-  function createRoomID(userID1, userID2) {
-    const sortedIDs = [userID1, userID2].sort();
-    return sortedIDs.join('_');
-  }
+// Function to display a message in the chat
+function displayMessageInChat(message, messageID, senderID, createdAt) {
+  const messageContainer = createMessageContainer(
+    message,
+    messageID,
+    senderID,
+    createdAt
+  );
+  $('.messageList').append(messageContainer);
+}
 
-  // Function to handle form submission
-  function handleFormSubmission() {
-    form.on('submit', async (e) => {
-      e.preventDefault();
-      const message = messageInput.val();
-      const selectedUser = $('.listUser .users.selected');
-      if (!message || !selectedUser.length) return;
+// Function to get the room ID
+function createRoomID(userID1, userID2) {
+  const sortedIDs = [userID1, userID2].sort();
+  return sortedIDs.join('_');
+}
 
-      const userID = selectedUser.data('user-room');
-      const room = createRoomID(userClientId, userID);
+// Function to handle form submission
+function handleFormSubmission() {
+  form.on('submit', async (e) => {
+    e.preventDefault();
+    const message = messageInput.val();
+    const selectedUser = $('.listUser .users.selected');
+    if (!message || !selectedUser.length) return;
 
-      const userMessageData = { message, room, userReceived };
-      socket.emit('send-message', userMessageData);
+    const userID = selectedUser.data('user-room');
+    const room = createRoomID(userClientId, userID);
 
-      messageInput.val('');
-    });
-  }
+    const userMessageData = { message, room, userReceived };
+    socket.emit('send-message', userMessageData);
 
-  // Function to handle click event on user
-  function handleUserClick() {
-    parentElement.on('click', '.users', (e) => {
-      $('.messageFormContainer').addClass('visible');
+    messageInput.val('');
+  });
+}
 
-      const target = $(e.target).closest('.users');
-      const userName = target.find('.userName').text();
-      const userID = target.data('user-room');
-      const room = createRoomID(userClientId, userID);
-      userReceived = userName;
-      roomName = room;
+// Function to handle click event on user
+function handleUserClick() {
+  parentElement.on('click', '.users', (e) => {
+    messageFormContainer.addClass('visible');
+    userSelectedToChat.addClass('visible');
 
-      $('.userNameSelected').text(userName);
-      $('.users').removeClass('selected');
-      target.addClass('selected');
-      socket.emit('getUserMessageFromDatabase', roomName);
-    });
-  }
+    const target = $(e.target).closest('.users');
+    const userName = target.find('.userName').text();
+    const userID = target.data('user-room');
+    const room = createRoomID(userClientId, userID);
+    userReceived = userName;
+    roomName = room;
 
-  // Update the event listener for the search button
-  function handleUserSearch() {
-    chatParentElement.on('click', '.searchTextInChatBtn', (e) => {
-      e.preventDefault();
+    $('.userNameSelected').text(userName);
+    $('.users').removeClass('selected');
+    target.addClass('selected');
+    socket.emit('getUserMessageFromDatabase', roomName);
+  });
+}
 
-      searchInputChat.toggleClass('hidden');
+// Update the event listener for the search button
+function handleUserSearch() {
+  chatParentElement.on('click', '.searchTextInChatBtn', (e) => {
+    e.preventDefault();
 
-      const searchQuery = searchInputChat.val().trim();
+    searchInputChat.toggleClass('hidden');
 
-      // Emit the search query to the server
-      socket.emit('getUserMessageSearched', roomName, searchQuery);
+    const searchQuery = searchInputChat.val().trim();
 
-      searchInputChat.val('');
-    });
-  }
+    // Emit the search query to the server
+    socket.emit('getUserMessageSearched', roomName, searchQuery);
 
-  // Listen for incoming messages from the server
-  socket.on('received-message', (message) => {
+    searchInputChat.val('');
+  });
+}
+
+// Listen for incoming messages from the server
+socket.on('received-message', (message) => {
+  displayMessageInChat(
+    message.message,
+    message._id,
+    message.user,
+    message.createdAt
+  );
+  scrollToBottom();
+});
+
+// Listen for messages from the server and display them
+socket.on('getUsersMessage', async (messages) => {
+  $('.messageList').empty();
+  const displayPromises = messages.map((message) =>
     displayMessageInChat(
       message.message,
       message._id,
       message.user,
       message.createdAt
-    );
-    scrollToBottom();
-  });
+    )
+  );
+  await Promise.all(displayPromises);
+  scrollToBottom();
+});
 
-  // Listen for messages from the server and display them
-  socket.on('getUsersMessage', async (messages) => {
-    $('.messageList').empty();
-    const displayPromises = messages.map((message) =>
-      displayMessageInChat(
-        message.message,
-        message._id,
-        message.user,
-        message.createdAt
-      )
-    );
-    await Promise.all(displayPromises);
-    scrollToBottom();
-  });
+//Listen for the messages that was searched by the user, and display it
+socket.on('getMessagesSearched', async (messages) => {
+  $('.messageContainer').removeClass('highlight');
 
-  //Listen for the messages that was searched by the user, and display it
-  socket.on('getMessagesSearched', async (messages) => {
-    $('.messageContainer').removeClass('highlight');
-
-    messages.forEach((message) => {
-      $('.messageContainer').each(function () {
-        const messageText = $(this).find('.spanMessage').text();
-        if (messageText.includes(message.message)) {
-          $(this).addClass('highlight');
-          scrollToMessage(message.user);
-        }
-      });
+  messages.forEach((message) => {
+    $('.messageContainer').each(function () {
+      const messageText = $(this).find('.spanMessage').text();
+      if (messageText.includes(message.message)) {
+        $(this).addClass('highlight');
+        scrollToMessage(message.user);
+      }
     });
   });
+});
 
-  // Initialize form submission handler
-  handleFormSubmission();
+// Initialize form submission handler
+handleFormSubmission();
 
-  // Initialize user click handler
-  handleUserClick();
+// Initialize user click handler
+handleUserClick();
 
-  // Initialize user search handler
-  handleUserSearch();
-};
+// Initialize user search handler
+handleUserSearch();
+
+handleUserSearchForUsers();

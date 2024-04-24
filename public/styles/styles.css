@@ -12,11 +12,21 @@
   --chat-border-header: #303030;
   --chat-icon-send-plane-color: #667781;
   --chat-input-search-bgColor: #f0f2f5;
+  --chat-input-border-color: #8774e1;
 
   /* Black background */
   --main-color: #171617;
   --section-rotate: 9vw;
   --icon-sun: #ffd700;
+  --primary-color: #212121;
+  --secondary-color: #0f0f0f;
+  --color-placeholders: #a2acb4;
+  --icon-colors: #aaaaaa;
+  --message-background-color: #766ac8;
+  --message-owner-false-background-color: #212121;
+  --text-color-primary: #ffffff;
+  --text-color-secondary: rgb(255, 255, 255, 0.533);
+  --input-placeholder-background-color: rgb(44, 44, 44);
 
   /* Left menu */
   --chat-leftMenu-bgColor: #595959.;
@@ -27,8 +37,8 @@
   --border-chat-bgColor: #e9e3d5;
 
   /* Selected user */
-  --chat-selected-users-background-input-color: #515151;
-  --chat-selected-users-background-color: #0f0f10;
+  --chat-selected-users-background-color: #766ac8;
+  --chat-selected-users-background-color-hover: rgb(44, 44, 44);
 
   /* Chat colors */
   --chat-input-send-messages-background-color: #212121;

@@ -4,24 +4,40 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   width: 100%;
+  height: 5.6rem;
 }
 
 .chatHeader {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   width: 100vw;
+  height: 6.2rem;
+}
+
+.leftHeader {
+  height: 7rem;
+  width: 33.7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  border-right: var(--chat-border-header) 1px solid;
+  padding: 1rem;
+}
+
+.rightHeader {
+  width: 97%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
 /* Edit of menu header and dropdown */
-
-.userInformations {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 
 .dropDownMenuList {
   position: relative;
@@ -56,7 +72,7 @@
   text-align: center;
   border: none;
   padding: 1rem;
-  color: var(--chat-container-messages-text-color);
+  color: var(--icon-colors);
   border-radius: 10px;
   padding: 1.5rem 2rem;
   transition: background-color 0.3s;
@@ -68,54 +84,60 @@
 
 /* Search for users */
 
-.buttonSearchUsers {
+.searchForUsers {
+  width: 75%;
+  background: var(--input-placeholder-background-color);
   display: flex;
   align-items: center;
-  width: 24.7%;
-  padding: 1rem;
-  border-right: var(--chat-border-header) 1px solid;
+  height: 4.3rem;
+  padding: 2rem;
+  border-radius: 2.375rem;
+  justify-content: space-between;
+  margin-right: 2rem;
 }
 
-.searchFormUsers {
-  display: flex;
-  align-items: center;
-  background-color: var(--chat-selected-users-background-input-color);
-  border-radius: 1.375rem;
-}
-
-.searchFormUsers > .searchInputUsers {
+.searchForUsers > .searchInputUsers {
   background: transparent;
   padding: 1rem 1rem 1rem;
-  height: 3rem;
+  height: 3.3rem;
   width: 82%;
   border: none;
+  font-size: 1.7rem;
   border-radius: 6px;
   color: var(--chat-text-Message-color);
   transition: opacity 0.3s ease-in-out;
   opacity: 1;
 }
 
-.searchUsersBtn {
+.searchForUsers > .searchInputUsers:focus {
+  outline: none;
   background: transparent;
-  cursor: pointer;
-  border: none;
-  border-radius: 10px;
-  padding: 1.5rem 2rem;
-  transition: background-color 1s ease-in-out;
+}
+.searchForUsers > .searchInputUsers::placeholder {
+  color: var(--color-placeholders);
+}
+
+.has-focus {
+  outline: var(--chat-input-border-color) 2px solid;
 }
 
 /* User Selected to chat */
 
 .userSelectedChat {
-  display: flex;
+  display: none;
   justify-content: space-between;
   transition: background-color 1s ease-in-out;
   background: var(--chat-leftMenu-bgColor);
-  width: 97%;
+  width: 100%;
+}
+
+.userSelectedChat.visible {
+  display: flex;
 }
 
 .userContainer {
   padding: 1rem;
+  display: flex;
 }
 
 .userInfo {
@@ -130,8 +152,8 @@
 }
 
 .userInfo > .user-img {
-  height: 4.5rem;
-  width: 4.5rem;
+  height: 3.5rem;
+  width: 3.5rem;
   border-radius: 50%;
   margin-right: 1rem;
 }
@@ -168,13 +190,17 @@
   opacity: 1;
 }
 
+.searchInput:focus {
+  outline: var(--chat-input-border-color) 2px solid;
+}
+
 .hidden {
   opacity: 0;
 }
 
 /* Icons */
 .fa-solid.fa-magnifying-glass {
-  color: var(--chat-text-Message-color);
+  color: var(--icon-colors);
   font-size: 2rem;
 }
 
@@ -191,12 +217,12 @@
 }
 
 .fa-solid.fa-bars {
-  color: var(--chat-container-messages-text-color);
+  color: var(--icon-colors);
   font-size: 1.7rem;
 }
 
 .fa-solid.fa-arrow-right-from-bracket {
-  color: var(--chat-container-messages-text-color);
+  color: var(--icon-colors);
   font-size: 1.7rem;
   padding: 0.5rem;
 }

@@ -20,6 +20,7 @@
   padding: 1rem;
   overflow: hidden;
   transition: background-color 1s ease-in-out;
+  background: var(--primary-color);
 }
 .listUser {
   display: flex;
@@ -41,12 +42,12 @@
 }
 
 .users:hover {
-  background-color: var(--chat-leftMenu-users-hover-color);
+  background-color: var(--chat-selected-users-background-color-hover);
 }
 
 .users.selected {
-  background-color: var(--chat-leftMenu-users-hover-color);
-  transition: background-color 1s ease-in-out;
+  background-color: var(--chat-selected-users-background-color);
+  transition: background-color 0.4s ease-in-out;
 
   outline: none;
 }
@@ -62,20 +63,20 @@
   grid-area: userName;
   font-size: 1.6rem;
   font-weight: bold;
-  color: var(--chat-text-Message-color);
+  color: var(--text-color-primary);
 }
 
 .users > .userMessage {
   grid-area: userMessage;
   font-size: 1.4rem;
-  color: var(--chat-text-Message-color);
+  color: var(--text-color-secondary);
 }
 
 .users > .messageTime {
   grid-area: messageTime;
   text-align: end;
   font-size: 1.4rem;
-  color: var(--chat-text-Message-color);
+  color: var(--text-color-secondary);
 }
 
 /* Message in the chat */
@@ -85,7 +86,7 @@
   flex-direction: column;
   width: 98%;
   height: 100%;
-  background-color: var(--chat-container-background-color);
+  background-color: var(--secondary-color);
   transition: background-color 1s ease-in-out;
 }
 
@@ -113,18 +114,21 @@
   width: 100%;
   flex-direction: column;
   scroll-behavior: smooth;
+  padding-left: 13rem;
+  padding-right: 13rem;
 }
 .messageList > .messageContainer {
   display: grid;
 
   grid-template-areas:
-    'userMessage userMessage userMessage'
-    'userMessage userMessage userMessage'
-    '... ... createdAt';
+    'userMessage userMessage createdAt'
+    'userMessage userMessage createdAt'
+    'userMessage userMessage createdAt';
 
   height: fit-content;
   text-align: justify;
   margin-left: auto;
+  align-items: self-end;
 
   padding: 0.5rem 1rem;
   max-width: 44rem;
@@ -132,26 +136,27 @@
   border-radius: 10px;
   margin-bottom: 1rem;
   margin-right: 1rem;
-  color: var(--chat-container-messages-text-color);
-  background: var(--chat-container-messages-background-color);
+  color: var(--text-color-primary);
+  background: var(--message-background-color);
   transition: background-color 1s ease-in-out;
 }
 
 .spanMessage {
   font-size: 1.6rem;
-  color: var(--chat-container-messages-text-color);
+  color: var(--text-color-primary);
   grid-area: userMessage;
 }
 
 .spanCreatedAt {
   font-size: 1.2rem;
-  color: var(--chat-text-createdAt-color);
+  color: var(--text-color-secondary);
   grid-area: createdAt;
   justify-self: right;
+  margin-left: 2rem;
 }
 
 .messageContainer.owner-false {
-  background: var(--chat-container-messages-ownerFalse-background-color);
+  background: var(--message-owner-false-background-color);
   margin-left: 1rem;
   margin-right: auto;
   max-width: 44rem;
@@ -267,20 +272,40 @@
 /* Forms to handle and send the messages*/
 
 .form {
-  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .form-input {
-  width: 100%;
+  width: 70%;
+}
+
+.notch {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 76%;
+  height: 0.4rem;
+  background-color: var(--primary-color);
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border: 1px solid #000;
+  z-index: 1;
 }
 
 .inputBox {
   display: flex;
+  border-radius: 1.825rem;
   position: relative;
   justify-content: space-between;
   align-items: center;
   padding: 0.7rem;
-  background-color: var(--chat-input-send-messages-background-color);
+  background-color: var(--primary-color);
   transition: background-color 1s ease-in-out;
 }
 
@@ -309,12 +334,12 @@ button {
 }
 
 .fa-regular.fa-paper-plane {
-  color: var(--chat-text-Message-color);
+  color: var(--icon-colors);
   font-size: 1.7rem;
 }
 
 input::placeholder {
-  color: var(--chat-container-messages-text-color);
+  color: var(--color-placeholders);
 }
 
 .light-mode {
