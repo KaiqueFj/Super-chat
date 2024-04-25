@@ -12,7 +12,6 @@ exports.getChatPage = catchAsync(async (req, res) => {
     title: 'Your account',
     users: users,
     message: preparedMessages,
-    listUserClicked: false,
   });
 });
 

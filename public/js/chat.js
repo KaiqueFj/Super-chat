@@ -4,30 +4,14 @@ const parentElement = $('.listUser');
 const chatContainer = $('.messageList');
 const chatParentElement = $('.searchForm');
 const searchUserParentElement = $('.searchForUsers');
+const searchInputForUsers = $('.searchInputUsers');
 const searchInputChat = $('.searchInput');
 const userSelectedToChat = $('.userSelectedChat');
 const messageFormContainer = $('.messageFormContainer');
 const userClientId = userLoggedInId;
-
-console.log(userLoggedInId);
-
 let userReceived;
 let roomName;
-
-// Update the event listener for the search button
-function handleUserSearchForUsers() {
-  searchUserParentElement.on('click', '.searchInputUsers', (e) => {
-    e.preventDefault();
-    searchUserParentElement.addClass('has-focus');
-
-    const searchQuery = searchInputChat.val().trim();
-
-    // Emit the search query to the server
-    socket.emit('getUserMessageSearched', roomName, searchQuery);
-
-    searchInputChat.val('');
-  });
-}
+let allUsers = [];
 
 // Function to scroll the chat to the bottom
 function scrollToBottom() {
@@ -223,6 +207,102 @@ function handleUserSearch() {
     socket.emit('getUserMessageSearched', roomName, searchQuery);
 
     searchInputChat.val('');
+  });
+}
+
+// Function to handle user search input
+function handleUserSearchForUsers() {
+  searchUserParentElement.on('click', '.searchInputUsers', (e) => {
+    e.preventDefault();
+    searchUserParentElement.addClass('has-focus');
+  });
+
+  // Handle input event on search input
+  searchInputForUsers.on('input', (e) => {
+    e.preventDefault();
+
+    const searchQuery = searchInputForUsers.val().trim();
+
+    if (searchQuery.length === 0) {
+      renderAllUsers();
+    } else {
+      socket.emit('getUserSearched', searchQuery);
+    }
+  });
+}
+
+socket.on('getUserSearchedInfo', (searchedUserData, searchedMessageData) => {
+  updateSearchResults(searchedUserData, searchedMessageData);
+});
+
+// Function to update the user list with search results
+function updateSearchResults(searchedUserData, searchedMessageData) {
+  $('.listUser').empty();
+
+  for (let i = 0; i < searchedUserData.length; i++) {
+    const user = searchedUserData[i];
+    const message = searchedMessageData[i]
+      ? searchedMessageData[i].message
+      : ''; // Get message, if available
+    const createdAt = searchedMessageData[i]
+      ? searchedMessageData[i].createdAt
+      : ''; // Get createdAt, if available
+
+    createUserElement(user, message, createdAt); // Pass user, message, and createdAt to createUserElement
+  }
+}
+
+function createUserElement(user, message, createdAt) {
+  const createdAtDate = new Date(createdAt);
+
+  const formattedTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  const formattedTimeResult = formattedTime(createdAtDate);
+
+  const userName = $('<span>').addClass('userName').text(user.name);
+  const userPhoto = $('<img>')
+    .addClass('user-img')
+    .attr('src', `/images/user/${user.photo} `);
+
+  const userMessage = $('<span>').addClass('userMessage').text(message); // Use the message
+  const userMessageCreatedAt = $('<span>')
+    .addClass('messageTime')
+    .text(formattedTimeResult); // Use the createdAt
+
+  const userElement = $('<div>')
+    .addClass('users')
+    .append(userName)
+    .append(userPhoto)
+    .append(userMessage)
+    .append(userMessageCreatedAt) // Append the createdAt span
+    .attr('data-user-room', user.id);
+
+  $('.listUser').append(userElement);
+}
+
+$(document).ready(() => {
+  allUsers = [];
+  $('.listUser .users').each(function () {
+    const user = {
+      id: $(this).attr('data-user-room'),
+      name: $(this).find('.userName').text(),
+      message: $(this).find('.userMessage').text(),
+      messageTime: $(this).find('.messageTime').text(),
+      photo: $(this).find('.user-img').attr('src').replace('/images/user/', ''),
+    };
+    allUsers.push(user);
+  });
+});
+
+function renderAllUsers() {
+  $('.listUser').empty();
+
+  allUsers.forEach((user) => {
+    createUserElement(user, user.message, user.messageTime);
   });
 }
 

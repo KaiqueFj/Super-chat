@@ -124,6 +124,44 @@ exports.chatFeatures = (io) => {
       }
     });
 
+    socket.on('getUserSearched', async (UserName) => {
+      try {
+        let searchedUserData = [];
+        let searchedMessageData = [];
+
+        if (UserName.trim() !== '') {
+          const searchedUsers = await User.find({
+            name: { $regex: new RegExp(escapeRegExp(UserName), 'i') },
+          }).select('name photo');
+
+          const searchedMessages = await Message.find({
+            userReceiver: { $regex: new RegExp(escapeRegExp(UserName), 'i') },
+          }).select('message createdAt');
+
+          // Combine user information into one array
+          searchedUserData = searchedUsers.map((user) => ({
+            id: user._id,
+            name: user.name,
+            photo: user.photo,
+          }));
+
+          // Combine message information into one array
+          searchedMessageData = searchedMessages.map((message) => ({
+            message: message.message,
+            createdAt: message.createdAt,
+          }));
+        }
+
+        socket.emit(
+          'getUserSearchedInfo',
+          searchedUserData,
+          searchedMessageData
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
     // Handle disconnections
     socket.on('disconnect', () => {
       // Handle disconnection if needed
