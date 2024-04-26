@@ -9,7 +9,7 @@ import { dropDownMenu } from './dropDownMenu';
 //DOM elements
 const signUpForm = document.querySelector('.userSignIn');
 const signInForm = document.querySelector('.userLogIn');
-const logoutBtn = document.querySelector('.dropDownMenuBtns.logout');
+const logoutBtn = document.querySelector('.menuItem.logout');
 
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 

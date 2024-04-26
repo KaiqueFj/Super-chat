@@ -7,11 +7,13 @@ header.header
             i.fa-solid.fa-bars
 
           .dropDownItems
-            button.dropDownMenuBtns.toggleBackground Dark mode
-            i.fa-regular.fa-sun
-            i.fa-solid.fa-moon
-            button.dropDownMenuBtns.logout Logout
-            i.fa-solid.fa-arrow-right-from-bracket
+            .menuItem.toggleBackground
+              .menuItemName.toggleBackground Light Mode
+              i.fa-regular.fa-sun
+              i.fa-solid.fa-moon
+            .menuItem.logout 
+              .menuItemName Logout
+              i.fa-solid.fa-arrow-right-from-bracket
 
         .searchForUsers
           input.searchInputUsers(type="text"  placeholder="Search")

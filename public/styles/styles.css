@@ -27,6 +27,7 @@
   --text-color-primary: #ffffff;
   --text-color-secondary: rgb(255, 255, 255, 0.533);
   --input-placeholder-background-color: rgb(44, 44, 44);
+  --color-default-shadow: rgb(16, 16, 16, 0.612);
 
   /* Left menu */
   --chat-leftMenu-bgColor: #595959.;

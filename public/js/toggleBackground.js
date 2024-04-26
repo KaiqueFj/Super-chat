@@ -15,10 +15,11 @@ const chatContainer = $('.messageList');
 const searchInputChat = $('.searchInput');
 const searchIcon = $('.fa-solid.fa-magnifying-glass');
 const sendMessageIcon = $('.fa-regular.fa-paper-plane');
-const toggleBackgroundButton = $('.dropDownMenuBtns.toggleBackground');
+const toggleBackgroundButton = $('.menuItem.toggleBackground');
 const userNameSelected = $('.userNameSelected');
 const sunIcon = $('.fa-regular.fa-sun');
 const moonIcon = $('.fa-solid.fa-moon');
+const menuItemDarkModeText = $('.menuItemName.toggleBackground');
 
 export const toggleBackground = () => {
   let isSunVisible = true; // Track the current state of the icons
@@ -52,11 +53,11 @@ export const toggleBackground = () => {
     if (isSunVisible) {
       sunIcon.css('display', 'none');
       moonIcon.css('display', 'block');
-      toggleBackgroundButton.text('Dark mode'); // Change button text
+      menuItemDarkModeText.text('Dark mode'); // Change button text
     } else {
       sunIcon.css('display', 'block');
       moonIcon.css('display', 'none');
-      toggleBackgroundButton.text('Light mode'); // Change button text
+      menuItemDarkModeText.text('Light mode'); // Change button text
     }
 
     // Update the state of the icons
