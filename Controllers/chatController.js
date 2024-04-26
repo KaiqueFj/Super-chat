@@ -2,11 +2,9 @@ const jwt = require('jsonwebtoken');
 const Message = require('../Model/messageModel');
 const { promisify } = require('util');
 const User = require('../Model/userModel');
-
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
 }
-
 const getUserIDFromToken = async (socket) => {
   try {
     const token = socket.handshake.headers.cookie.split('=')[1];
@@ -15,9 +13,7 @@ const getUserIDFromToken = async (socket) => {
         token,
         process.env.JWT_SECRET
       );
-
       if (!decoded) return null;
-
       return decoded.id;
     }
     return null;
@@ -26,7 +22,6 @@ const getUserIDFromToken = async (socket) => {
     return null;
   }
 };
-
 exports.chatFeatures = (io) => {
   io.on('connection', async (socket) => {
     // Handle sending messages
@@ -34,7 +29,6 @@ exports.chatFeatures = (io) => {
       try {
         const userID = await getUserIDFromToken(socket);
         const userSender = await User.findById(userID);
-
         // Create a new message object
         const newMessage = new Message({
           message: message.message,
@@ -44,12 +38,9 @@ exports.chatFeatures = (io) => {
           userReceiver: message.userReceived,
           isOwner: true,
         });
-
         await newMessage.save();
-
         // Emit the saved message to the room
         io.to(message.room).emit('received-message', newMessage);
-
         // Fetch messages for the specific room and emit them to the sender
         io.to(message.room).emit('getUserMessageFromDatabase', message.room);
       } catch (err) {
@@ -57,7 +48,6 @@ exports.chatFeatures = (io) => {
         socket.emit('error', 'Could not send the message properly');
       }
     });
-
     // Handle fetching user messages from the database
     socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {
@@ -65,30 +55,25 @@ exports.chatFeatures = (io) => {
         const userMessages = await Message.find({
           room: roomName,
         });
-
         socket.emit('getUsersMessage', userMessages);
       } catch (err) {
         socket.emit('error', 'Could not load the messages properly');
       }
     });
-
     socket.on('getUserMessageSearched', async (roomName, messagesUser) => {
       try {
         let searchedMessage;
-
         messagesUser.trim() === ''
           ? (searchedMessage = [])
           : (searchedMessage = await Message.find({
               message: { $regex: new RegExp(escapeRegExp(messagesUser), 'i') },
               room: roomName,
             }));
-
         socket.emit('getMessagesSearched', searchedMessage);
       } catch (err) {
         socket.emit('error', 'Could not load the messages properly');
       }
     });
-
     socket.on('delete-message', async (messageID) => {
       try {
         const result = await Message.deleteOne({
@@ -104,7 +89,6 @@ exports.chatFeatures = (io) => {
         console.error('Error deleting message:', error);
       }
     });
-
     socket.on('edit-message', async ({ messageID, editedMessage }) => {
       try {
         const updatedMessage = await Message.findByIdAndUpdate(
@@ -112,7 +96,6 @@ exports.chatFeatures = (io) => {
           { message: editedMessage },
           { new: true }
         );
-
         if (updatedMessage) {
           console.log('Message updated successfully.');
           io.emit('edit-message', updatedMessage);
@@ -160,6 +143,12 @@ exports.chatFeatures = (io) => {
       } catch (error) {
         console.error(error);
       }
+    });
+
+    // Socket method used to join rooms
+    socket.on('join-room', (room, cb) => {
+      socket.join(room);
+      cb(`Joined ${room} chat`);
     });
 
     // Handle disconnections

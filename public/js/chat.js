@@ -148,6 +148,8 @@ function displayMessageInChat(message, messageID, senderID, createdAt) {
     createdAt
   );
   $('.messageList').append(messageContainer);
+
+  return messageContainer;
 }
 
 // Function to get the room ID
@@ -191,6 +193,8 @@ function handleUserClick() {
     $('.users').removeClass('selected');
     target.addClass('selected');
     socket.emit('getUserMessageFromDatabase', roomName);
+
+    socket.emit('join-room', roomName, () => {});
   });
 }
 

@@ -2,19 +2,15 @@ extends base
 
 block append head
   link(rel="stylesheet", href="/styles/overview/styles.css")
-
   script(src="https://code.jquery.com/jquery-3.6.4.min.js")
-
   script.
     const socket = io();
     var userLoggedInId = "#{user.id}"; 
 
   script(defer, src="/js/chat.js")
 
-
 block content
   main.main
-
     .leftMenu
       .listUser
         - const loggedInUserID = user.id
