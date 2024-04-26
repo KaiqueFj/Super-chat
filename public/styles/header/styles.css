@@ -51,9 +51,9 @@
 }
 
 .dropDownItems.show {
-  display: grid;
-  grid-template-columns: auto;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   min-height: 16rem;
   position: absolute;
   top: 4.7rem !important;
@@ -62,24 +62,26 @@
   border-radius: 16px;
   backdrop-filter: blur(10px);
   transform-origin: left top;
+  padding: 0.2rem;
   z-index: 1;
   box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
 }
 
 .menuItem {
   display: flex;
-  justify-content: space-evenly;
-  font-weight: bold;
+  align-items: center;
+  height: fit-content;
+  margin: 0.125rem 0.25rem;
   border: none;
-  padding: 1rem;
   border-radius: 10px;
-  padding: 1.5rem 2rem;
+  padding: 0.5rem;
   transition: background-color 0.3s;
 }
 
 .menuItemName {
-  font-size: 1.6rem;
-  text-align: center;
+  font-size: 1.475rem;
+  font-weight: 500;
+  text-align: left;
   text-wrap: nowrap;
   color: var(--text-color-primary);
 }
@@ -231,4 +233,12 @@
   color: var(--icon-colors);
   font-size: 1.7rem;
   padding: 0.5rem;
+  margin-left: auto;
+}
+
+.fa-solid.fa-gear {
+  color: var(--icon-colors);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+  margin-left: auto;
 }
