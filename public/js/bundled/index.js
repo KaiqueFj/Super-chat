@@ -589,6 +589,7 @@ var _signUp = require("./signUp");
 var _login = require("./Login");
 var _toggleBackground = require("./toggleBackground");
 var _dropDownMenu = require("./dropDownMenu");
+var _settingsBtn = require("./settingsBtn");
 //DOM elements
 const signUpForm = document.querySelector(".userSignIn");
 const signInForm = document.querySelector(".userLogIn");
@@ -609,8 +610,9 @@ if (signInForm) signInForm.addEventListener("submit", (e)=>{
 });
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
+(0, _settingsBtn.settingsMenu)();
 
-},{"@babel/polyfill":"dTCHC","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc"}],"dTCHC":[function(require,module,exports) {
+},{"@babel/polyfill":"dTCHC","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./settingsBtn":"p6Ksx"}],"dTCHC":[function(require,module,exports) {
 "use strict";
 require("f50de0aa433a589b");
 var _global = _interopRequireDefault(require("4142986752a079d4"));
@@ -12155,6 +12157,25 @@ const dropDownMenu = ()=>{
     dropDownMenuBtn.on("click", function(e) {
         e.preventDefault();
         dropDownMenuItems.toggleClass("show");
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"p6Ksx":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
+const settingsDiv = $(".menuItem.settings");
+const settingsMenuDiv = $(".configurationsMenu");
+const settingsBtn = $(".settingsBtn");
+const settingsMenu = ()=>{
+    settingsDiv.on("click", function(e) {
+        e.preventDefault();
+        console.log("clicked");
+        settingsMenuDiv.toggleClass("show");
+    });
+    settingsBtn.on("click", function(e) {
+        e.preventDefault();
+        settingsMenuDiv.toggleClass("show");
     });
 };
 

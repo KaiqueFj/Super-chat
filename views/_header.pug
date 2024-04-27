@@ -11,16 +11,44 @@ header.header
               .menuItemName.toggleBackground Light Mode
               i.fa-regular.fa-sun
               i.fa-solid.fa-moon
+
+            .menuItem.settings 
+              .menuItemName Settings
+              i.fa-solid.fa-gear
+
             .menuItem.logout 
               .menuItemName Logout
               i.fa-solid.fa-arrow-right-from-bracket
-            .menuItem 
-              .menuItemName Settings
-              i.fa-solid.fa-gear
+
+
+          .configurationsMenu
+            .headerInfo-settings
+              button.settingsBtn
+                i.fa-solid.fa-arrow-left
+              span.settingsNameHeader Settings
+              i.fa-regular.fa-pen-to-square
+
+            .userInfo-settings
+              img.user-img-settings(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
+              .listUserItems
+                span.userName-settings=user.name
+
+              .listUserItems
+                i.fa-solid.fa-phone
+                span.userName-settings= '+55 11 97023-8121'
+
+              .listUserItems
+                i.fa-solid.fa-message
+                span.userName-settings ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+
+
+
 
         .searchForUsers
           input.searchInputUsers(type="text"  placeholder="Search")
           i.fa-solid.fa-magnifying-glass
+
+
 
       .rightHeader
         .userSelectedChat

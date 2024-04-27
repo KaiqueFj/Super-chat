@@ -5,6 +5,7 @@ import { signUp } from './signUp';
 import { signIn, logout } from './Login';
 import { toggleBackground } from './toggleBackground';
 import { dropDownMenu } from './dropDownMenu';
+import { settingsMenu } from './settingsBtn';
 
 //DOM elements
 const signUpForm = document.querySelector('.userSignIn');
@@ -36,3 +37,4 @@ if (signInForm) {
 
 toggleBackground();
 dropDownMenu();
+settingsMenu();

@@ -74,7 +74,7 @@
   margin: 0.125rem 0.25rem;
   border: none;
   border-radius: 10px;
-  padding: 0.5rem;
+  padding: 0.7rem;
   transition: background-color 0.3s;
 }
 
@@ -88,6 +88,58 @@
 
 .menuItem:hover {
   background: var(--chat-container-background-color);
+}
+
+.configurationsMenu {
+  display: none;
+}
+
+.configurationsMenu.show {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 16rem;
+  position: absolute;
+  top: 4.7rem !important;
+  left: 1rem !important;
+  background: var(--color-default-no-shadow);
+  border-radius: 16px;
+  padding: 0.2rem;
+  z-index: 1;
+  box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
+}
+
+.headerInfo-settings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.settingsNameHeader {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--chat-text-Message-color);
+}
+
+.userInfo-settings {
+  display: flex;
+  flex-direction: column;
+  padding: 0.8rem;
+}
+
+.listUserItems {
+  padding: 0.8rem;
+}
+
+.user-img-settings {
+  height: 20rem;
+  width: 20rem;
+}
+
+.userName-settings {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--chat-text-Message-color);
 }
 
 /* Search for users */
@@ -241,4 +293,30 @@
   font-size: 1.7rem;
   padding: 0.5rem;
   margin-left: auto;
+}
+
+.fa-solid.fa-arrow-left {
+  color: var(--icon-colors);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+  margin-left: auto;
+}
+
+.fa-regular.fa-pen-to-square {
+  color: var(--icon-colors);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+  margin-left: auto;
+}
+
+.fa-solid.fa-phone {
+  color: var(--icon-colors);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+}
+
+.fa-solid.fa-message {
+  color: var(--icon-colors);
+  font-size: 1.7rem;
+  padding: 0.5rem;
 }
