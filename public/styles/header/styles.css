@@ -142,6 +142,90 @@
   color: var(--chat-text-Message-color);
 }
 
+/* User update data form  */
+
+.form.form-user-data {
+  display: none;
+}
+
+.form.form-user-data.show {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 16rem;
+  position: absolute;
+  top: 4.7rem !important;
+  left: 1rem !important;
+  background: var(--color-default-no-shadow);
+  border-radius: 16px;
+  padding: 0.2rem;
+  z-index: 1;
+  box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
+  font-size: 1.5rem;
+  padding: 1.25rem 1.75rem;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.form__label {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.form__photo-upload {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.6rem;
+}
+
+.form__user-photo {
+  height: 7.5rem;
+  width: 7.5rem;
+  border-radius: 50%;
+  margin-right: 2rem;
+}
+
+.form__upload {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.form__upload:focus + label {
+  outline: 3px solid var(--chat-input-border-color);
+  outline-offset: 3px;
+}
+
+.form__upload + label {
+  color: var(--chat-text-Message-color);
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid var(--chat-input-border-color);
+  padding: 3px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.form__upload + label:hover {
+  background-color: var(--chat-input-border-color);
+  color: #fff;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(-2px);
+  transform: translateY(-2px);
+}
+
 /* Search for users */
 
 .searchForUsers {
@@ -316,6 +400,12 @@
 }
 
 .fa-solid.fa-message {
+  color: var(--icon-colors);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+}
+
+.fa-solid.fa-check {
   color: var(--icon-colors);
   font-size: 1.7rem;
   padding: 0.5rem;

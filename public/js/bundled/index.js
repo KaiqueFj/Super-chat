@@ -594,6 +594,7 @@ var _settingsBtn = require("./settingsBtn");
 const signUpForm = document.querySelector(".userSignIn");
 const signInForm = document.querySelector(".userLogIn");
 const logoutBtn = document.querySelector(".menuItem.logout");
+const updateUserForm = document.querySelector(".form-user-data");
 if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
 if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -607,6 +608,20 @@ if (signInForm) signInForm.addEventListener("submit", (e)=>{
     const email = document.querySelector(".inputEmail").value;
     const password = document.querySelector(".inputPassword").value;
     (0, _login.signIn)(email, password);
+});
+if (updateUserForm) updateUserForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const form = new FormData();
+    form.append("name", document.getElementById("name").value);
+    form.append("email", document.getElementById("email").value);
+    form.append("photo", document.getElementById("photo").files[0]);
+    console.log(form);
+    try {
+        const res = await (0, _settingsBtn.updateSettings)(form);
+        console.log(res);
+    } catch (err) {
+        console.error(err);
+    }
 });
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
@@ -12164,21 +12179,46 @@ const dropDownMenu = ()=>{
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
+parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
 const settingsDiv = $(".menuItem.settings");
 const settingsMenuDiv = $(".configurationsMenu");
 const settingsBtn = $(".settingsBtn");
+const updateUserBtn = $(".settingsBtn.edit-user-info");
+const userFormUpdateData = $(".form.form-user-data");
 const settingsMenu = ()=>{
     settingsDiv.on("click", function(e) {
         e.preventDefault();
-        console.log("clicked");
         settingsMenuDiv.toggleClass("show");
     });
     settingsBtn.on("click", function(e) {
         e.preventDefault();
         settingsMenuDiv.toggleClass("show");
     });
+    updateUserBtn.on("click", function(e) {
+        e.preventDefault();
+        userFormUpdateData.toggleClass("show");
+    });
+};
+const updateSettings = async (data)=>{
+    try {
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url: "/updateUser",
+            data,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        if (res.data.status === "success") (0, _alert.showAlert)("success", ` updated successfully`);
+        return res.data;
+    } catch (err) {
+        (0, _alert.showAlert)("error", err.response.data.message);
+    }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map

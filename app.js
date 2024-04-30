@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser'); // Import bodyParser module
 
 const useRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
