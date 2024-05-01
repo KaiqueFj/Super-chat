@@ -144,12 +144,8 @@
 
 /* User update data form  */
 
-.form.form-user-data {
+.updateUserContainer {
   display: none;
-}
-
-.form.form-user-data.show {
-  display: flex;
   flex-direction: column;
   justify-content: space-around;
   min-height: 16rem;
@@ -169,8 +165,24 @@
   box-sizing: border-box;
 }
 
+.headerInfo {
+  display: flex;
+  align-items: center;
+}
+
+.headerInfo > .settingsNameHeader,
+.fa-solid.fa-arrow-left {
+  font-size: 2.2rem !important;
+}
+
+.form.form-user-data {
+  display: flex;
+  flex-direction: column;
+}
+
 .form__label {
   display: block;
+  color: var(--text-color-primary);
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
@@ -187,8 +199,8 @@
 }
 
 .form__user-photo {
-  height: 7.5rem;
-  width: 7.5rem;
+  height: 12.5rem;
+  width: 12.5rem;
   border-radius: 50%;
   margin-right: 2rem;
 }
@@ -209,6 +221,7 @@
 
 .form__upload + label {
   color: var(--chat-text-Message-color);
+  font-size: 1.6rem;
   display: inline-block;
   text-decoration: none;
   border-bottom: 1px solid var(--chat-input-border-color);
@@ -224,6 +237,54 @@
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+.form__input {
+  display: block;
+  font-size: 1.6rem;
+  color: var(--chat-text-Message-color);
+  padding: 1.25rem 1.75rem;
+  border: none;
+  background-color: var(--primary-color);
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.form__group > .btn.save {
+  border-radius: 48%;
+  background-color: var(--chat-input-border-color);
+}
+
+.form__group > .btn.save:hover {
+  background-color: var(--chat-input-border-color-hover);
+}
+
+.form__group > .btn.save > .fa-solid.fa-check {
+  color: var(--text-color-primary);
+}
+
+.form__input:focus {
+  outline: none;
+  border-bottom: 3px solid var(--chat-input-border-color);
+}
+.form__input:focus:invalid {
+  border-bottom: 3px solid #ff7730;
+}
+.form__group:first-child {
+  text-align: center;
+}
+
+.form__group:not(:last-child) {
+  margin-bottom: 2.5rem;
+}
+
+.show {
+  display: flex;
 }
 
 /* Search for users */

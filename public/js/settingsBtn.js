@@ -1,26 +1,27 @@
-const settingsDiv = $('.menuItem.settings');
-const settingsMenuDiv = $('.configurationsMenu');
-const settingsBtn = $('.settingsBtn');
-const updateUserBtn = $('.settingsBtn.edit-user-info');
-const userFormUpdateData = $('.form.form-user-data');
+const settingGearButton = $('.menuItem.settings');
+const ContainerWithUserInformations = $('.configurationsMenu');
+const returnBtn = $('.settingsBtn');
+const OpenContainerUpdateUserBtn = $('.settingsBtn.edit-user-info');
+const ContainerToUpdateUser = $('.updateUserContainer');
+
 import axios from 'axios';
 import { showAlert } from './alert';
 
 export const settingsMenu = () => {
-  settingsDiv.on('click', function (e) {
+  settingGearButton.on('click', function (e) {
     e.preventDefault();
 
-    settingsMenuDiv.toggleClass('show');
+    ContainerWithUserInformations.toggleClass('show');
   });
 
-  settingsBtn.on('click', function (e) {
+  returnBtn.on('click', function (e) {
     e.preventDefault();
-    settingsMenuDiv.toggleClass('show');
+    ContainerWithUserInformations.toggleClass('show');
   });
 
-  updateUserBtn.on('click', function (e) {
+  OpenContainerUpdateUserBtn.on('click', function (e) {
     e.preventDefault();
-    userFormUpdateData.toggleClass('show');
+    ContainerToUpdateUser.toggleClass('show');
   });
 };
 

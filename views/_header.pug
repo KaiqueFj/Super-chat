@@ -43,22 +43,29 @@ header.header
                 span.userName-settings ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
 
 
-            //- form to update users 
-          form.form.form-user-data
-            .form__group
-              img.form__user-photo(src=`/images/user/${user.photo}`, alt='User photo')
-              input.form__upload.img(type= 'file', accept='image/*', id='photo', name='photo')
-              label(for='photo') Choose new photo
-            .form__group                
-              label.form__label(for='name') Name
-              input#name.form__input.username(type='text', value=`${user.name}`, required, name='name')
-            .form__group
-              label.form__label(for='email') Email address
-              input#email.form__input.email(type='email', value=`${user.email}`, required, name='email')
 
-            .form__group.right
-              button.btn.save
-                i.fa-solid.fa-check
+            //- form to update users 
+          .updateUserContainer
+            .headerInfo
+              button.settingsBtn
+                i.fa-solid.fa-arrow-left
+              span.settingsNameHeader Edit profile
+
+            form.form.form-user-data
+              .form__group
+                img.form__user-photo(src=`/images/user/${user.photo}`, alt='User photo')
+                input.form__upload.img(type= 'file', accept='image/*', id='photo', name='photo')
+                label(for='photo') Choose new photo
+              .form__group                
+                label.form__label(for='name') Name
+                input#name.form__input.username(type='text', value=`${user.name}`, required, name='name')
+              .form__group
+                label.form__label(for='email') Email address
+                input#email.form__input.email(type='email', value=`${user.email}`, required, name='email')
+
+              .form__group.right
+                button.btn.save
+                  i.fa-solid.fa-check
 
 
         .searchForUsers
