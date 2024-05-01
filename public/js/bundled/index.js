@@ -12196,6 +12196,7 @@ const settingsMenu = ()=>{
     returnBtn.on("click", function(e) {
         e.preventDefault();
         ContainerWithUserInformations.toggleClass("show");
+        ContainerToUpdateUser.removeClass("show");
     });
     OpenContainerUpdateUserBtn.on("click", function(e) {
         e.preventDefault();
