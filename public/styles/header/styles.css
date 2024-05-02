@@ -421,65 +421,33 @@ textarea:focus {
   font-size: 2rem;
 }
 
-.fa-regular.fa-sun {
-  color: var(--icon-sun);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-}
-
-.fa-solid.fa-moon {
-  display: none;
-  font-size: 1.7rem;
-  padding: 0.5rem;
-}
-
-.fa-solid.fa-bars {
-  color: var(--icon-colors);
-  font-size: 1.7rem;
-}
-
-.fa-solid.fa-arrow-right-from-bracket {
-  color: var(--icon-colors);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-  margin-left: auto;
-}
-
-.fa-solid.fa-gear {
-  color: var(--icon-colors);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-  margin-left: auto;
-}
-
-.fa-solid.fa-arrow-left {
-  color: var(--icon-colors);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-  margin-left: auto;
-}
-
-.fa-regular.fa-pen-to-square {
-  color: var(--icon-colors);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-  margin-left: auto;
-}
-
-.fa-solid.fa-phone {
-  color: var(--icon-colors);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-}
-
-.fa-solid.fa-message {
-  color: var(--icon-colors);
-  font-size: 1.7rem;
-  padding: 0.5rem;
-}
-
+.fa-regular.fa-sun,
+.fa-solid.fa-moon,
+.fa-solid.fa-bars,
+.fa-solid.fa-arrow-right-from-bracket,
+.fa-solid.fa-gear,
+.fa-solid.fa-arrow-left,
+.fa-regular.fa-pen-to-square,
+.fa-solid.fa-phone,
+.fa-solid.fa-message,
 .fa-solid.fa-check {
   color: var(--icon-colors);
   font-size: 1.7rem;
   padding: 0.5rem;
+}
+
+.fa-regular.fa-sun {
+  color: var(--icon-sun);
+}
+
+.fa-solid.fa-moon {
+  display: none;
+  color: var(--icon-sun);
+}
+
+.fa-solid.fa-arrow-right-from-bracket,
+.fa-solid.fa-gear,
+.fa-solid.fa-arrow-left,
+.fa-regular.fa-pen-to-square {
+  margin-left: auto;
 }
