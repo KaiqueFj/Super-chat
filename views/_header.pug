@@ -40,7 +40,7 @@ header.header
 
               .listUserItems
                 i.fa-solid.fa-message
-                span.userName-settings ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                span.userName-settings=user.biography
 
 
 
@@ -62,6 +62,9 @@ header.header
               .form__group
                 label.form__label(for='email') Email address
                 input#email.form__input.email(type='email', value=`${user.email}`, required, name='email')
+              .form__group
+                label.form__label(for='biography') Biography
+                textarea#biography.form__input.biography(type='text', required, name='biography') #{user.biography}
 
               .form__group.right
                 button.btn.save

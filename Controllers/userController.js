@@ -54,15 +54,19 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
   //2- Filtered out unwanted field names
-  const filteredBody = filterObj(req.body, 'name', 'email');
+  const filteredBody = filterObj(req.body, 'name', 'email', 'biography');
 
   if (req.file) filteredBody.photo = req.file.filename;
+
+  console.log(filteredBody);
 
   //2- update user data
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
   });
+
+  console.log(updatedUser);
 
   res.status(200).json({
     status: 'success',

@@ -16,10 +16,9 @@ router.get(
   viewController.getChatPage
 );
 
-router.use(authController.protect);
-
 router.patch(
   '/updateUser',
+  authController.protect,
   userController.uploadUserPhoto,
   userController.resizeUserPhoto,
   userController.updateMe,

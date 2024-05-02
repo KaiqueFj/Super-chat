@@ -42,6 +42,7 @@ if (updateUserForm) {
     const form = new FormData();
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
+    form.append('biography', document.getElementById('biography').value);
     form.append('photo', document.getElementById('photo').files[0]);
 
     console.log(form);

@@ -16,7 +16,7 @@ export const signUp = async (name, email, password) => {
     if (res.data.status === 'success') {
       showAlert('success', 'created an account successfully! ');
       window.setTimeout(() => {
-        location.assign('/');
+        location.assign('/login');
       }, 1500);
     }
   } catch (err) {

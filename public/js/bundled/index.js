@@ -614,6 +614,7 @@ if (updateUserForm) updateUserForm.addEventListener("submit", async (e)=>{
     const form = new FormData();
     form.append("name", document.getElementById("name").value);
     form.append("email", document.getElementById("email").value);
+    form.append("biography", document.getElementById("biography").value);
     form.append("photo", document.getElementById("photo").files[0]);
     console.log(form);
     try {
@@ -7631,7 +7632,7 @@ const signUp = async (name, email, password)=>{
         if (res.data.status === "success") {
             (0, _alert.showAlert)("success", "created an account successfully! ");
             window.setTimeout(()=>{
-                location.assign("/");
+                location.assign("/login");
             }, 1500);
         }
     } catch (err) {

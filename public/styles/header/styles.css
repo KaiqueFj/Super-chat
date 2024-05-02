@@ -239,6 +239,13 @@
   transform: translateY(-2px);
 }
 
+.form__input#biography {
+  resize: none;
+  overflow: hidden;
+  height: auto;
+  min-height: 10rem;
+}
+
 .form__input {
   display: block;
   font-size: 1.6rem;
@@ -269,6 +276,11 @@
 }
 
 .form__input:focus {
+  outline: none;
+  border-bottom: 3px solid var(--chat-input-border-color);
+}
+
+textarea:focus {
   outline: none;
   border-bottom: 3px solid var(--chat-input-border-color);
 }
