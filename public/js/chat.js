@@ -185,11 +185,17 @@ function handleUserClick() {
     const target = $(e.target).closest('.users');
     const userName = target.find('.userName').text();
     const userID = target.data('user-room');
+    const userPhoto = target.find('.user-img').attr('src'); // Get the src attribute of the user's image
+
+    console.log(userPhoto);
+
     const room = createRoomID(userClientId, userID);
     userReceived = userName;
     roomName = room;
 
     $('.userNameSelected').text(userName);
+    $('.user-img.selected').attr('src', userPhoto);
+
     $('.users').removeClass('selected');
     target.addClass('selected');
     socket.emit('getUserMessageFromDatabase', roomName);

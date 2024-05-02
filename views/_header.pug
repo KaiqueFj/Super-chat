@@ -2,6 +2,10 @@ header.header
   if user
     .chatHeader
       .leftHeader
+
+
+
+
         .dropDownMenuList
           button.dropBtn
             i.fa-solid.fa-bars
@@ -72,16 +76,16 @@ header.header
 
 
         .searchForUsers
+
           input.searchInputUsers(type="text"  placeholder="Search")
           i.fa-solid.fa-magnifying-glass
-
 
 
       .rightHeader
         .userSelectedChat
           .userContainer
             .userInfo
-              img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
+              img.user-img.selected
               span.userNameSelected
           .buttonSearch
             form.searchForm(action="")
