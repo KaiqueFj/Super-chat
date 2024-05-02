@@ -30,6 +30,7 @@
   --input-placeholder-background-color: rgb(44, 44, 44);
   --color-default-shadow: rgb(16, 16, 16, 0.612);
   --color-default-no-shadow: rgb(16, 16, 16);
+  --color-gray-hover: rgb(44, 44, 44);
 
   /* Left menu */
   --chat-leftMenu-bgColor: #595959.;

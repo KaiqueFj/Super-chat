@@ -46,77 +46,67 @@
   transition: background-color 1s ease-in-out;
 }
 
-.dropDownItems {
+.dropDownItems,
+.updateUserContainer {
   display: none;
 }
 
-.dropDownItems.show {
+.dropDownItems.show,
+.configurationsMenu.show,
+.updateUserContainer.show {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  min-height: 16rem;
   position: absolute;
-  top: 4.7rem !important;
+  top: 5rem !important;
   left: 1rem !important;
-  background: var(--chat-leftMenu-dropDownMenu-bgColor);
   border-radius: 16px;
   backdrop-filter: blur(10px);
-  transform-origin: left top;
+  min-height: 28rem;
+  width: 26rem;
   padding: 0.2rem;
   z-index: 1;
+  transform: scale(1);
+  background: var(--color-default-no-shadow);
   box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
+  transition: all 1s;
 }
 
 .menuItem {
   display: flex;
   align-items: center;
-  height: fit-content;
   margin: 0.125rem 0.25rem;
   border: none;
-  border-radius: 10px;
   padding: 0.7rem;
+  border-radius: 10px;
   transition: background-color 0.3s;
 }
 
+.menuItem:hover {
+  background: var(--color-gray-hover);
+}
+
 .menuItemName {
-  font-size: 1.475rem;
+  font-size: 2rem;
   font-weight: 500;
   text-align: left;
   text-wrap: nowrap;
   color: var(--text-color-primary);
 }
 
-.menuItem:hover {
-  background: var(--chat-container-background-color);
-}
-
 .configurationsMenu {
   display: none;
-}
-
-.configurationsMenu.show {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  min-height: 16rem;
-  position: absolute;
-  top: 4.7rem !important;
-  left: 1rem !important;
-  background: var(--color-default-no-shadow);
-  border-radius: 16px;
-  padding: 0.2rem;
-  z-index: 1;
-  box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
 }
 
 .headerInfo-settings {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 
 .settingsNameHeader {
-  font-size: 1.6rem;
+  font-size: 2.2rem;
   font-weight: bold;
   color: var(--chat-text-Message-color);
 }
@@ -125,54 +115,43 @@
   display: flex;
   flex-direction: column;
   padding: 0.8rem;
+  margin: 0.2rem;
 }
 
 .listUserItems {
   padding: 0.8rem;
+  margin: 0.2rem;
 }
 
 .user-img-settings {
   height: 20rem;
   width: 20rem;
+  align-self: center;
+  border-radius: 50%;
 }
 
 .userName-settings {
-  font-size: 1.6rem;
-  font-weight: bold;
+  font-size: 1.8rem;
+  font-weight: 500;
+  padding: 0.5rem;
   color: var(--chat-text-Message-color);
 }
 
 /* User update data form  */
-
-.updateUserContainer {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  min-height: 16rem;
-  position: absolute;
-  top: 4.7rem !important;
-  left: 1rem !important;
-  background: var(--color-default-no-shadow);
-  border-radius: 16px;
-  padding: 0.2rem;
-  z-index: 1;
-  box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
-  font-size: 1.5rem;
-  padding: 1.25rem 1.75rem;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
 
 .headerInfo {
   display: flex;
   align-items: center;
 }
 
-.headerInfo > .settingsNameHeader,
-.fa-solid.fa-arrow-left {
+.settingsNameHeader,
+.fa-solid.fa-arrow-left,
+.fa-regular.fa-pen-to-square {
   font-size: 2.2rem !important;
+}
+
+.updateUserContainer.show {
+  width: 30rem !important;
 }
 
 .form.form-user-data {
@@ -183,8 +162,8 @@
 .form__label {
   display: block;
   color: var(--text-color-primary);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: 500;
   margin-bottom: 0.75rem;
 }
 
@@ -202,7 +181,6 @@
   height: 12.5rem;
   width: 12.5rem;
   border-radius: 50%;
-  margin-right: 2rem;
 }
 
 .form__upload {
@@ -221,18 +199,18 @@
 
 .form__upload + label {
   color: var(--chat-text-Message-color);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   display: inline-block;
   text-decoration: none;
   border-bottom: 1px solid var(--chat-input-border-color);
-  padding: 3px;
+  padding: 0.2rem;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
   cursor: pointer;
 }
 .form__upload + label:hover {
   background-color: var(--chat-input-border-color);
-  color: #fff;
+  color: var(--text-color-primary);
   -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
@@ -250,21 +228,20 @@
   display: block;
   font-size: 1.6rem;
   color: var(--chat-text-Message-color);
-  padding: 1.25rem 1.75rem;
+  padding: 1.25rem 2.75rem;
   border: none;
   background-color: var(--primary-color);
   border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
-  -webkit-transition: all 0.3s;
   transition: all 0.3s;
   border-radius: 4px;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 .form__group > .btn.save {
   border-radius: 48%;
   background-color: var(--chat-input-border-color);
+  padding: 1.7rem;
 }
 
 .form__group > .btn.save:hover {
@@ -446,6 +423,7 @@ textarea:focus {
 }
 
 .fa-solid.fa-arrow-right-from-bracket,
+.fa-regular.fa-sun,
 .fa-solid.fa-gear,
 .fa-solid.fa-arrow-left,
 .fa-regular.fa-pen-to-square {
