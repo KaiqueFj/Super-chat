@@ -82,6 +82,7 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
       const copyIcon = $('<i>').addClass('fa-solid fa-copy');
       const editIcon = $('<i>').addClass('fa-solid fa-pencil');
       const deleteIcon = $('<i>').addClass('fa-solid fa-trash-can');
+      const checkIcon = $('<i>').addClass('fa-solid fa-check');
 
       const copyButton = $('<div>')
         .text('Copy text')
@@ -122,20 +123,36 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
           .find('.spanMessage')
           .text();
 
-        const editedMessage = prompt('Edit message:', currentMessage);
-        if (editedMessage !== null && editedMessage.trim() !== '') {
-          $(this)
-            .closest('.messageContainer')
-            .find('.spanMessage')
-            .text(editedMessage);
+        const messageContainer = $(this).closest('.messageContainer');
+        const editInput = $('<input>')
+          .attr('type', 'text')
+          .val(currentMessage)
+          .addClass('edit-messageInput');
 
-          const messageID = $(this)
-            .closest('.messageContainer')
-            .find('.spanMessage')
-            .attr('data-message');
+        const editButton = $('<button>')
+          .prepend(checkIcon)
+          .addClass('edit-messageBtn');
 
-          socket.emit('edit-message', { messageID, editedMessage });
-        }
+        const editForm = $('<form>')
+          .append(editInput, editButton)
+          .addClass('edit-messageForm');
+
+        messageContainer.find('.spanMessage').hide();
+        messageContainer.append(editForm);
+
+        editButton.on('click', (e) => {
+          e.preventDefault();
+          const editedMessage = editInput.val().trim();
+          if (editedMessage !== '') {
+            messageContainer.find('.spanMessage').text(editedMessage).show();
+            editForm.remove();
+
+            const messageID = messageContainer
+              .find('.spanMessage')
+              .attr('data-message');
+            socket.emit('edit-message', { messageID, editedMessage });
+          }
+        });
 
         newContextMenu.remove();
       });

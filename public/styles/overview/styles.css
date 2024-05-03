@@ -107,6 +107,34 @@
   padding: 1rem;
 }
 
+.edit-messageForm {
+  display: flex;
+  flex-direction: row;
+  border: none;
+}
+
+.edit-messageInput {
+  background: none;
+  font-size: 1.6rem;
+  color: var(--text-color-primary);
+  border: none;
+  padding: 0.8rem 0.8rem;
+  font-weight: 500;
+}
+
+.edit-messageInput:focus {
+  outline: none;
+  border-bottom: var(--text-color-primary) 2px solid;
+}
+
+.edit-messageBtn {
+  background: var(--text-color-primary);
+  border: none;
+  border-radius: 50%;
+  padding: 0.6rem 0.6rem;
+  color: var(--primary-color);
+}
+
 .messageList {
   list-style: none;
   display: flex;
@@ -241,6 +269,10 @@
   padding: 0.4rem;
   border: none;
   align-items: center;
+}
+
+.menuItemContextMenu:last-child {
+  color: var(--red-text-color);
 }
 
 .menuItemContextMenu:hover {
