@@ -148,6 +148,7 @@ body {
 .fa-solid.fa-message,
 .fa-regular.fa-paper-plane,
 .fa-solid.fa-pencil,
+.fa-solid.fa-copy,
 .fa-solid.fa-trash-can,
 .fa-solid.fa-check {
   color: var(--icon-colors);
@@ -173,6 +174,7 @@ body {
 }
 
 .fa-solid.fa-pencil,
-.fa-solid.fa-trash-can {
+.fa-solid.fa-trash-can,
+.fa-solid.fa-copy {
   margin-right: 1.2rem;
 }

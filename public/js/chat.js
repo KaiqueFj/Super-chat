@@ -8,6 +8,7 @@ const searchInputForUsers = $('.searchInputUsers');
 const searchInputChat = $('.searchInput');
 const userSelectedToChat = $('.userSelectedChat');
 const messageFormContainer = $('.messageFormContainer');
+
 const userClientId = userLoggedInId;
 let userReceived;
 let roomName;
@@ -78,20 +79,26 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
         left: posX + 'px',
       });
 
+      const copyIcon = $('<i>').addClass('fa-solid fa-copy');
       const editIcon = $('<i>').addClass('fa-solid fa-pencil');
       const deleteIcon = $('<i>').addClass('fa-solid fa-trash-can');
+
+      const copyButton = $('<div>')
+        .text('Copy text')
+        .addClass('menuItemContextMenu')
+        .prepend(copyIcon);
 
       const editButton = $('<div>')
         .text('Edit')
         .addClass('menuItemContextMenu')
-        .prepend(editIcon); // prepend the editIcon to add it before the text
+        .prepend(editIcon);
 
       const deleteButton = $('<div>')
         .text('Delete')
         .addClass('menuItemContextMenu')
-        .prepend(deleteIcon); // prepend the deleteIcon to add it before the text
+        .prepend(deleteIcon);
 
-      newContextMenu.append(editButton).append(deleteButton);
+      newContextMenu.append(copyButton).append(editButton).append(deleteButton);
       $(this).append(newContextMenu);
 
       setTimeout(() => {
@@ -130,6 +137,18 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
           socket.emit('edit-message', { messageID, editedMessage });
         }
 
+        newContextMenu.remove();
+      });
+
+      copyButton.on('click', (e) => {
+        e.preventDefault();
+
+        const currentMessage = $(this)
+          .closest('.messageContainer')
+          .find('.spanMessage')
+          .text();
+
+        navigator.clipboard.writeText(currentMessage);
         newContextMenu.remove();
       });
     }
