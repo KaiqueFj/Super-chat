@@ -31,6 +31,7 @@
   --color-default-shadow: rgb(16, 16, 16, 0.612);
   --color-default-no-shadow: rgb(16, 16, 16);
   --color-gray-hover: rgb(44, 44, 44);
+  --context-menu-bg: rgb(33, 33, 33, 0.867);
 
   /* Left menu */
   --chat-leftMenu-bgColor: #595959.;
@@ -126,4 +127,52 @@ body {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+}
+
+/* Icons */
+.fa-solid.fa-magnifying-glass {
+  color: var(--icon-colors);
+  font-size: 2rem;
+}
+
+/* Icons */
+
+.fa-regular.fa-sun,
+.fa-solid.fa-moon,
+.fa-solid.fa-bars,
+.fa-solid.fa-arrow-right-from-bracket,
+.fa-solid.fa-gear,
+.fa-solid.fa-arrow-left,
+.fa-regular.fa-pen-to-square,
+.fa-solid.fa-phone,
+.fa-solid.fa-message,
+.fa-regular.fa-paper-plane,
+.fa-solid.fa-pencil,
+.fa-solid.fa-trash-can,
+.fa-solid.fa-check {
+  color: var(--icon-colors);
+  font-size: 1.7rem;
+  padding: 0.5rem;
+}
+
+.fa-regular.fa-sun {
+  color: var(--icon-sun);
+}
+
+.fa-solid.fa-moon {
+  display: none;
+  color: var(--icon-sun);
+}
+
+.fa-solid.fa-arrow-right-from-bracket,
+.fa-regular.fa-sun,
+.fa-solid.fa-gear,
+.fa-solid.fa-arrow-left,
+.fa-regular.fa-pen-to-square {
+  margin-left: auto;
+}
+
+.fa-solid.fa-pencil,
+.fa-solid.fa-trash-can {
+  margin-right: 1.2rem;
 }

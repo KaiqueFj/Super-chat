@@ -78,12 +78,18 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
         left: posX + 'px',
       });
 
-      const editButton = $('<button>')
+      const editIcon = $('<i>').addClass('fa-solid fa-pencil');
+      const deleteIcon = $('<i>').addClass('fa-solid fa-trash-can');
+
+      const editButton = $('<div>')
         .text('Edit')
-        .addClass('menuItemContextMenu');
-      const deleteButton = $('<button>')
+        .addClass('menuItemContextMenu')
+        .prepend(editIcon); // prepend the editIcon to add it before the text
+
+      const deleteButton = $('<div>')
         .text('Delete')
-        .addClass('menuItemContextMenu');
+        .addClass('menuItemContextMenu')
+        .prepend(deleteIcon); // prepend the deleteIcon to add it before the text
 
       newContextMenu.append(editButton).append(deleteButton);
       $(this).append(newContextMenu);
