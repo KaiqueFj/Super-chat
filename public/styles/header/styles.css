@@ -162,7 +162,7 @@
 .form__label {
   display: block;
   color: var(--text-color-primary);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 500;
   margin-bottom: 0.75rem;
 }
@@ -178,8 +178,8 @@
 }
 
 .form__user-photo {
-  height: 12.5rem;
-  width: 12.5rem;
+  height: 11rem;
+  width: 11rem;
   border-radius: 50%;
 }
 
@@ -199,8 +199,8 @@
 
 .form__upload + label {
   color: var(--chat-text-Message-color);
-  font-size: 1.8rem;
-  display: inline-block;
+  font-size: 1.6rem;
+  display: block;
   text-decoration: none;
   border-bottom: 1px solid var(--chat-input-border-color);
   padding: 0.2rem;
@@ -226,9 +226,9 @@
 
 .form__input {
   display: block;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: var(--chat-text-Message-color);
-  padding: 1.25rem 2.75rem;
+  padding: 1.25rem 2.5rem;
   border: none;
   background-color: var(--primary-color);
   border-top: 3px solid transparent;
@@ -241,7 +241,7 @@
 .form__group > .btn.save {
   border-radius: 48%;
   background-color: var(--chat-input-border-color);
-  padding: 1.7rem;
+  padding: 1.6rem;
 }
 
 .form__group > .btn.save:hover {
@@ -269,7 +269,7 @@ textarea:focus {
 }
 
 .form__group:not(:last-child) {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.6rem;
 }
 
 .show {

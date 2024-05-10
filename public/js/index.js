@@ -15,6 +15,9 @@ const updateUserForm = document.querySelector('.form-user-data');
 const userPhoto = document.querySelector('.form__user-photo');
 const userPhotoConfig = document.querySelector('.user-img-settings');
 const photoInput = document.getElementById('photo');
+const userBiography = document.querySelector(
+  '.userName-settings.userBiography'
+);
 
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
@@ -59,6 +62,8 @@ if (updateUserForm) {
     form.append('email', document.getElementById('email').value);
     form.append('biography', document.getElementById('biography').value);
     form.append('photo', document.getElementById('photo').files[0]);
+
+    userBiography.textContent = document.getElementById('biography').value;
 
     await updateSettings(form);
   });
