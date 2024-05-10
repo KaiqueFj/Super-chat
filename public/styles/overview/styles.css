@@ -36,9 +36,9 @@
   margin-bottom: 0.8rem;
   border-radius: 10px;
   grid-template-areas:
-    'imageProfile userName . messageTime'
-    'imageProfile userMessage userMessage userMessage'
-    'imageProfile . . ...';
+    'imageProfile userName  messageTime'
+    'imageProfile userMessage userMessage '
+    'imageProfile ... ...';
 }
 
 .users:hover {
@@ -50,6 +50,11 @@
   transition: background-color 0.4s ease-in-out;
 
   outline: none;
+}
+
+.users > .userName,
+.userMessage {
+  align-self: self-start;
 }
 
 .users > .user-img {

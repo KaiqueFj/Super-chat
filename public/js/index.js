@@ -12,6 +12,9 @@ const signUpForm = document.querySelector('.userSignIn');
 const signInForm = document.querySelector('.userLogIn');
 const logoutBtn = document.querySelector('.menuItem.logout');
 const updateUserForm = document.querySelector('.form-user-data');
+const userPhoto = document.querySelector('.form__user-photo');
+const userPhotoConfig = document.querySelector('.user-img-settings');
+const photoInput = document.getElementById('photo');
 
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
@@ -37,6 +40,18 @@ if (signInForm) {
 }
 
 if (updateUserForm) {
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      userPhoto.src = e.target.result;
+      userPhotoConfig.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  });
+
   updateUserForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = new FormData();
@@ -45,14 +60,7 @@ if (updateUserForm) {
     form.append('biography', document.getElementById('biography').value);
     form.append('photo', document.getElementById('photo').files[0]);
 
-    console.log(form);
-
-    try {
-      const res = await updateSettings(form);
-      console.log(res);
-    } catch (err) {
-      console.error(err);
-    }
+    await updateSettings(form);
   });
 }
 

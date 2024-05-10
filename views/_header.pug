@@ -68,7 +68,7 @@ header.header
                 input#email.form__input.email(type='email', value=`${user.email}`, required, name='email')
               .form__group
                 label.form__label(for='biography') Biography
-                textarea#biography.form__input.biography(type='text', required, name='biography') #{user.biography}
+                textarea#biography.form__input.biography(type='text', name='biography') #{user.biography}
 
               .form__group.right
                 button.btn.save

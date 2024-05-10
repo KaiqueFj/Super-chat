@@ -595,6 +595,9 @@ const signUpForm = document.querySelector(".userSignIn");
 const signInForm = document.querySelector(".userLogIn");
 const logoutBtn = document.querySelector(".menuItem.logout");
 const updateUserForm = document.querySelector(".form-user-data");
+const userPhoto = document.querySelector(".form__user-photo");
+const userPhotoConfig = document.querySelector(".user-img-settings");
+const photoInput = document.getElementById("photo");
 if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
 if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -609,21 +612,26 @@ if (signInForm) signInForm.addEventListener("submit", (e)=>{
     const password = document.querySelector(".inputPassword").value;
     (0, _login.signIn)(email, password);
 });
-if (updateUserForm) updateUserForm.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    const form = new FormData();
-    form.append("name", document.getElementById("name").value);
-    form.append("email", document.getElementById("email").value);
-    form.append("biography", document.getElementById("biography").value);
-    form.append("photo", document.getElementById("photo").files[0]);
-    console.log(form);
-    try {
-        const res = await (0, _settingsBtn.updateSettings)(form);
-        console.log(res);
-    } catch (err) {
-        console.error(err);
-    }
-});
+if (updateUserForm) {
+    photoInput.addEventListener("change", ()=>{
+        const file = photoInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            userPhoto.src = e.target.result;
+            userPhotoConfig.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+    updateUserForm.addEventListener("submit", async (e)=>{
+        e.preventDefault();
+        const form = new FormData();
+        form.append("name", document.getElementById("name").value);
+        form.append("email", document.getElementById("email").value);
+        form.append("biography", document.getElementById("biography").value);
+        form.append("photo", document.getElementById("photo").files[0]);
+        await (0, _settingsBtn.updateSettings)(form);
+    });
+}
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
 (0, _settingsBtn.settingsMenu)();
@@ -12179,8 +12187,8 @@ const dropDownMenu = ()=>{
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"p6Ksx":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
 parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
+parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alert = require("./alert");
@@ -12189,21 +12197,7 @@ const ContainerWithUserInformations = $(".configurationsMenu");
 const returnBtn = $(".settingsBtn");
 const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
 const ContainerToUpdateUser = $(".updateUserContainer");
-const settingsMenu = ()=>{
-    settingGearButton.on("click", function(e) {
-        e.preventDefault();
-        ContainerWithUserInformations.toggleClass("show");
-    });
-    returnBtn.on("click", function(e) {
-        e.preventDefault();
-        ContainerWithUserInformations.toggleClass("show");
-        ContainerToUpdateUser.removeClass("show");
-    });
-    OpenContainerUpdateUserBtn.on("click", function(e) {
-        e.preventDefault();
-        ContainerToUpdateUser.toggleClass("show");
-    });
-};
+const userPhoto = $(`.form__user-photo`);
 const updateSettings = async (data)=>{
     try {
         const res = await (0, _axiosDefault.default)({
@@ -12219,6 +12213,21 @@ const updateSettings = async (data)=>{
     } catch (err) {
         (0, _alert.showAlert)("error", err.response.data.message);
     }
+};
+const settingsMenu = ()=>{
+    settingGearButton.on("click", function(e) {
+        e.preventDefault();
+        ContainerWithUserInformations.toggleClass("show");
+    });
+    returnBtn.on("click", function(e) {
+        e.preventDefault();
+        ContainerWithUserInformations.toggleClass("show");
+        ContainerToUpdateUser.removeClass("show");
+    });
+    OpenContainerUpdateUserBtn.on("click", function(e) {
+        e.preventDefault();
+        ContainerToUpdateUser.toggleClass("show");
+    });
 };
 
 },{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
