@@ -48,6 +48,22 @@ exports.chatFeatures = (io) => {
         socket.emit('error', 'Could not send the message properly');
       }
     });
+
+    socket.on('getUserLastMessages', async () => {
+      try {
+        const userMessages = await Message.find({
+          room: roomName,
+        });
+
+        const lastMessage = userMessages[userMessages.length - 1];
+        if (lastMessage) {
+          socket.emit('last-message', lastMessage);
+        }
+      } catch (err) {
+        socket.emit('error', 'Could not load the messages properly');
+      }
+    });
+
     // Handle fetching user messages from the database
     socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {
@@ -60,6 +76,7 @@ exports.chatFeatures = (io) => {
         socket.emit('error', 'Could not load the messages properly');
       }
     });
+
     socket.on('getUserMessageSearched', async (roomName, messagesUser) => {
       try {
         let searchedMessage;
@@ -74,6 +91,7 @@ exports.chatFeatures = (io) => {
         socket.emit('error', 'Could not load the messages properly');
       }
     });
+
     socket.on('delete-message', async (messageID) => {
       try {
         const result = await Message.deleteOne({
@@ -89,6 +107,7 @@ exports.chatFeatures = (io) => {
         console.error('Error deleting message:', error);
       }
     });
+
     socket.on('edit-message', async ({ messageID, editedMessage }) => {
       try {
         const updatedMessage = await Message.findByIdAndUpdate(

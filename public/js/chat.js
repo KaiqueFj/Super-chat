@@ -14,6 +14,12 @@ let userReceived;
 let roomName;
 let allUsers = [];
 
+function formattedTime(date) {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
 // Function to scroll the chat to the bottom
 function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
@@ -40,12 +46,6 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
     .attr('data-message', messageID);
 
   const createdAtDate = new Date(createdAt);
-
-  const formattedTime = (date) => {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-  };
 
   const formattedTimeResult = formattedTime(createdAtDate);
 
@@ -229,8 +229,6 @@ function handleUserClick() {
     const userID = target.data('user-room');
     const userPhoto = target.find('.user-img').attr('src'); // Get the src attribute of the user's image
 
-    console.log(userPhoto);
-
     const room = createRoomID(userClientId, userID);
     userReceived = userName;
     roomName = room;
@@ -307,12 +305,6 @@ function updateSearchResults(searchedUserData, searchedMessageData) {
 function createUserElement(user, message, createdAt) {
   const createdAtDate = new Date(createdAt);
 
-  const formattedTime = (date) => {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-  };
-
   const formattedTimeResult = formattedTime(createdAtDate);
 
   const userName = $('<span>').addClass('userName').text(user.name);
@@ -360,12 +352,25 @@ function renderAllUsers() {
 
 // Listen for incoming messages from the server
 socket.on('received-message', (message) => {
+  $('.users').each(function () {
+    const roomID = userClientId + '_' + $(this).data('user-room');
+    if (roomID === message.room) {
+      // Compare with the room ID
+      const messageContainer = $(this);
+      messageContainer.find('.userMessage').text(message.message);
+      const formatTime = new Date(message.createdAt);
+      const formFinal = formattedTime(formatTime);
+      messageContainer.find('.messageTime').text(formFinal);
+    }
+  });
+
   displayMessageInChat(
     message.message,
     message._id,
     message.user,
     message.createdAt
   );
+
   scrollToBottom();
 });
 
@@ -408,4 +413,5 @@ handleUserClick();
 // Initialize user search handler
 handleUserSearch();
 
+// Initialize the search for users  handler
 handleUserSearchForUsers();
