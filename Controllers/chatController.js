@@ -2,9 +2,11 @@ const jwt = require('jsonwebtoken');
 const Message = require('../Model/messageModel');
 const { promisify } = require('util');
 const User = require('../Model/userModel');
+
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
 }
+
 const getUserIDFromToken = async (socket) => {
   try {
     const token = socket.handshake.headers.cookie.split('=')[1];
@@ -22,6 +24,7 @@ const getUserIDFromToken = async (socket) => {
     return null;
   }
 };
+
 exports.chatFeatures = (io) => {
   io.on('connection', async (socket) => {
     // Handle sending messages
@@ -29,7 +32,6 @@ exports.chatFeatures = (io) => {
       try {
         const userID = await getUserIDFromToken(socket);
         const userSender = await User.findById(userID);
-        // Create a new message object
         const newMessage = new Message({
           message: message.message,
           room: message.room,
@@ -39,9 +41,7 @@ exports.chatFeatures = (io) => {
           isOwner: true,
         });
         await newMessage.save();
-        // Emit the saved message to the room
         io.to(message.room).emit('received-message', newMessage);
-        // Fetch messages for the specific room and emit them to the sender
         io.to(message.room).emit('getUserMessageFromDatabase', message.room);
       } catch (err) {
         console.error('Error sending message:', err);
@@ -49,28 +49,10 @@ exports.chatFeatures = (io) => {
       }
     });
 
-    socket.on('getUserLastMessages', async () => {
-      try {
-        const userMessages = await Message.find({
-          room: roomName,
-        });
-
-        const lastMessage = userMessages[userMessages.length - 1];
-        if (lastMessage) {
-          socket.emit('last-message', lastMessage);
-        }
-      } catch (err) {
-        socket.emit('error', 'Could not load the messages properly');
-      }
-    });
-
     // Handle fetching user messages from the database
     socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {
-        // Fetch messages for the specific user in the room
-        const userMessages = await Message.find({
-          room: roomName,
-        });
+        const userMessages = await Message.find({ room: roomName });
         socket.emit('getUsersMessage', userMessages);
       } catch (err) {
         socket.emit('error', 'Could not load the messages properly');
@@ -94,9 +76,7 @@ exports.chatFeatures = (io) => {
 
     socket.on('delete-message', async (messageID) => {
       try {
-        const result = await Message.deleteOne({
-          _id: messageID,
-        });
+        const result = await Message.deleteOne({ _id: messageID });
         if (result.deletedCount > 0) {
           console.log('Message deleted successfully.');
           io.emit('message-deleted', messageID);
@@ -140,14 +120,12 @@ exports.chatFeatures = (io) => {
             userReceiver: { $regex: new RegExp(escapeRegExp(UserName), 'i') },
           }).select('message createdAt');
 
-          // Combine user information into one array
           searchedUserData = searchedUsers.map((user) => ({
             id: user._id,
             name: user.name,
             photo: user.photo,
           }));
 
-          // Combine message information into one array
           searchedMessageData = searchedMessages.map((message) => ({
             message: message.message,
             createdAt: message.createdAt,
@@ -167,7 +145,7 @@ exports.chatFeatures = (io) => {
     // Socket method used to join rooms
     socket.on('join-room', (room, cb) => {
       socket.join(room);
-      cb(`Joined ${room} chat`);
+      cb(`Joined ${room} chat`);
     });
 
     // Handle disconnections

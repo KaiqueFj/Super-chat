@@ -21,7 +21,7 @@ block content
             .users(data-user-room=user.id) 
               img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
               span.userName= user.name 
-              if user.messages &&   user.messages.length > 0
+              if user.messages &&  user.messages.length > 0
                 - const lastMessage = user.messages.sort((a, b) => b.createdAt - a.createdAt)[0]
                 span.userMessage= lastMessage.message
                 - const formattedTime = lastMessage.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })

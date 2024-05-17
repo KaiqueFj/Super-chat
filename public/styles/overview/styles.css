@@ -38,7 +38,7 @@
   grid-template-areas:
     'imageProfile userName  messageTime'
     'imageProfile userMessage userMessage '
-    'imageProfile ... ...';
+    'imageProfile ... notification';
 }
 
 .users:hover {
@@ -82,6 +82,17 @@
   text-align: end;
   font-size: 1.4rem;
   color: var(--text-color-secondary);
+}
+
+.roundNotification {
+  display: grid;
+  grid-area: notification;
+  background-color: var(--background-color-soft-gray);
+  color: var(--text-color-primary);
+  margin-left: auto;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 0.6rem 1.1rem;
 }
 
 /* Message in the chat */
