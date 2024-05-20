@@ -47,29 +47,34 @@
 }
 
 .dropDownItems,
+.configurationsMenu,
 .updateUserContainer {
-  display: none;
-}
-
-.dropDownItems.show,
-.configurationsMenu.show,
-.updateUserContainer.show {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   position: absolute;
-  top: 5rem !important;
-  left: 1rem !important;
+  top: 5rem;
+  left: 1rem;
   border-radius: 16px;
   backdrop-filter: blur(10px);
   min-height: 28rem;
   width: 26rem;
   padding: 0.2rem;
   z-index: 1;
-  transform: scale(1);
   background: var(--color-default-no-shadow);
   box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
-  transition: all 1s;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.dropDownItems.show,
+.configurationsMenu.show,
+.updateUserContainer.show {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .menuItem {
@@ -92,10 +97,6 @@
   text-align: left;
   text-wrap: nowrap;
   color: var(--text-color-primary);
-}
-
-.configurationsMenu {
-  display: none;
 }
 
 .headerInfo-settings {

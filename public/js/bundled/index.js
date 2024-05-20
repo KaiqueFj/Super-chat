@@ -12199,7 +12199,6 @@ const ContainerWithUserInformations = $(".configurationsMenu");
 const returnBtn = $(".settingsBtn");
 const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
 const ContainerToUpdateUser = $(".updateUserContainer");
-const userPhoto = $(`.form__user-photo`);
 const updateSettings = async (data)=>{
     try {
         const res = await (0, _axiosDefault.default)({

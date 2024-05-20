@@ -3,7 +3,6 @@ const ContainerWithUserInformations = $('.configurationsMenu');
 const returnBtn = $('.settingsBtn');
 const OpenContainerUpdateUserBtn = $('.settingsBtn.edit-user-info');
 const ContainerToUpdateUser = $('.updateUserContainer');
-const userPhoto = $(`.form__user-photo`);
 
 import axios from 'axios';
 import { showAlert } from './alert';
