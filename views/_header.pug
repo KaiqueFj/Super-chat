@@ -46,6 +46,12 @@ header.header
                 i.fa-solid.fa-message
                 span.userName-settings.userBiography=user.biography
 
+              .listUserItems
+                .notch-userConfig
+
+              .listUserItems.backgroundImg
+                i.fa-solid.fa-image
+                span.userName-settings Chat Wallpaper
 
 
             //- form to update users 
@@ -69,6 +75,22 @@ header.header
               .form__group
                 label.form__label(for='biography') Biography
                 textarea#biography.form__input.biography(type='text', name='biography') #{user.biography}
+
+              .form__group.right
+                button.btn.save
+                  i.fa-solid.fa-check
+
+
+          .updateUserContainer.chat
+            .headerInfo
+              button.settingsBtn.return
+                i.fa-solid.fa-arrow-left
+              span.settingsNameHeader Chat Wallpaper
+            form.form.form-user-data
+              .form__group
+                img.form__user-photo.chat(src=`/images/user/chat-background/${user.wallpaper}`, alt='User wallpaper')
+                input.form__upload.img(type= 'file', accept='image/*', id='wallpaper', name='wallpaper')
+                label(for='wallpaper') Choose new Wallpaper
 
               .form__group.right
                 button.btn.save

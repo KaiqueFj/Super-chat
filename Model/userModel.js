@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'default.jpg',
     },
+    wallpaper: {
+      type: String,
+      default: 'default.jpg',
+    },
   },
   {
     toJSON: { virtuals: true },

@@ -14,6 +14,7 @@ block content
     .leftMenu
       .listUser
         - const loggedInUserID = user.id
+        - console.log(user)
 
         each user in users
           - if (loggedInUserID !== user.id )
@@ -28,7 +29,7 @@ block content
                 span.messageTime= formattedTime
 
 
-    .messageFormContainer
+    .messageFormContainer(style=`background-image: url('/images/user/chat-background/${user.wallpaper}')`)
       .messagesContainer
         .messageList
 

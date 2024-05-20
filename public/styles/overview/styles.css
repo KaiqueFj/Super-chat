@@ -122,7 +122,6 @@
   margin: 0;
   height: 90%;
   width: 100%;
-  background-color: var(--chat-container-background-color);
   transition: background-color 1s ease-in-out;
 
   padding: 1rem;

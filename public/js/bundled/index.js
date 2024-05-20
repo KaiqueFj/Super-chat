@@ -599,6 +599,10 @@ const userPhoto = document.querySelector(".form__user-photo");
 const userPhotoConfig = document.querySelector(".user-img-settings");
 const photoInput = document.getElementById("photo");
 const userBiography = document.querySelector(".userName-settings.userBiography");
+const updateUserChat = document.querySelector(".updateUserContainer.chat");
+const backgroundImage = document.querySelector(".form__user-photo.chat");
+const chatBackgroundInput = document.getElementById("wallpaper");
+const backgroundOfMessageContainer = document.querySelector(".messageFormContainer");
 if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
 if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -631,9 +635,24 @@ if (updateUserForm) {
         form.append("biography", document.getElementById("biography").value);
         form.append("photo", document.getElementById("photo").files[0]);
         userBiography.textContent = document.getElementById("biography").value;
-        await (0, _settingsBtn.updateSettings)(form);
+        await (0, _settingsBtn.updateSettings)(form, "userData");
     });
 }
+if (updateUserChat) chatBackgroundInput.addEventListener("change", ()=>{
+    const file = chatBackgroundInput.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        backgroundImage.src = e.target.result;
+        backgroundOfMessageContainer.style.backgroundImage = `url(${e.target.result})`;
+    };
+    reader.readAsDataURL(file);
+});
+updateUserChat.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const form = new FormData();
+    form.append("wallpaper", document.getElementById("wallpaper").files[0]);
+    await (0, _settingsBtn.updateSettings)(form, "updateChat");
+});
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
 (0, _settingsBtn.settingsMenu)();
@@ -12199,11 +12218,14 @@ const ContainerWithUserInformations = $(".configurationsMenu");
 const returnBtn = $(".settingsBtn");
 const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
 const ContainerToUpdateUser = $(".updateUserContainer");
-const updateSettings = async (data)=>{
+const OpenChatBackgroundForm = $(".listUserItems.backgroundImg");
+const chatBackgroundUpdateForm = $(".updateUserContainer.chat");
+const updateSettings = async (data, type)=>{
     try {
+        const url = type === "userData" ? "/updateUser" : "/updateChat";
         const res = await (0, _axiosDefault.default)({
             method: "PATCH",
-            url: "/updateUser",
+            url,
             data,
             headers: {
                 "Content-Type": "multipart/form-data"
@@ -12225,9 +12247,15 @@ const settingsMenu = ()=>{
         ContainerWithUserInformations.toggleClass("show");
         ContainerToUpdateUser.removeClass("show");
     });
+    OpenChatBackgroundForm.on("click", function(e) {
+        e.preventDefault();
+        chatBackgroundUpdateForm.toggleClass("show");
+        ContainerWithUserInformations.toggleClass("show");
+    });
     OpenContainerUpdateUserBtn.on("click", function(e) {
         e.preventDefault();
         ContainerToUpdateUser.toggleClass("show");
+        chatBackgroundUpdateForm.toggleClass("show");
     });
 };
 

@@ -21,6 +21,8 @@ const upload = multer({
 
 exports.uploadUserPhoto = upload.single('photo');
 
+exports.uploadUserWallpaper = upload.single('wallpaper');
+
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
@@ -30,7 +32,21 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     .resize(550, 550)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/images/user/${req.file.filename}`);
+    .toFile(`public/images/user/profile-pic/${req.file.filename}`);
+
+  next();
+});
+
+exports.resizeUserWallpaper = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.file.filename = `wallpaper-${req.user.id}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(1920, 1080) // Assuming you want a full HD resolution for the wallpaper
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/images/user/chat-background/${req.file.filename}`);
 
   next();
 });
@@ -56,7 +72,13 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   //2- Filtered out unwanted field names
   const filteredBody = filterObj(req.body, 'name', 'email', 'biography');
 
-  if (req.file) filteredBody.photo = req.file.filename;
+  if (req.file) {
+    if (req.file.fieldname === 'photo') {
+      filteredBody.photo = req.file.filename;
+    } else if (req.file.fieldname === 'wallpaper') {
+      filteredBody.wallpaper = req.file.filename;
+    }
+  }
 
   console.log(filteredBody);
 
@@ -65,8 +87,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-
-  console.log(updatedUser);
 
   res.status(200).json({
     status: 'success',

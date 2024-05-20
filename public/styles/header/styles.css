@@ -48,7 +48,8 @@
 
 .dropDownItems,
 .configurationsMenu,
-.updateUserContainer {
+.updateUserContainer,
+.updateUserContainer.chat {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -71,7 +72,8 @@
 
 .dropDownItems.show,
 .configurationsMenu.show,
-.updateUserContainer.show {
+.updateUserContainer.show,
+.updateUserContainer.chat.show {
   transform: translateX(0);
   opacity: 1;
   pointer-events: auto;
@@ -124,6 +126,12 @@
   margin: 0.2rem;
 }
 
+.listUserItems:last-child,
+.listUserItems:hover {
+  cursor: pointer;
+  background: var(--color-gray-hover);
+}
+
 .user-img-settings {
   height: 20rem;
   width: 20rem;
@@ -136,6 +144,16 @@
   font-weight: 500;
   padding: 0.5rem;
   color: var(--chat-text-Message-color);
+}
+
+.notch-userConfig {
+  width: 100%;
+  height: 0.4rem;
+  background: var(--chat-input-border-color);
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border: 1px solid #000;
+  z-index: 1;
 }
 
 /* User update data form  */

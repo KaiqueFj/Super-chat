@@ -18,6 +18,12 @@ const photoInput = document.getElementById('photo');
 const userBiography = document.querySelector(
   '.userName-settings.userBiography'
 );
+const updateUserChat = document.querySelector('.updateUserContainer.chat');
+const backgroundImage = document.querySelector('.form__user-photo.chat');
+const chatBackgroundInput = document.getElementById('wallpaper');
+const backgroundOfMessageContainer = document.querySelector(
+  '.messageFormContainer'
+);
 
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
@@ -65,9 +71,30 @@ if (updateUserForm) {
 
     userBiography.textContent = document.getElementById('biography').value;
 
-    await updateSettings(form);
+    await updateSettings(form, 'userData');
   });
 }
+
+if (updateUserChat) {
+  chatBackgroundInput.addEventListener('change', () => {
+    const file = chatBackgroundInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      backgroundImage.src = e.target.result;
+      backgroundOfMessageContainer.style.backgroundImage = `url(${e.target.result})`;
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+updateUserChat.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = new FormData();
+  form.append('wallpaper', document.getElementById('wallpaper').files[0]);
+  await updateSettings(form, 'updateChat');
+});
 
 toggleBackground();
 dropDownMenu();
