@@ -64,45 +64,38 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
     if (contextMenu.length) {
       contextMenu.remove();
     } else {
-      const containerPos = $(this).offset();
-      const containerHeight = $(this).outerHeight();
       const posX = event.clientX;
-      const posY = containerPos.top + containerHeight - 50;
+      const posY = $(this).offset().top + $(this).outerHeight() - 50;
 
-      const newContextMenu = $('<div>').addClass('contextMenu');
-      newContextMenu.css({ top: posY + 'px', left: posX + 'px' });
+      const newContextMenu = $('<div>')
+        .addClass('contextMenu')
+        .css({ top: posY + 'px', left: posX + 'px' });
 
-      const copyIcon = $('<i>').addClass('fa-solid fa-copy');
-      const editIcon = $('<i>').addClass('fa-solid fa-pencil');
-      const deleteIcon = $('<i>').addClass('fa-solid fa-trash-can');
-      const checkIcon = $('<i>').addClass('fa-solid fa-check');
+      const createMenuItem = (text, iconClass) => {
+        return $('<div>')
+          .text(text)
+          .addClass('menuItemContextMenu')
+          .prepend($('<i>').addClass('fa-solid ' + iconClass));
+      };
 
-      const copyButton = $('<div>')
-        .text('Copy text')
-        .addClass('menuItemContextMenu')
-        .prepend(copyIcon);
-      const editButton = $('<div>')
-        .text('Edit')
-        .addClass('menuItemContextMenu')
-        .prepend(editIcon);
-      const deleteButton = $('<div>')
-        .text('Delete')
-        .addClass('menuItemContextMenu')
-        .prepend(deleteIcon);
+      const copyButton = createMenuItem('Copy text', 'fa-copy');
+      const editButton = createMenuItem('Edit', 'fa-pencil');
+      const deleteButton = createMenuItem('Delete', 'fa-trash-can');
 
-      newContextMenu.append(copyButton).append(editButton).append(deleteButton);
-      $(this).append(newContextMenu);
-
-      setTimeout(() => {
-        newContextMenu.addClass('show');
-      }, 10);
+      newContextMenu
+        .append(copyButton, editButton, deleteButton)
+        .appendTo($(this))
+        .addClass('show');
 
       deleteButton.on('click', function (e) {
         e.preventDefault();
-        const messageID = userMessage.attr('data-message');
+        const messageID = $(this)
+          .closest('.messageContainer')
+          .find('.spanMessage')
+          .attr('data-message');
         if (senderID === userClientId) {
           socket.emit('delete-message', messageID);
-          messageContainer.remove();
+          $(this).closest('.messageContainer').remove();
         }
         newContextMenu.remove();
       });
@@ -119,14 +112,13 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
           .val(currentMessage)
           .addClass('edit-messageInput');
         const editButton = $('<button>')
-          .prepend(checkIcon)
+          .prepend($('<i>').addClass('fa-solid fa-check'))
           .addClass('edit-messageBtn');
         const editForm = $('<form>')
           .append(editInput, editButton)
           .addClass('edit-messageForm');
 
-        messageContainer.find('.spanMessage').hide();
-        messageContainer.append(editForm);
+        messageContainer.find('.spanMessage').hide().after(editForm);
 
         editButton.on('click', (e) => {
           e.preventDefault();
@@ -264,7 +256,6 @@ function handleUserSearchForUsers() {
   });
 }
 
-// Socket event listeners
 $(document).ready(() => {
   allUsers = [];
   $('.listUser .users').each(function () {
@@ -315,16 +306,17 @@ function createUserElement(user, message, createdAt) {
   const userPhoto = $('<img>')
     .addClass('user-img')
     .attr('src', `/images/user/${user.photo} `);
-  const userMessage = $('<span>').addClass('userMessage').text(message); // Use the message
+  const userMessage = $('<span>').addClass('userMessage').text(message);
   const userMessageCreatedAt = $('<span>')
     .addClass('messageTime')
-    .text(formattedTimeResult); // Use the createdAt
+    .text(formattedTimeResult);
+
   const userElement = $('<div>')
     .addClass('users')
     .append(userName)
     .append(userPhoto)
     .append(userMessage)
-    .append(userMessageCreatedAt) // Append the createdAt span
+    .append(userMessageCreatedAt)
     .attr('data-user-room', user.id);
   $('.listUser').append(userElement);
 }
@@ -337,11 +329,9 @@ socket.on('received-message', (message) => {
       const formatTime = new Date(message.createdAt);
       const CreatedAt = formattedTime(formatTime);
 
-      // Increment the count of received messages
       receivedMessageCount++;
       $('.roundNotification').removeClass('hidden');
 
-      // Create or update the round notification with the new count
       createRoundNotification(messageContainer, receivedMessageCount);
       messageContainer.find('.userMessage').text(message.message);
       messageContainer.find('.messageTime').text(CreatedAt);
