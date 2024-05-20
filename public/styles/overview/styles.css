@@ -8,7 +8,6 @@
 }
 
 /* Left menu containing the users */
-
 .leftMenu {
   background: var(--chat-leftMenu-bgColor);
   margin: 0;
@@ -22,6 +21,7 @@
   transition: background-color 1s ease-in-out;
   background: var(--primary-color);
 }
+
 .listUser {
   display: flex;
   width: 100%;
@@ -36,9 +36,11 @@
   margin-bottom: 0.8rem;
   border-radius: 10px;
   grid-template-areas:
-    'imageProfile userName  messageTime'
-    'imageProfile userMessage userMessage '
+    'imageProfile userName messageTime'
+    'imageProfile userMessage messageTime'
     'imageProfile ... notification';
+  grid-template-columns: 7rem 1fr auto;
+  gap: 0.5rem;
 }
 
 .users:hover {
@@ -48,13 +50,7 @@
 .users.selected {
   background-color: var(--chat-selected-users-background-color);
   transition: background-color 0.4s ease-in-out;
-
   outline: none;
-}
-
-.users > .userName,
-.userMessage {
-  align-self: self-start;
 }
 
 .users > .user-img {
@@ -69,12 +65,20 @@
   font-size: 1.8rem;
   font-weight: bold;
   color: var(--text-color-primary);
+  align-self: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .users > .userMessage {
   grid-area: userMessage;
   font-size: 1.6rem;
   color: var(--text-color-secondary);
+  align-self: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .users > .messageTime {
@@ -82,6 +86,7 @@
   text-align: end;
   font-size: 1.4rem;
   color: var(--text-color-secondary);
+  align-self: start;
 }
 
 .roundNotification {
