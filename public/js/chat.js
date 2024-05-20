@@ -290,6 +290,45 @@ socket.on('getUserSearchedInfo', (searchedUserData, searchedMessageData) => {
   updateSearchResults(searchedUserData, searchedMessageData);
 });
 
+// Function to update the user list with search results
+function updateSearchResults(searchedUserData, searchedMessageData) {
+  $('.listUser').empty();
+  for (let i = 0; i < searchedUserData.length; i++) {
+    const user = searchedUserData[i];
+    const message = searchedMessageData[i]
+      ? searchedMessageData[i].message
+      : '';
+    const createdAt = searchedMessageData[i]
+      ? searchedMessageData[i].createdAt
+      : '';
+    createUserElement(user, message, createdAt);
+  }
+}
+
+function createUserElement(user, message, createdAt) {
+  const createdAtDate = new Date(createdAt);
+
+  const formattedTimeResult = formattedTime(createdAtDate);
+
+  const userName = $('<span>').addClass('userName').text(user.name);
+
+  const userPhoto = $('<img>')
+    .addClass('user-img')
+    .attr('src', `/images/user/${user.photo} `);
+  const userMessage = $('<span>').addClass('userMessage').text(message); // Use the message
+  const userMessageCreatedAt = $('<span>')
+    .addClass('messageTime')
+    .text(formattedTimeResult); // Use the createdAt
+  const userElement = $('<div>')
+    .addClass('users')
+    .append(userName)
+    .append(userPhoto)
+    .append(userMessage)
+    .append(userMessageCreatedAt) // Append the createdAt span
+    .attr('data-user-room', user.id);
+  $('.listUser').append(userElement);
+}
+
 socket.on('received-message', (message) => {
   $('.users').each(function () {
     const roomID = userClientId + '_' + $(this).data('user-room');

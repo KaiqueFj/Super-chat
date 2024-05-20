@@ -304,16 +304,16 @@ textarea:focus {
   opacity: 1;
 }
 
-.searchForUsers > .searchInputUsers:focus {
-  outline: none;
-  background: transparent;
+.searchForUsers:focus-within {
+  border: 2px solid var(--chat-input-border-color);
 }
+
 .searchForUsers > .searchInputUsers::placeholder {
   color: var(--color-placeholders);
 }
 
-.has-focus {
-  outline: var(--chat-input-border-color) 2px solid;
+.searchForUsers > .searchInputUsers:focus {
+  outline: none;
 }
 
 /* User Selected to chat */
