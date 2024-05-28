@@ -126,8 +126,7 @@
   margin: 0.2rem;
 }
 
-.listUserItems:last-child,
-.listUserItems:hover {
+.listUserItems:last-child:hover {
   cursor: pointer;
   background: var(--color-gray-hover);
 }
