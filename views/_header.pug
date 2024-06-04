@@ -109,6 +109,10 @@ header.header
             .userInfo
               img.user-img.selected
               span.userNameSelected
+            each user in users
+              .userStatusInfo
+                .statusBall(class=(user.online ? 'online' : 'offline'))
+
           .buttonSearch
             form.searchForm(action="")
               input.searchInput.hidden(type="text"  placeholder="Search messages...")

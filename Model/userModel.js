@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false,
     },
+    online: {
+      type: Boolean,
+      default: false,
+    },
     photo: {
       type: String,
       default: 'default.jpg',

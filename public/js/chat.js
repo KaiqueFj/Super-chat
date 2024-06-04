@@ -15,9 +15,11 @@ let receivedMessageCount = 0;
 
 // User data
 const userClientId = userLoggedInId;
-let userReceived;
+let userThatReceivesMessage;
 let roomName;
 let allUsers = [];
+
+let clientId = userClientId;
 
 // Helper functions
 function formattedTime(date) {
@@ -195,7 +197,7 @@ function handleFormSubmission() {
     const userID = selectedUser.data('user-room');
     const room = createRoomID(userClientId, userID);
 
-    const userMessageData = { message, room, userReceived };
+    const userMessageData = { message, room, userThatReceivesMessage };
     socket.emit('send-message', userMessageData);
 
     messageInput.val('');
@@ -213,7 +215,7 @@ function handleUserClick() {
     const userPhoto = target.find('.user-img').attr('src');
 
     const room = createRoomID(userClientId, userID);
-    userReceived = userName;
+    userThatReceivesMessage = userName;
     roomName = room;
 
     target.find('.roundNotification').toggleClass('hidden');
@@ -222,8 +224,10 @@ function handleUserClick() {
     $('.userNameSelected').text(userName);
     $('.user-img.selected').attr('src', userPhoto);
 
+    // Add 'selected' class to the clicked user and remove it from others
     $('.users').removeClass('selected');
     target.addClass('selected');
+
     socket.emit('getUserMessageFromDatabase', roomName);
     socket.emit('join-room', roomName, () => {});
   });

@@ -370,6 +370,22 @@ textarea:focus {
   margin-right: 1rem;
 }
 
+.userStatusInfo > .statusBall {
+  border-radius: 50%;
+  background-color: var(--background-color-soft-gray);
+  height: 1rem;
+  width: 1rem;
+  margin-left: 0.6rem;
+}
+
+.userStatusInfo > .statusBall.online {
+  background-color: var(--green-online-color);
+}
+
+.userStatusInfo > .statusBall.offline {
+  background-color: var(--background-color-soft-gray);
+}
+
 .buttonSearch {
   display: flex;
   align-items: center;

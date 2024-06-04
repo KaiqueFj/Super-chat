@@ -14,7 +14,6 @@ block content
     .leftMenu
       .listUser
         - const loggedInUserID = user.id
-        - console.log(user)
 
         each user in users
           - if (loggedInUserID !== user.id )

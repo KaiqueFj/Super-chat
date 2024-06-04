@@ -27,6 +27,15 @@ const getUserIDFromToken = async (socket) => {
 
 exports.chatFeatures = (io) => {
   io.on('connection', async (socket) => {
+    const userID = await getUserIDFromToken(socket);
+
+    if (!userID) return;
+
+    console.log('User is connected', userID);
+
+    // Update user status to online when they connect
+    await User.findByIdAndUpdate({ _id: userID }, { $set: { online: 'true' } });
+
     // Handle sending messages
     socket.on('send-message', async (message) => {
       try {
@@ -149,8 +158,18 @@ exports.chatFeatures = (io) => {
     });
 
     // Handle disconnections
-    socket.on('disconnect', () => {
-      // Handle disconnection if needed
+    socket.on('disconnect', async () => {
+      const userID = await getUserIDFromToken(socket);
+
+      console.log('user id disconnected', userID);
+
+      if (!userID) return;
+
+      // Update user status to online when they connect
+      await User.findByIdAndUpdate(
+        { _id: userID },
+        { $set: { online: 'false' } }
+      );
     });
   });
 };
