@@ -36,6 +36,8 @@ exports.chatFeatures = (io) => {
     // Update user status to online when they connect
     await User.findByIdAndUpdate({ _id: userID }, { $set: { online: 'true' } });
 
+    io.emit('user-status-updated', { userID, online: true });
+
     // Handle sending messages
     socket.on('send-message', async (message) => {
       try {
@@ -170,6 +172,8 @@ exports.chatFeatures = (io) => {
         { _id: userID },
         { $set: { online: 'false' } }
       );
+
+      io.emit('user-status-updated', { userID, online: false });
     });
   });
 };

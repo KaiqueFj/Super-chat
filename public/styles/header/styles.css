@@ -370,7 +370,7 @@ textarea:focus {
   margin-right: 1rem;
 }
 
-.userStatusInfo > .statusBall {
+.statusBall {
   border-radius: 50%;
   background-color: var(--background-color-soft-gray);
   height: 1rem;
@@ -378,11 +378,11 @@ textarea:focus {
   margin-left: 0.6rem;
 }
 
-.userStatusInfo > .statusBall.online {
+.statusBall.online {
   background-color: var(--green-online-color);
 }
 
-.userStatusInfo > .statusBall.offline {
+.statusBall.offline {
   background-color: var(--background-color-soft-gray);
 }
 

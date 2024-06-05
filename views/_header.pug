@@ -109,9 +109,7 @@ header.header
             .userInfo
               img.user-img.selected
               span.userNameSelected
-            each user in users
-              .userStatusInfo
-                .statusBall(class=(user.online ? 'online' : 'offline'))
+              .statusBall
 
           .buttonSearch
             form.searchForm(action="")

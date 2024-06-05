@@ -31,6 +31,7 @@
 /* Edit users list */
 
 .users {
+  position: relative;
   display: grid;
   padding: 1rem;
   margin-bottom: 0.8rem;
@@ -51,6 +52,24 @@
   background-color: var(--chat-selected-users-background-color);
   transition: background-color 0.4s ease-in-out;
   outline: none;
+}
+
+.ball {
+  position: absolute;
+  top: 6rem;
+  left: 6rem;
+  border-radius: 50%;
+  background-color: var(--background-color-soft-gray);
+  height: 0.9rem;
+  width: 0.9rem;
+}
+
+.ball.online {
+  background-color: var(--green-online-color);
+}
+
+.ball.offline {
+  background-color: var(--background-color-soft-gray);
 }
 
 .users > .user-img {

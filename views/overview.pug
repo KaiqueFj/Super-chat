@@ -18,8 +18,9 @@ block content
         each user in users
           - if (loggedInUserID !== user.id )
 
-            .users(data-user-room=user.id) 
+            .users(data-user-room=user.id, data-online=user.online ? 'true' : 'false')
               img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
+              .ball(class=user.online ? 'online' : 'offline')
               span.userName= user.name 
               if user.messages &&  user.messages.length > 0
                 - const lastMessage = user.messages.sort((a, b) => b.createdAt - a.createdAt)[0]
