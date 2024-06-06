@@ -57,7 +57,7 @@
 .ball {
   position: absolute;
   top: 6rem;
-  left: 6rem;
+  left: 5.7rem;
   border-radius: 50%;
   box-shadow: var(--color-soft-shadow);
   background-color: var(--background-color-soft-gray);
