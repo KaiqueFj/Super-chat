@@ -213,9 +213,7 @@ function handleUserClick() {
     const userName = target.find('.userName').text();
     const userID = target.data('user-room');
     const userPhoto = target.find('.user-img').attr('src');
-    const userOnline = target.attr('data-online') === 'true'; // Correctly parse the online status
-
-    console.log(userOnline);
+    const userOnline = target.attr('data-online') === 'true';
 
     const room = createRoomID(userClientId, userID);
     userThatReceivesMessage = userName;
@@ -230,7 +228,6 @@ function handleUserClick() {
     $('.userNameSelected').text(userName);
     $('.user-img.selected').attr('src', userPhoto);
 
-    // Add 'selected' class to the clicked user and remove it from others
     $('.users').removeClass('selected');
     target.addClass('selected');
 
@@ -241,7 +238,7 @@ function handleUserClick() {
 
 socket.on('user-status-updated', ({ userID, online }) => {
   const userElement = $(`.users[data-user-room="${userID}"]`);
-  const statusText = online ? 'online' : 'offline'; // Define statusText before using it
+  const statusText = online ? 'online' : 'offline';
 
   userElement.attr('data-online', online ? 'true' : 'false');
 
@@ -252,12 +249,9 @@ socket.on('user-status-updated', ({ userID, online }) => {
 
   userElement.find('.ball').removeClass('online offline').addClass(statusText);
 
-  // If the user is currently selected, update the status text immediately
   if (userElement.hasClass('selected')) {
     $('.statusBall').removeClass('online offline').addClass(statusText);
   }
-  // Optional: log to verify correct attribute setting
-  console.log(`User ${userID} is now ${online ? 'online' : 'offline'}`);
 });
 
 function handleUserSearch() {

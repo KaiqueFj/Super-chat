@@ -31,9 +31,6 @@ exports.chatFeatures = (io) => {
 
     if (!userID) return;
 
-    console.log('User is connected', userID);
-
-    // Update user status to online when they connect
     await User.findByIdAndUpdate({ _id: userID }, { $set: { online: 'true' } });
 
     io.emit('user-status-updated', { userID, online: true });
@@ -89,7 +86,6 @@ exports.chatFeatures = (io) => {
       try {
         const result = await Message.deleteOne({ _id: messageID });
         if (result.deletedCount > 0) {
-          console.log('Message deleted successfully.');
           io.emit('message-deleted', messageID);
         } else {
           console.log('No message found with the given ID.');
@@ -107,7 +103,6 @@ exports.chatFeatures = (io) => {
           { new: true }
         );
         if (updatedMessage) {
-          console.log('Message updated successfully.');
           io.emit('edit-message', updatedMessage);
         } else {
           console.log('No message found with the given ID.');
@@ -163,11 +158,8 @@ exports.chatFeatures = (io) => {
     socket.on('disconnect', async () => {
       const userID = await getUserIDFromToken(socket);
 
-      console.log('user id disconnected', userID);
-
       if (!userID) return;
 
-      // Update user status to online when they connect
       await User.findByIdAndUpdate(
         { _id: userID },
         { $set: { online: 'false' } }

@@ -30,6 +30,10 @@
   --background-color-soft-gray: rgb(113, 117, 121);
   --input-placeholder-background-color: rgb(44, 44, 44);
   --color-default-shadow: rgb(16, 16, 16, 0.612);
+  --color-soft-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  --color-soft-green-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  --color-soft-gray-shadow: 0 0 10px rgba(128, 128, 128, 0.5);
+
   --color-default-no-shadow: rgb(16, 16, 16);
   --color-gray-hover: rgb(44, 44, 44);
   --context-menu-bg: rgb(33, 33, 33, 0.867);
