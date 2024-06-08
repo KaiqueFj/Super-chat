@@ -2,7 +2,6 @@
 
 :root {
   --background-white-color: #f8f8ff;
-  --left-menu-white-bgColor: #007aff;
   --chat-User-selected-textColor: #111b21;
   --chatInput-white-bgColor: #f0f2f5;
   --left-menu-users-hover-color: #ebebebb1;
@@ -14,6 +13,14 @@
   --chat-input-search-bgColor: #f0f2f5;
   --chat-input-border-color: #8774e1;
   --chat-input-border-color-hover: #5b4ca4;
+
+  /* White background */
+  --primary-white-color: #ffffff;
+  --primary-gray-color: #f4f4f5;
+  --secondary-gray-color: rgb(244, 244, 245);
+  --blue-secondary-color: #3596ff;
+  --primary-text-whiteBg-Color: #000000;
+  --secondary-text-whiteBg-Color: #707579;
 
   /* Black background */
   --main-color: #171617;

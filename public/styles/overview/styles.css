@@ -410,64 +410,46 @@ input::placeholder {
 }
 
 .light-mode {
-  background-color: var(--background-white-color);
+  background-color: var(--primary-white-color);
   transition: background-color 1s ease-in-out;
 }
 
-.light-mode-leftMenu-users-hover-color:hover {
-  background-color: var(--left-menu-users-hover-color);
+.light-mode .users {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-mode-color-details,
+input.searchInputUsers.light-mode-color-details::placeholder {
+  color: var(--secondary-text-whiteBg-Color) !important ;
+  background-color: var(--primary-gray-color);
+}
+
+.light-mode-color-details-text {
+  color: var(--primary-text-whiteBg-Color) !important;
+}
+
+.light-mode-color-details-subText {
+  color: var(--secondary-text-whiteBg-Color) !important;
 }
 
 .light-mode .users.selected {
-  background-color: var(--left-menu-users-hover-color) !important;
-}
-.light-mode-leftMenu {
-  background-color: var(--left-menu-white-bgColor);
-  transition: background-color 1s ease-in-out;
+  color: var(--primary-gray-color);
+  background-color: var(--blue-secondary-color) !important;
 }
 
-.light-mode-dropDownMenuList {
-  background-color: var(--left-menu-white-bgColor);
-  transition: background-color 1s ease-in-out;
+.light-mode .users.selected .userName,
+.light-mode .users.selected .userMessage,
+.light-mode .users.selected .messageTime {
+  color: var(--primary-white-color) !important;
 }
 
-.light-mode-inputMessage {
-  background-color: var(--chatInput-white-bgColor);
-  color: var(--chat-input-placeholder-color);
-  transition: background-color 1s ease-in-out;
+.light-mode .users:hover .userName,
+.light-mode .users:hover .userMessage,
+.light-mode .users:hover .messageTime {
+  color: var(--primary-white-color) !important;
 }
 
-.light-mode-inputMessage::placeholder {
-  color: var(--chat-input-placeholder-color);
-  transition: background-color 1s ease-in-out;
-}
-
-.light-mode-messageContainerFalse {
-  background-color: var(--chatInput-white-bgColor);
-  transition: background-color 1s ease-in-out;
-}
-
-.light-mode-userNameSelected {
-  color: var(--chat-User-selected-textColor) !important;
-
-  transition: background-color 1s ease-in-out;
-}
-
-.light-mode-userSearch {
-  color: var(--chat-input-search-bgColor) !important;
-
-  transition: background-color 1s ease-in-out;
-}
-
-.light-mode-icons-sendPlane {
-  color: var(--chat-icon-send-plane-color) !important;
-}
-
-.light-mode-icons-searchIcon {
-  color: var(--chat-icon-send-plane-color) !important;
-}
-
-.fa.icons {
-  color: black !important;
-  transition: background-color 1s ease-in-out;
+.light-mode-color-hover:hover {
+  background-color: var(--blue-secondary-color);
+  color: red;
 }

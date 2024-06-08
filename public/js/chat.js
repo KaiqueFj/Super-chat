@@ -214,13 +214,13 @@ function handleUserClick() {
     const userID = target.data('user-room');
     const userPhoto = target.find('.user-img').attr('src');
     const userOnline = target.attr('data-online') === 'true';
-
     const room = createRoomID(userClientId, userID);
+
     userThatReceivesMessage = userName;
     roomName = room;
+    receivedMessageCount = 0;
 
     target.find('.roundNotification').toggleClass('hidden');
-    receivedMessageCount = 0;
 
     const statusText = userOnline ? 'online' : 'offline';
     $('.statusBall').removeClass('online offline').addClass(statusText);
