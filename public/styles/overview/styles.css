@@ -9,7 +9,7 @@
 
 /* Left menu containing the users */
 .leftMenu {
-  background: var(--chat-leftMenu-bgColor);
+  background: var(--primary-black-color);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,6 @@
   padding: 1rem;
   overflow: hidden;
   transition: background-color 1s ease-in-out;
-  background: var(--primary-color);
 }
 
 .listUser {
@@ -411,7 +410,7 @@ input::placeholder {
 
 .light-mode {
   background-color: var(--primary-white-color);
-  transition: background-color 1s ease-in-out;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode .users {
@@ -422,33 +421,40 @@ input::placeholder {
 input.searchInputUsers.light-mode-color-details::placeholder {
   color: var(--secondary-text-whiteBg-Color) !important ;
   background-color: var(--primary-gray-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode-color-details-text {
   color: var(--primary-text-whiteBg-Color) !important;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode-color-details-subText {
   color: var(--secondary-text-whiteBg-Color) !important;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode .users.selected {
   color: var(--primary-gray-color);
   background-color: var(--blue-secondary-color) !important;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode .users.selected .userName,
 .light-mode .users.selected .userMessage,
 .light-mode .users.selected .messageTime {
   color: var(--primary-white-color) !important;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode .users:hover .userName,
 .light-mode .users:hover .userMessage,
 .light-mode .users:hover .messageTime {
   color: var(--primary-white-color) !important;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode-color-hover:hover {
   background-color: var(--blue-secondary-color);
+  transition: background-color 0.3s, color 0.3s;
 }
