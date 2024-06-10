@@ -26,14 +26,15 @@
   --primary-black-color: #212121;
   --primary-gray-color: rgb(44, 44, 44);
   --border-header-color: #303030;
+  --text-color-primary: #ffffff;
   --text-color-secondary: rgb(255, 255, 255, 0.533);
   --color-default-no-shadow: rgb(16, 16, 16);
   --color-soft-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   --color-default-shadow: rgb(16, 16, 16, 0.612);
   --color-default-no-shadow: rgb(16, 16, 16);
-  --text-color-primary: #ffffff;
   --primary-purple-color: #766ac8;
   --secondary-purple-color: #5b4ca4;
+  --primary-red-color: #e53935;
 
   /* Icon Colors */
   --icon-sun: #ffd700;
