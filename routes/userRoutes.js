@@ -7,5 +7,10 @@ router.post('/signup', authController.signUp);
 router.post('/login', authController.loginUser);
 
 router.get('/overview', authController.logout);
+router.patch(
+  '/updatePassword',
+  authController.protect,
+  authController.updatePassword
+);
 
 module.exports = router;

@@ -125,6 +125,23 @@ exports.isLoggedIn = async (req, res, next) => {
   next();
 };
 
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  //1- Get user from collection
+  const user = await User.findById(req.user.id).select('+password');
+  //2- Check if posted current password is correct
+
+  if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
+    return next(new AppError('Incorrect  password!', 401));
+  }
+  //3- if so, update password
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+
+  await user.save();
+
+  createSendToken(user, 201, res);
+});
+
 exports.logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
