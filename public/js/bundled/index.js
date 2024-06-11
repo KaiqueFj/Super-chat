@@ -12145,6 +12145,7 @@ const footer = $(".footer");
 const header = $(".header");
 const users = $(".users");
 const spanUsername = $(".userName");
+const messageForm = $(".messageFormContainer");
 const userMessage = $(".userMessage");
 const messageTime = $(".messageTime");
 const searchUsersContainerLeftMenu = $(".searchForUsers");
@@ -12169,12 +12170,14 @@ const toggleBackground = ()=>{
     toggleBackgroundButton.on("click", function(e) {
         e.preventDefault();
         html.add(body).add(footer).add(header).add(main).add(leftMenu).toggleClass("light-mode");
-        searchUsersContainerLeftMenu.add(searchInputUsers).add(searchInputChat).add(messageInput).add(inputBox).toggleClass("light-mode-color-details");
+        searchUsersContainerLeftMenu.add(searchInputChat).add(messageInput).add(inputBox).toggleClass("light-mode-color-details");
         // User username, message, time - white background
-        spanUsername.add(userNameSelected).add(messageInput).toggleClass("light-mode-color-details-text");
+        spanUsername.add(userNameSelected).toggleClass("light-mode-color-details-text");
         userMessage.add(messageTime).add(searchIcon).add(searchInputChat).add(sendMessageIcon).toggleClass("light-mode-color-details-subText");
         users.toggleClass("light-mode-color-hover");
         usersSelected.toggleClass("light-mode usersselected");
+        messageForm.toggleClass("light-mode-color-container");
+        inputBox.add(searchInputUsers).add(searchUsersContainerLeftMenu).add(searchInputChat).add(messageInput).toggleClass("light-mode-color-input");
         // Toggle visibility of sun and moon icons based on the current state
         if (isSunVisible) {
             sunIcon.css("display", "none");

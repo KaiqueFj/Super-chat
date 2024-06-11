@@ -218,9 +218,9 @@ function handleUserClick() {
 
     userThatReceivesMessage = userName;
     roomName = room;
-    receivedMessageCount = 0;
 
     target.find('.roundNotification').toggleClass('hidden');
+    receivedMessageCount = 0;
 
     const statusText = userOnline ? 'online' : 'offline';
     $('.statusBall').removeClass('online offline').addClass(statusText);
@@ -347,21 +347,24 @@ function createUserElement(user, message, createdAt) {
 }
 
 socket.on('received-message', (message) => {
-  $('.users').each(function () {
-    const roomID = userClientId + '_' + $(this).data('user-room');
-    if (roomID === message.room) {
-      const messageContainer = $(this);
-      const formatTime = new Date(message.createdAt);
-      const CreatedAt = formattedTime(formatTime);
+  // Check if the message is from a different user
+  if (message.user !== userClientId) {
+    $('.users').each(function () {
+      const roomID = userClientId + '_' + $(this).data('user-room');
+      if (roomID === message.room) {
+        const messageContainer = $(this);
+        const formatTime = new Date(message.createdAt);
+        const CreatedAt = formattedTime(formatTime);
 
-      receivedMessageCount++;
-      $('.roundNotification').removeClass('hidden');
+        receivedMessageCount++;
+        $('.roundNotification').removeClass('hidden');
 
-      createRoundNotification(messageContainer, receivedMessageCount);
-      messageContainer.find('.userMessage').text(message.message);
-      messageContainer.find('.messageTime').text(CreatedAt);
-    }
-  });
+        createRoundNotification(messageContainer, receivedMessageCount);
+        messageContainer.find('.userMessage').text(message.message);
+        messageContainer.find('.messageTime').text(CreatedAt);
+      }
+    });
+  }
 
   displayMessageInChat(
     message.message,

@@ -409,6 +409,7 @@ input::placeholder {
   color: var(--text-color-primary);
 }
 
+/* Light Mode Styles */
 .light-mode {
   background-color: var(--primary-white-color);
   transition: background-color 0.3s, color 0.3s;
@@ -418,11 +419,14 @@ input::placeholder {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.light-mode-color-details,
-input.searchInputUsers.light-mode-color-details::placeholder {
-  color: var(--secondary-text-whiteBg-Color) !important ;
+.light-mode-color-details {
+  color: var(--secondary-text-whiteBg-Color) !important;
   background-color: var(--primary-gray-color);
   transition: background-color 0.3s, color 0.3s;
+}
+
+.light-mode-color-details::placeholder {
+  color: red;
 }
 
 .light-mode-color-details-text {
@@ -458,4 +462,18 @@ input.searchInputUsers.light-mode-color-details::placeholder {
 .light-mode-color-hover:hover {
   background-color: var(--blue-secondary-color);
   transition: background-color 0.3s, color 0.3s;
+}
+
+.light-mode-color-input {
+  background: var(--tertiary-gray-color);
+  color: var(--primary-white-color) !important;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-mode-color-input::placeholder {
+  color: var(--primary-white-color) !important;
+}
+
+.light-mode-color-container {
+  background: var(--secondary-white-color);
 }

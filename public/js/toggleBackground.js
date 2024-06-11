@@ -5,6 +5,7 @@ const footer = $('.footer');
 const header = $('.header');
 const users = $('.users');
 const spanUsername = $('.userName');
+const messageForm = $('.messageFormContainer');
 const userMessage = $('.userMessage');
 const messageTime = $('.messageTime');
 const searchUsersContainerLeftMenu = $('.searchForUsers');
@@ -39,17 +40,14 @@ export const toggleBackground = () => {
       .toggleClass('light-mode');
 
     searchUsersContainerLeftMenu
-      .add(searchInputUsers)
       .add(searchInputChat)
       .add(messageInput)
       .add(inputBox)
-
       .toggleClass('light-mode-color-details');
 
     // User username, message, time - white background
     spanUsername
       .add(userNameSelected)
-      .add(messageInput)
       .toggleClass('light-mode-color-details-text');
 
     userMessage
@@ -62,6 +60,15 @@ export const toggleBackground = () => {
     users.toggleClass('light-mode-color-hover');
 
     usersSelected.toggleClass('light-mode usersselected');
+
+    messageForm.toggleClass('light-mode-color-container');
+
+    inputBox
+      .add(searchInputUsers)
+      .add(searchUsersContainerLeftMenu)
+      .add(searchInputChat)
+      .add(messageInput)
+      .toggleClass('light-mode-color-input');
 
     // Toggle visibility of sun and moon icons based on the current state
     if (isSunVisible) {

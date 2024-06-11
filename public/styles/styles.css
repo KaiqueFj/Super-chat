@@ -16,8 +16,10 @@
 
   /* White background */
   --primary-white-color: #ffffff;
+  --secondary-white-color: #f8f9fb;
   --primary-gray-color: #f4f4f5;
   --secondary-gray-color: rgb(244, 244, 245);
+  --tertiary-gray-color: #707579;
   --blue-secondary-color: #3596ff;
   --primary-text-whiteBg-Color: #000000;
   --secondary-text-whiteBg-Color: #707579;
