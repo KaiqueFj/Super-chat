@@ -129,7 +129,8 @@
   margin: 0.2rem;
 }
 
-.listUserItems:last-child:hover {
+.listUserItems:nth-child(6):hover,
+.listUserItems:nth-child(7):hover {
   cursor: pointer;
   background: var(--primary-gray-color);
 }
@@ -186,6 +187,9 @@
   font-size: 1.6rem;
   font-weight: 500;
   margin-bottom: 0.75rem;
+}
+.form__label.password {
+  text-align: left;
 }
 
 .form__photo-upload {
