@@ -4,8 +4,8 @@ import { showAlert } from './alert';
 export const updateSettings = async (data, type) => {
   try {
     const urlMap = {
-      userData: '/updateUser',
-      chatData: '/updateChat',
+      info: '/updateUser',
+      background: '/updateChat',
       password: '/api/v1/users/updatePassword',
     };
 

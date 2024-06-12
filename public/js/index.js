@@ -75,7 +75,7 @@ if (updateUserForm) {
 
     userBiography.textContent = document.getElementById('biography').value;
 
-    await updateSettings(form, 'userData');
+    await updateSettings(form, 'info');
   });
 }
 
@@ -97,7 +97,7 @@ updateUserChat.addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = new FormData();
   form.append('wallpaper', document.getElementById('wallpaper').files[0]);
-  await updateSettings(form, 'chatData');
+  await updateSettings(form, 'background');
 });
 
 if (updateUserPassword) {

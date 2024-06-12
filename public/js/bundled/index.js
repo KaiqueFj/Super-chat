@@ -637,7 +637,7 @@ if (updateUserForm) {
         form.append("biography", document.getElementById("biography").value);
         form.append("photo", document.getElementById("photo").files[0]);
         userBiography.textContent = document.getElementById("biography").value;
-        await (0, _updateSettings.updateSettings)(form, "userData");
+        await (0, _updateSettings.updateSettings)(form, "info");
     });
 }
 if (updateUserChat) chatBackgroundInput.addEventListener("change", ()=>{
@@ -653,7 +653,7 @@ updateUserChat.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const form = new FormData();
     form.append("wallpaper", document.getElementById("wallpaper").files[0]);
-    await (0, _updateSettings.updateSettings)(form, "chatData");
+    await (0, _updateSettings.updateSettings)(form, "background");
 });
 if (updateUserPassword) updateUserPassword.addEventListener("submit", async (e)=>{
     e.preventDefault();
@@ -12230,8 +12230,8 @@ var _alert = require("./alert");
 const updateSettings = async (data, type)=>{
     try {
         const urlMap = {
-            userData: "/updateUser",
-            chatData: "/updateChat",
+            info: "/updateUser",
+            background: "/updateChat",
             password: "/api/v1/users/updatePassword"
         };
         const url = urlMap[type];

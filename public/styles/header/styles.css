@@ -128,8 +128,8 @@
   margin: 0.2rem;
 }
 
-.listUserItems:nth-child(6):hover,
-.listUserItems:nth-child(7):hover {
+.listUserItems:nth-child(5):hover,
+.listUserItems:nth-child(6):hover {
   cursor: pointer;
   background: var(--primary-gray-color);
 }
