@@ -131,7 +131,8 @@ body {
 .fa-solid.fa-copy,
 .fa-solid.fa-trash-can,
 .fa-solid.fa-check,
-.fa-solid.fa-image {
+.fa-solid.fa-image,
+.fa-solid.fa-key {
   color: var(--icon-colors);
   font-size: 1.7rem;
   padding: 0.5rem;

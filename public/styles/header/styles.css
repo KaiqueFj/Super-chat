@@ -50,7 +50,8 @@
 .dropDownItems,
 .configurationsMenu,
 .updateUserContainer,
-.updateUserContainer.chat {
+.updateUserContainer.chat,
+.updateUserContainer.password {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -74,7 +75,8 @@
 .dropDownItems.show,
 .configurationsMenu.show,
 .updateUserContainer.show,
-.updateUserContainer.chat.show {
+.updateUserContainer.chat.show,
+.updateUserContainer.password.show {
   transform: translateX(0);
   opacity: 1;
   pointer-events: auto;

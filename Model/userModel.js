@@ -62,9 +62,12 @@ userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
+  // Check if both arguments are defined
+  if (!candidatePassword || !userPassword) {
+    throw new Error('data and hash arguments required');
+  }
   return await bcrypt.compare(candidatePassword, userPassword);
 };
-
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

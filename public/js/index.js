@@ -5,7 +5,8 @@ import { signUp } from './signUp';
 import { signIn, logout } from './Login';
 import { toggleBackground } from './toggleBackground';
 import { dropDownMenu } from './dropDownMenu';
-import { settingsMenu, updateSettings } from './settingsBtn';
+import { updateSettings } from './updateSettings';
+import { settingsMenu } from './handleUserMenuClick';
 
 //DOM elements
 const signUpForm = document.querySelector('.userSignIn');
@@ -23,6 +24,9 @@ const backgroundImage = document.querySelector('.form__user-photo.chat');
 const chatBackgroundInput = document.getElementById('wallpaper');
 const backgroundOfMessageContainer = document.querySelector(
   '.messageFormContainer'
+);
+const updateUserPassword = document.querySelector(
+  '.updateUserContainer.password'
 );
 
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
@@ -93,9 +97,22 @@ updateUserChat.addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = new FormData();
   form.append('wallpaper', document.getElementById('wallpaper').files[0]);
-  await updateSettings(form, 'updateChat');
+  await updateSettings(form, 'chatData');
 });
 
+if (updateUserPassword) {
+  updateUserPassword.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const currentPassword = document.getElementById('password-current').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+
+    await updateSettings(
+      { currentPassword, password, passwordConfirm },
+      'password'
+    );
+  });
+}
 toggleBackground();
 dropDownMenu();
 settingsMenu();

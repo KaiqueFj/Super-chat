@@ -589,7 +589,8 @@ var _signUp = require("./signUp");
 var _login = require("./Login");
 var _toggleBackground = require("./toggleBackground");
 var _dropDownMenu = require("./dropDownMenu");
-var _settingsBtn = require("./settingsBtn");
+var _updateSettings = require("./updateSettings");
+var _handleUserMenuClick = require("./handleUserMenuClick");
 //DOM elements
 const signUpForm = document.querySelector(".userSignIn");
 const signInForm = document.querySelector(".userLogIn");
@@ -603,6 +604,7 @@ const updateUserChat = document.querySelector(".updateUserContainer.chat");
 const backgroundImage = document.querySelector(".form__user-photo.chat");
 const chatBackgroundInput = document.getElementById("wallpaper");
 const backgroundOfMessageContainer = document.querySelector(".messageFormContainer");
+const updateUserPassword = document.querySelector(".updateUserContainer.password");
 if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
 if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -635,7 +637,7 @@ if (updateUserForm) {
         form.append("biography", document.getElementById("biography").value);
         form.append("photo", document.getElementById("photo").files[0]);
         userBiography.textContent = document.getElementById("biography").value;
-        await (0, _settingsBtn.updateSettings)(form, "userData");
+        await (0, _updateSettings.updateSettings)(form, "userData");
     });
 }
 if (updateUserChat) chatBackgroundInput.addEventListener("change", ()=>{
@@ -651,13 +653,24 @@ updateUserChat.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const form = new FormData();
     form.append("wallpaper", document.getElementById("wallpaper").files[0]);
-    await (0, _settingsBtn.updateSettings)(form, "updateChat");
+    await (0, _updateSettings.updateSettings)(form, "chatData");
+});
+if (updateUserPassword) updateUserPassword.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const currentPassword = document.getElementById("password-current").value;
+    const password = document.getElementById("password").value;
+    const passwordConfirm = document.getElementById("password-confirm").value;
+    await (0, _updateSettings.updateSettings)({
+        currentPassword,
+        password,
+        passwordConfirm
+    }, "password");
 });
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
-(0, _settingsBtn.settingsMenu)();
+(0, _handleUserMenuClick.settingsMenu)();
 
-},{"@babel/polyfill":"dTCHC","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./settingsBtn":"p6Ksx"}],"dTCHC":[function(require,module,exports) {
+},{"@babel/polyfill":"dTCHC","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6"}],"dTCHC":[function(require,module,exports) {
 "use strict";
 require("f50de0aa433a589b");
 var _global = _interopRequireDefault(require("4142986752a079d4"));
@@ -12206,14 +12219,41 @@ const dropDownMenu = ()=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"p6Ksx":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
-parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alert = require("./alert");
+const updateSettings = async (data, type)=>{
+    try {
+        const urlMap = {
+            userData: "/updateUser",
+            chatData: "/updateChat",
+            password: "/api/v1/users/updatePassword"
+        };
+        const url = urlMap[type];
+        if (!url) throw new Error("Invalid type");
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url,
+            data,
+            headers: {
+                "Content-Type": type === "password" ? "application/json" : "multipart/form-data"
+            }
+        });
+        if (res.data.status === "success") (0, _alert.showAlert)("success", `${type} updated successfully`);
+        return res.data;
+    } catch (err) {
+        (0, _alert.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bHIs6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
 const settingGearButton = $(".menuItem.settings");
 const ContainerWithUserInformations = $(".configurationsMenu");
 const returnBtn = $(".settingsBtn");
@@ -12221,45 +12261,39 @@ const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
 const ContainerToUpdateUser = $(".updateUserContainer");
 const OpenChatBackgroundForm = $(".listUserItems.backgroundImg");
 const chatBackgroundUpdateForm = $(".updateUserContainer.chat");
-const updateSettings = async (data, type)=>{
-    try {
-        const url = type === "userData" ? "/updateUser" : "/updateChat";
-        const res = await (0, _axiosDefault.default)({
-            method: "PATCH",
-            url,
-            data,
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
-        });
-        if (res.data.status === "success") (0, _alert.showAlert)("success", ` updated successfully`);
-        return res.data;
-    } catch (err) {
-        (0, _alert.showAlert)("error", err.response.data.message);
-    }
-};
+const OpenChangePasswordForm = $(".listUserItems.changePassword");
+const userContainerPasswordChange = $(".updateUserContainer.password");
 const settingsMenu = ()=>{
     settingGearButton.on("click", function(e) {
         e.preventDefault();
         ContainerWithUserInformations.toggleClass("show");
     });
+    //return to previous container
     returnBtn.on("click", function(e) {
         e.preventDefault();
         ContainerWithUserInformations.toggleClass("show");
         ContainerToUpdateUser.removeClass("show");
     });
+    // Open the container to update the background
     OpenChatBackgroundForm.on("click", function(e) {
         e.preventDefault();
         chatBackgroundUpdateForm.toggleClass("show");
         ContainerWithUserInformations.toggleClass("show");
     });
+    // Open the container to update the userInfo
     OpenContainerUpdateUserBtn.on("click", function(e) {
         e.preventDefault();
         ContainerToUpdateUser.toggleClass("show");
         chatBackgroundUpdateForm.toggleClass("show");
+        userContainerPasswordChange.toggleClass("show");
+    });
+    OpenChangePasswordForm.on("click", function(e) {
+        e.preventDefault();
+        userContainerPasswordChange.toggleClass("show");
+        ContainerWithUserInformations.toggleClass("show");
     });
 };
 
-},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map

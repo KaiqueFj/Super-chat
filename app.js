@@ -5,7 +5,6 @@ const globalErrorHandler = require('./Controllers/errorController');
 
 const useRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
-const AppError = require('./utils/AppError');
 const app = express();
 
 app.use(express.json({ limit: '10kb' }));

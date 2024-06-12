@@ -128,14 +128,32 @@ exports.isLoggedIn = async (req, res, next) => {
 exports.updatePassword = catchAsync(async (req, res, next) => {
   //1- Get user from collection
   const user = await User.findById(req.user.id).select('+password');
-  //2- Check if posted current password is correct
 
-  if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
-    return next(new AppError('Incorrect  password!', 401));
+  // Ensure the user and the password fields are present
+  if (!user || !user.password) {
+    return next(new AppError('User not found or password not provided!', 401));
   }
-  //3- if so, update password
-  user.password = req.body.password;
-  user.passwordConfirm = req.body.passwordConfirm;
+
+  //2- Check if posted current password is correct
+  const { currentPassword, password, passwordConfirm } = req.body;
+
+  if (!currentPassword || !password || !passwordConfirm) {
+    return next(
+      new AppError('Please provide all required password fields!', 400)
+    );
+  }
+
+  const isCurrentPasswordCorrect = await user.correctPassword(
+    currentPassword,
+    user.password
+  );
+  if (!isCurrentPasswordCorrect) {
+    return next(new AppError('Incorrect current password!', 401));
+  }
+
+  //3- If so, update password
+  user.password = password;
+  user.passwordConfirm = passwordConfirm;
 
   await user.save();
 

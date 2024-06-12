@@ -50,6 +50,10 @@ header.header
                 i.fa-solid.fa-image
                 span.userName-settings Chat Wallpaper
 
+              .listUserItems.changePassword
+                i.fa-solid.fa-key
+                span.userName-settings Change password
+
 
             //- form to update users 
           .updateUserContainer
@@ -77,8 +81,9 @@ header.header
                 button.btn.save
                   i.fa-solid.fa-check
 
-
+          //- form to update users background
           .updateUserContainer.chat
+
             .headerInfo
               button.settingsBtn.return
                 i.fa-solid.fa-arrow-left
@@ -93,6 +98,27 @@ header.header
                 button.btn.save
                   i.fa-solid.fa-check
 
+          //- form to update users password
+          .updateUserContainer.password
+            .headerInfo
+              button.settingsBtn.return
+                i.fa-solid.fa-arrow-left
+              span.settingsNameHeader Change password
+
+            form.form.form-user-data
+              .form__group
+                label.form__label(for='password-current') Current password
+                input#password-current.form__input.password(type='password', required , name='currentPassword')
+              .form__group
+                label.form__label(for='password') New password
+                input#password.form__input.password(type='password', required ,name='password')
+              .form__group
+                label.form__label(for='password-confirm') Password confirm
+                input#password-confirm.form__input.password(type='password', required ,name='passwordConfirm')
+
+              .form__group.right
+                button.btn.save
+                  i.fa-solid.fa-check
 
         .searchForUsers
 
