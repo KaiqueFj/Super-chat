@@ -12172,6 +12172,7 @@ const userSelectedToChat = $(".userSelectedChat");
 const messageInput = $(".inputMessage");
 const searchInputChat = $(".searchInput");
 const searchIcon = $(".fa-solid.fa-magnifying-glass");
+const barsIcon = $(".fa-solid.fa-bars");
 const sendMessageIcon = $(".fa-regular.fa-paper-plane");
 const toggleBackgroundButton = $(".menuItem.toggleBackground");
 const userNameSelected = $(".userNameSelected");
@@ -12186,7 +12187,7 @@ const toggleBackground = ()=>{
         searchUsersContainerLeftMenu.add(searchInputChat).add(messageInput).add(inputBox).toggleClass("light-mode-color-details");
         // User username, message, time - white background
         spanUsername.add(userNameSelected).toggleClass("light-mode-color-details-text");
-        userMessage.add(messageTime).add(searchIcon).add(searchInputChat).add(sendMessageIcon).toggleClass("light-mode-color-details-subText");
+        userMessage.add(messageTime).add(searchIcon).add(searchInputChat).add(sendMessageIcon).add(barsIcon).toggleClass("light-mode-color-details-subText");
         users.toggleClass("light-mode-color-hover");
         usersSelected.toggleClass("light-mode usersselected");
         messageForm.toggleClass("light-mode-color-container");

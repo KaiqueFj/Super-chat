@@ -14,9 +14,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 34%;
-  max-width: 26%;
-  padding: 1rem;
+  width: 25%;
+  min-width: 25%;
+  padding: 0.7rem;
   overflow: hidden;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -32,7 +32,9 @@
 .users {
   position: relative;
   display: grid;
-  padding: 1rem;
+  padding: 0.7rem;
+  width: 98%;
+  height: 8.5rem;
   margin-bottom: 0.8rem;
   border-radius: 10px;
   grid-template-areas:
@@ -44,7 +46,7 @@
 }
 
 .users:hover {
-  background-color: var(--primary-purple-color);
+  background-color: var(--primary-gray-color);
 }
 
 .users.selected {
@@ -465,13 +467,13 @@ input::placeholder {
 }
 
 .light-mode-color-input {
-  background: var(--tertiary-gray-color);
-  color: var(--primary-white-color) !important;
+  background: var(--tertiary-white-color);
+  color: var(--primary-text-whiteBg-Color) !important;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .light-mode-color-input::placeholder {
-  color: var(--primary-white-color) !important;
+  color: var(--primary-text-whiteBg-Color) !important;
 }
 
 .light-mode-color-container {

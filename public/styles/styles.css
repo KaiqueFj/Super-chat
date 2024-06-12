@@ -17,6 +17,7 @@
   /* White background */
   --primary-white-color: #ffffff;
   --secondary-white-color: #f8f9fb;
+  --tertiary-white-color: #f7f7f7;
   --primary-gray-color: #f4f4f5;
   --secondary-gray-color: rgb(244, 244, 245);
   --tertiary-gray-color: #707579;
@@ -40,7 +41,7 @@
 
   /* Icon Colors */
   --icon-sun: #ffd700;
-  --icon-colors: #aaaaaa;
+  --icon-colors: #ffff;
   --green-online-color: #20bf6b;
   --gray-offline-color: #aaaaaa;
 }

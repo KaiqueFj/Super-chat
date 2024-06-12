@@ -19,6 +19,7 @@ const userSelectedToChat = $('.userSelectedChat');
 const messageInput = $('.inputMessage');
 const searchInputChat = $('.searchInput');
 const searchIcon = $('.fa-solid.fa-magnifying-glass');
+const barsIcon = $('.fa-solid.fa-bars');
 const sendMessageIcon = $('.fa-regular.fa-paper-plane');
 const toggleBackgroundButton = $('.menuItem.toggleBackground');
 const userNameSelected = $('.userNameSelected');
@@ -55,6 +56,7 @@ export const toggleBackground = () => {
       .add(searchIcon)
       .add(searchInputChat)
       .add(sendMessageIcon)
+      .add(barsIcon)
       .toggleClass('light-mode-color-details-subText');
 
     users.toggleClass('light-mode-color-hover');
