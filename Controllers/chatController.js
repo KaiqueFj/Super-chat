@@ -57,6 +57,23 @@ exports.chatFeatures = (io) => {
       }
     });
 
+    socket.on('messageRead', async (data) => {
+      const { messageId, readerId, userReceiver } = data;
+      try {
+        const message = await Message.findById(messageId);
+        if (message.userReceiver === userReceiver) {
+          message.read = true;
+          await message.save();
+
+          // Notify the sender that the message has been read
+          io.to(message.room).emit('messageReadConfirmation', {
+            messageId,
+          });
+        }
+      } catch (error) {
+        console.error('Error marking message as read:', error);
+      }
+    });
     // Handle fetching user messages from the database
     socket.on('getUserMessageFromDatabase', async (roomName) => {
       try {

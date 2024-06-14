@@ -32,6 +32,13 @@ function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
 }
 
+function createMenuItem(text, iconClass) {
+  return $('<div>')
+    .text(text)
+    .addClass('menuItemContextMenu')
+    .prepend($('<i>').addClass('fa-solid ' + iconClass));
+}
+
 function scrollToMessage(messageID) {
   const messageElement = $(
     `.messageContainer[data-user-message="${messageID}"]`
@@ -52,9 +59,12 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
   const userMessageCreatedAt = $('<span>')
     .addClass('spanCreatedAt')
     .text(formattedTimeResult);
+  const messageReadIcon = $('<i>').addClass('fa-solid fa-check-double');
+
   const messageContainer = $('<div>')
     .append(userMessage)
     .append(userMessageCreatedAt)
+    .append(messageReadIcon)
     .addClass('messageContainer')
     .attr('data-user-message', senderID);
 
@@ -72,13 +82,6 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
       const newContextMenu = $('<div>')
         .addClass('contextMenu')
         .css({ top: posY + 'px', left: posX + 'px' });
-
-      const createMenuItem = (text, iconClass) => {
-        return $('<div>')
-          .text(text)
-          .addClass('menuItemContextMenu')
-          .prepend($('<i>').addClass('fa-solid ' + iconClass));
-      };
 
       const copyButton = createMenuItem('Copy text', 'fa-copy');
       const editButton = createMenuItem('Edit', 'fa-pencil');
@@ -377,16 +380,44 @@ socket.on('received-message', (message) => {
 
 socket.on('getUsersMessage', async (messages) => {
   $('.messageList').empty();
-  const displayPromises = messages.map((message) =>
-    displayMessageInChat(
+  const displayPromises = messages.map((message) => {
+    const messageContainer = displayMessageInChat(
       message.message,
       message._id,
       message.user,
       message.createdAt
-    )
-  );
+    );
+    // Emit messageRead event if the message is received and belongs to the recipient
+    if (message.user === userClientId) {
+      socket.emit('messageRead', {
+        messageId: message._id,
+        readerId: userClientId,
+        userReceiver: message.userReceiver,
+      });
+    }
+
+    return messageContainer;
+  });
   await Promise.all(displayPromises);
   scrollToBottom();
+});
+
+socket.on('messageReadConfirmation', (data) => {
+  const { messageId } = data;
+  const messageSpan = document.querySelector(
+    `.spanMessage[data-message="${messageId}"]`
+  );
+
+  if (messageSpan) {
+    const messageContainer = messageSpan.closest('.messageContainer');
+    const checkIcon = messageContainer.querySelector(
+      '.fa-solid.fa-check-double'
+    );
+
+    if (checkIcon) {
+      checkIcon.classList.add('double-check');
+    }
+  }
 });
 
 socket.on('getMessagesSearched', async (messages) => {

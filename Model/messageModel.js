@@ -26,7 +26,8 @@ const messageSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'A message must belong to an user'],
-  }, // Reference to User model
+  },
+  read: { type: Boolean, default: false },
 });
 
 const Message = mongoose.model('Messages', messageSchema);

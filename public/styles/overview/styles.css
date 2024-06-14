@@ -225,6 +225,14 @@
   margin-left: 2rem;
 }
 
+.fa-solid.fa-check-double {
+  color: gray;
+}
+
+.fa-solid.fa-check-double.double-check {
+  color: blue;
+}
+
 .messageContainer.owner-false {
   background: var(--primary-black-color);
   margin-left: 1rem;
