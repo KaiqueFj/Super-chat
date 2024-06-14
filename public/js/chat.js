@@ -50,15 +50,8 @@ function scrollToMessage(messageID) {
 }
 
 function createMessageContainer(message, messageID, senderID, createdAt) {
-  const userMessage = $('<span>')
-    .addClass('spanMessage')
-    .text(message)
-    .attr('data-message', messageID);
-  const createdAtDate = new Date(createdAt);
-  const formattedTimeResult = formattedTime(createdAtDate);
-  const userMessageCreatedAt = $('<span>')
-    .addClass('spanCreatedAt')
-    .text(formattedTimeResult);
+  const userMessage = createUserMessage(message, messageID);
+  const userMessageCreatedAt = createUserMessageCreatedAt(createdAt);
   const messageReadIcon = $('<i>').addClass('fa-solid fa-check-double');
 
   const messageContainer = $('<div>')
@@ -69,92 +62,8 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
     .attr('data-user-message', senderID);
 
   messageContainer.on('contextmenu', function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const contextMenu = $(this).find('.contextMenu');
-    if (contextMenu.length) {
-      contextMenu.remove();
-    } else {
-      const posX = event.clientX;
-      const posY = $(this).offset().top + $(this).outerHeight() - 50;
-
-      const newContextMenu = $('<div>')
-        .addClass('contextMenu')
-        .css({ top: posY + 'px', left: posX + 'px' });
-
-      const copyButton = createMenuItem('Copy text', 'fa-copy');
-      const editButton = createMenuItem('Edit', 'fa-pencil');
-      const deleteButton = createMenuItem('Delete', 'fa-trash-can');
-
-      newContextMenu
-        .append(copyButton, editButton, deleteButton)
-        .appendTo($(this))
-        .addClass('show');
-
-      deleteButton.on('click', function (e) {
-        e.preventDefault();
-        const messageID = $(this)
-          .closest('.messageContainer')
-          .find('.spanMessage')
-          .attr('data-message');
-        if (senderID === userClientId) {
-          socket.emit('delete-message', messageID);
-          $(this).closest('.messageContainer').remove();
-        }
-        newContextMenu.remove();
-      });
-
-      editButton.on('click', function (e) {
-        e.preventDefault();
-        const currentMessage = $(this)
-          .closest('.messageContainer')
-          .find('.spanMessage')
-          .text();
-        const messageContainer = $(this).closest('.messageContainer');
-        const editInput = $('<input>')
-          .attr('type', 'text')
-          .val(currentMessage)
-          .addClass('edit-messageInput');
-        const editButton = $('<button>')
-          .prepend($('<i>').addClass('fa-solid fa-check'))
-          .addClass('edit-messageBtn');
-        const editForm = $('<form>')
-          .append(editInput, editButton)
-          .addClass('edit-messageForm');
-
-        messageContainer.find('.spanMessage').hide().after(editForm);
-
-        editButton.on('click', (e) => {
-          e.preventDefault();
-          const editedMessage = editInput.val().trim();
-          if (editedMessage !== '') {
-            messageContainer.find('.spanMessage').text(editedMessage).show();
-            editForm.remove();
-            const messageID = messageContainer
-              .find('.spanMessage')
-              .attr('data-message');
-            socket.emit('edit-message', { messageID, editedMessage });
-          }
-        });
-
-        newContextMenu.remove();
-      });
-
-      copyButton.on('click', (e) => {
-        e.preventDefault();
-        const currentMessage = $(this)
-          .closest('.messageContainer')
-          .find('.spanMessage')
-          .text();
-        navigator.clipboard.writeText(currentMessage);
-        newContextMenu.remove();
-      });
-    }
+    handleContextMenu(event, this, senderID);
   });
-
-  messageContainer.attr('data-user-message', senderID);
-  userMessage.attr('data-message', messageID);
 
   if (userClientId !== senderID) {
     messageContainer.addClass('owner-false');
@@ -163,6 +72,124 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
   return messageContainer;
 }
 
+function createUserMessage(message, messageID) {
+  return $('<span>')
+    .addClass('spanMessage')
+    .text(message)
+    .attr('data-message', messageID);
+}
+
+function createUserMessageCreatedAt(createdAt) {
+  const createdAtDate = new Date(createdAt);
+  const formattedTimeResult = formattedTime(createdAtDate);
+
+  return $('<span>').addClass('spanCreatedAt').text(formattedTimeResult);
+}
+
+function handleContextMenu(event, messageElement, senderID) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const contextMenu = $(messageElement).find('.contextMenu');
+  if (contextMenu.length) {
+    contextMenu.remove();
+  } else {
+    const posX = event.clientX;
+    const posY =
+      $(messageElement).offset().top + $(messageElement).outerHeight() - 50;
+    const newContextMenu = createContextMenu(posX, posY);
+
+    $(messageElement).append(newContextMenu);
+    newContextMenu.addClass('show');
+    attachContextMenuHandlers(newContextMenu, messageElement, senderID);
+  }
+}
+
+function createContextMenu(posX, posY) {
+  const newContextMenu = $('<div>')
+    .addClass('contextMenu')
+    .css({ top: posY + 'px', left: posX + 'px' });
+
+  const copyButton = createMenuItem('Copy text', 'fa-copy');
+  const editButton = createMenuItem('Edit', 'fa-pencil');
+  const deleteButton = createMenuItem('Delete', 'fa-trash-can');
+
+  newContextMenu.append(copyButton, editButton, deleteButton);
+  return newContextMenu;
+}
+
+function createMenuItem(text, iconClass) {
+  return $('<div>')
+    .text(text)
+    .addClass('menuItemContextMenu')
+    .prepend($('<i>').addClass('fa-solid ' + iconClass));
+}
+
+function attachContextMenuHandlers(contextMenu, messageElement, senderID) {
+  const deleteButton = contextMenu.find('.fa-trash-can').parent();
+  const editButton = contextMenu.find('.fa-pencil').parent();
+  const copyButton = contextMenu.find('.fa-copy').parent();
+
+  deleteButton.on('click', (e) =>
+    handleDeleteMessage(e, messageElement, contextMenu, senderID)
+  );
+  editButton.on('click', (e) =>
+    handleEditMessage(e, messageElement, contextMenu)
+  );
+  copyButton.on('click', (e) =>
+    handleCopyMessage(e, messageElement, contextMenu)
+  );
+}
+
+function handleDeleteMessage(e, messageElement, contextMenu, senderID) {
+  e.preventDefault();
+  const messageID = $(messageElement).find('.spanMessage').attr('data-message');
+  if (senderID === userClientId) {
+    socket.emit('delete-message', messageID);
+    $(messageElement).remove();
+  }
+  contextMenu.remove();
+}
+
+function handleEditMessage(e, messageElement, contextMenu) {
+  e.preventDefault();
+  const currentMessage = $(messageElement).find('.spanMessage').text();
+  const messageContainer = $(messageElement);
+  const editInput = $('<input>')
+    .attr('type', 'text')
+    .val(currentMessage)
+    .addClass('edit-messageInput');
+  const editButton = $('<button>')
+    .prepend($('<i>').addClass('fa-solid fa-check'))
+    .addClass('edit-messageBtn');
+  const editForm = $('<form>')
+    .append(editInput, editButton)
+    .addClass('edit-messageForm');
+
+  messageContainer.find('.spanMessage').hide().after(editForm);
+
+  editButton.on('click', (e) => {
+    e.preventDefault();
+    const editedMessage = editInput.val().trim();
+    if (editedMessage !== '') {
+      messageContainer.find('.spanMessage').text(editedMessage).show();
+      editForm.remove();
+      const messageID = messageContainer
+        .find('.spanMessage')
+        .attr('data-message');
+      socket.emit('edit-message', { messageID, editedMessage });
+    }
+  });
+
+  contextMenu.remove();
+}
+
+function handleCopyMessage(e, messageElement, contextMenu) {
+  e.preventDefault();
+  const currentMessage = $(messageElement).find('.spanMessage').text();
+  navigator.clipboard.writeText(currentMessage);
+  contextMenu.remove();
+}
 // Function to create and update the round notification
 function createRoundNotification(container, count) {
   let roundNotification = container.find('.roundNotification');
@@ -241,28 +268,30 @@ function handleUserClick() {
 
 socket.on('user-status-updated', ({ userID, online }) => {
   const userElement = $(`.users[data-user-room="${userID}"]`);
-  const statusText = online ? 'online' : 'offline';
+  const statusTextClass = online ? 'online' : 'offline';
+  const statusBallElements = userElement.find('.statusBall, .ball');
 
   userElement.attr('data-online', online ? 'true' : 'false');
 
-  userElement
-    .find('.statusBall')
-    .removeClass('online offline')
-    .addClass(statusText);
-
-  userElement.find('.ball').removeClass('online offline').addClass(statusText);
+  statusBallElements.removeClass('online offline').addClass(statusTextClass);
 
   if (userElement.hasClass('selected')) {
-    $('.statusBall').removeClass('online offline').addClass(statusText);
+    $('.statusBall').removeClass('online offline').addClass(statusTextClass);
   }
 });
 
 function handleUserSearch() {
   chatParentElement.on('click', '.searchTextInChatBtn', (e) => {
     e.preventDefault();
+
+    // Toggle visibility of search input
     searchInputChat.toggleClass('hidden');
+
+    // Extract search query and emit socket event
     const searchQuery = searchInputChat.val().trim();
     socket.emit('getUserMessageSearched', roomName, searchQuery);
+
+    // Clear search input after emitting event
     searchInputChat.val('');
   });
 }
@@ -326,26 +355,18 @@ function updateSearchResults(searchedUserData, searchedMessageData) {
 
 function createUserElement(user, message, createdAt) {
   const createdAtDate = new Date(createdAt);
-
   const formattedTimeResult = formattedTime(createdAtDate);
-
-  const userName = $('<span>').addClass('userName').text(user.name);
-
-  const userPhoto = $('<img>')
-    .addClass('user-img')
-    .attr('src', `/images/user/${user.photo} `);
-  const userMessage = $('<span>').addClass('userMessage').text(message);
-  const userMessageCreatedAt = $('<span>')
-    .addClass('messageTime')
-    .text(formattedTimeResult);
 
   const userElement = $('<div>')
     .addClass('users')
-    .append(userName)
-    .append(userPhoto)
-    .append(userMessage)
-    .append(userMessageCreatedAt)
-    .attr('data-user-room', user.id);
+    .attr('data-user-room', user.id)
+    .append(
+      $('<span>').addClass('userName').text(user.name),
+      $('<img>').addClass('user-img').attr('src', `/images/user/${user.photo}`),
+      $('<span>').addClass('userMessage').text(message),
+      $('<span>').addClass('messageTime').text(formattedTimeResult)
+    );
+
   $('.listUser').append(userElement);
 }
 
@@ -404,18 +425,14 @@ socket.on('getUsersMessage', async (messages) => {
 
 socket.on('messageReadConfirmation', (data) => {
   const { messageId } = data;
-  const messageSpan = document.querySelector(
-    `.spanMessage[data-message="${messageId}"]`
-  );
+  const messageSpan = $(`.spanMessage[data-message="${messageId}"]`);
 
-  if (messageSpan) {
+  if (messageSpan.length > 0) {
     const messageContainer = messageSpan.closest('.messageContainer');
-    const checkIcon = messageContainer.querySelector(
-      '.fa-solid.fa-check-double'
-    );
+    const checkIcon = messageContainer.find('.fa-solid.fa-check-double');
 
-    if (checkIcon) {
-      checkIcon.classList.add('double-check');
+    if (checkIcon.length > 0) {
+      checkIcon.addClass('double-check');
     }
   }
 });
