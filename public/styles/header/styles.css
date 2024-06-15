@@ -422,7 +422,7 @@ textarea:focus {
   width: 50%;
   border-radius: 2.375rem;
   border: var(--border-chat-bgColor) 1px;
-  color: var(--chat-text-Message-color);
+  color: var(--text-color-primary);
   transition: opacity 0.3s ease-in-out;
   opacity: 1;
 }

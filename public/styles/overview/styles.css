@@ -191,9 +191,9 @@
   display: grid;
 
   grid-template-areas:
-    'userMessage userMessage createdAt'
-    'userMessage userMessage createdAt'
-    'userMessage userMessage createdAt';
+    'userMessage userMessage createdAt messageReadIcon'
+    'userMessage userMessage createdAt messageReadIcon'
+    'userMessage userMessage createdAt messageReadIcon';
 
   height: fit-content;
   text-align: justify;
@@ -227,6 +227,10 @@
 
 .fa-solid.fa-check-double {
   color: gray;
+  margin-left: 1rem;
+  font-size: 1.6rem;
+  grid-area: messageReadIcon;
+  justify-self: end;
 }
 
 .fa-solid.fa-check-double.double-check {

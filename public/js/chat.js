@@ -52,12 +52,10 @@ function scrollToMessage(messageID) {
 function createMessageContainer(message, messageID, senderID, createdAt) {
   const userMessage = createUserMessage(message, messageID);
   const userMessageCreatedAt = createUserMessageCreatedAt(createdAt);
-  const messageReadIcon = $('<i>').addClass('fa-solid fa-check-double');
 
   const messageContainer = $('<div>')
     .append(userMessage)
     .append(userMessageCreatedAt)
-    .append(messageReadIcon)
     .addClass('messageContainer')
     .attr('data-user-message', senderID);
 
@@ -65,7 +63,10 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
     handleContextMenu(event, this, senderID);
   });
 
-  if (userClientId !== senderID) {
+  if (userClientId === senderID) {
+    const messageReadIcon = $('<i>').addClass('fa-solid fa-check-double');
+    messageContainer.append(messageReadIcon);
+  } else {
     messageContainer.addClass('owner-false');
   }
 
