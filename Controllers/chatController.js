@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const Message = require('../Model/messageModel');
+const Message = require('../Models/messageModel');
 const { promisify } = require('util');
-const User = require('../Model/userModel');
+const User = require('../Models/userModel');
 
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters

@@ -1,4 +1,4 @@
-const User = require('../Model/userModel');
+const User = require('../Models/userModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getChatPage = catchAsync(async (req, res) => {

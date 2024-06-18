@@ -30,6 +30,8 @@ const messageSchema = new mongoose.Schema({
   read: { type: Boolean, default: false },
 });
 
+messageSchema.index({ user: 1 }, { unique: true });
+
 const Message = mongoose.model('Messages', messageSchema);
 
 module.exports = Message;
