@@ -1,5 +1,5 @@
-/* eslint-disable */
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 import { signUp } from './signUp';
 import { signIn, logout } from './Login';
@@ -7,6 +7,15 @@ import { toggleBackground } from './toggleBackground';
 import { dropDownMenu } from './dropDownMenu';
 import { updateSettings } from './updateSettings';
 import { settingsMenu } from './handleUserMenuClick';
+
+import { initializeDOMElements } from './domElements.js';
+import {
+  handleFormSubmission,
+  handleUserClick,
+  handleUserSearch,
+  handleUserSearchForUsers,
+} from './userHandlers.js';
+import { socketListeners } from './messageHandlers.js';
 
 //DOM elements
 const signUpForm = document.querySelector('.userSignIn');
@@ -113,6 +122,19 @@ if (updateUserPassword) {
     );
   });
 }
+
+// Initialize DOM elements
+initializeDOMElements();
+
+// Initialize event handlers
+handleFormSubmission();
+handleUserClick();
+handleUserSearch();
+handleUserSearchForUsers();
+
+// Initialize socket listeners
+socketListeners();
+
 toggleBackground();
 dropDownMenu();
 settingsMenu();

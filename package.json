@@ -35,7 +35,9 @@
   },
   "devDependencies": {
     "buffer": "^6.0.3",
+    "core-js": "^3.37.1",
     "parcel": "^2.12.0",
-    "parcel-bundler": "^1.12.5"
+    "parcel-bundler": "^1.12.5",
+    "regenerator-runtime": "^0.14.1"
   }
 }

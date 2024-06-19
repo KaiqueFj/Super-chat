@@ -7,7 +7,7 @@ block append head
     const socket = io();
     var userLoggedInId = "#{user.id}"; 
 
-  script(defer, src="/js/chat.js")
+  script(defer, src="/js/index.js", type="module")
 
 block content
   main.main
