@@ -73,7 +73,7 @@ export function socketListeners() {
   });
 
   socket.on('getUsersMessage', async (messages) => {
-    chatContainer.empty();
+    $('.messageList').empty();
     const displayPromises = messages.map((message) => {
       const messageContainer = displayMessageInChat(
         message.message,
@@ -81,7 +81,14 @@ export function socketListeners() {
         message.user,
         message.createdAt
       );
-
+      // Emit messageRead event if the message is received and belongs to the recipient
+      if (message.user === userClientId) {
+        socket.emit('messageRead', {
+          messageId: message._id,
+          readerId: userClientId,
+          userReceiver: message.userReceiver,
+        });
+      }
       return messageContainer;
     });
     await Promise.all(displayPromises);
@@ -105,11 +112,9 @@ export function socketListeners() {
   socket.on('messageReadConfirmation', (data) => {
     const { messageId } = data;
     const messageSpan = $(`.spanMessage[data-message="${messageId}"]`);
-
     if (messageSpan.length > 0) {
       const messageContainer = messageSpan.closest('.messageContainer');
       const checkIcon = messageContainer.find('.fa-solid.fa-check-double');
-
       if (checkIcon.length > 0) {
         checkIcon.addClass('double-check');
       }

@@ -7519,9 +7519,15 @@ function socketListeners() {
         scrollToBottom();
     });
     socket.on("getUsersMessage", async (messages)=>{
-        (0, _domElementsJs.chatContainer).empty();
+        $(".messageList").empty();
         const displayPromises = messages.map((message)=>{
             const messageContainer = displayMessageInChat(message.message, message._id, message.user, message.createdAt);
+            // Emit messageRead event if the message is received and belongs to the recipient
+            if (message.user === (0, _domElementsJs.userClientId)) socket.emit("messageRead", {
+                messageId: message._id,
+                readerId: (0, _domElementsJs.userClientId),
+                userReceiver: message.userReceiver
+            });
             return messageContainer;
         });
         await Promise.all(displayPromises);
