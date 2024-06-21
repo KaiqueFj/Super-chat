@@ -95,6 +95,18 @@ export function socketListeners() {
     scrollToBottom();
   });
 
+  socket.on('messageReadConfirmation', (data) => {
+    const { messageId } = data;
+    const messageSpan = $(`.spanMessage[data-message="${messageId}"]`);
+    if (messageSpan.length > 0) {
+      const messageContainer = messageSpan.closest('.messageContainer');
+      const checkIcon = messageContainer.find('.fa-solid.fa-check-double');
+      if (checkIcon.length > 0) {
+        checkIcon.addClass('double-check');
+      }
+    }
+  });
+
   socket.on('user-status-updated', ({ userID, online }) => {
     const userElement = $(`.users[data-user-room="${userID}"]`);
     const statusTextClass = online ? 'online' : 'offline';
@@ -106,18 +118,6 @@ export function socketListeners() {
 
     if (userElement.hasClass('selected')) {
       $('.statusBall').removeClass('online offline').addClass(statusTextClass);
-    }
-  });
-
-  socket.on('messageReadConfirmation', (data) => {
-    const { messageId } = data;
-    const messageSpan = $(`.spanMessage[data-message="${messageId}"]`);
-    if (messageSpan.length > 0) {
-      const messageContainer = messageSpan.closest('.messageContainer');
-      const checkIcon = messageContainer.find('.fa-solid.fa-check-double');
-      if (checkIcon.length > 0) {
-        checkIcon.addClass('double-check');
-      }
     }
   });
 

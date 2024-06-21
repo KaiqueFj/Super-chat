@@ -7533,14 +7533,6 @@ function socketListeners() {
         await Promise.all(displayPromises);
         scrollToBottom();
     });
-    socket.on("user-status-updated", ({ userID, online })=>{
-        const userElement = $(`.users[data-user-room="${userID}"]`);
-        const statusTextClass = online ? "online" : "offline";
-        const statusBallElements = userElement.find(".statusBall, .ball");
-        userElement.attr("data-online", online ? "true" : "false");
-        statusBallElements.removeClass("online offline").addClass(statusTextClass);
-        if (userElement.hasClass("selected")) $(".statusBall").removeClass("online offline").addClass(statusTextClass);
-    });
     socket.on("messageReadConfirmation", (data)=>{
         const { messageId } = data;
         const messageSpan = $(`.spanMessage[data-message="${messageId}"]`);
@@ -7549,6 +7541,14 @@ function socketListeners() {
             const checkIcon = messageContainer.find(".fa-solid.fa-check-double");
             if (checkIcon.length > 0) checkIcon.addClass("double-check");
         }
+    });
+    socket.on("user-status-updated", ({ userID, online })=>{
+        const userElement = $(`.users[data-user-room="${userID}"]`);
+        const statusTextClass = online ? "online" : "offline";
+        const statusBallElements = userElement.find(".statusBall, .ball");
+        userElement.attr("data-online", online ? "true" : "false");
+        statusBallElements.removeClass("online offline").addClass(statusTextClass);
+        if (userElement.hasClass("selected")) $(".statusBall").removeClass("online offline").addClass(statusTextClass);
     });
     socket.on("getUserSearchedInfo", (searchedUserData, searchedMessageData)=>{
         (0, _helperFunctionsJs.updateSearchResults)(searchedUserData, searchedMessageData);
