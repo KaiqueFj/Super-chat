@@ -592,7 +592,6 @@ var _toggleBackground = require("./toggleBackground");
 var _dropDownMenu = require("./dropDownMenu");
 var _updateSettings = require("./updateSettings");
 var _handleUserMenuClick = require("./handleUserMenuClick");
-var _domElementsJs = require("./domElements.js");
 var _userHandlersJs = require("./userHandlers.js");
 var _messageHandlersJs = require("./messageHandlers.js");
 //DOM elements
@@ -670,8 +669,6 @@ if (updateUserPassword) updateUserPassword.addEventListener("submit", async (e)=
         passwordConfirm
     }, "password");
 });
-// Initialize DOM elements
-(0, _domElementsJs.initializeDOMElements)();
 // Initialize event handlers
 (0, _userHandlersJs.handleFormSubmission)();
 (0, _userHandlersJs.handleUserClick)();
@@ -683,7 +680,7 @@ if (updateUserPassword) updateUserPassword.addEventListener("submit", async (e)=
 (0, _dropDownMenu.dropDownMenu)();
 (0, _handleUserMenuClick.settingsMenu)();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./domElements.js":"9fSnT","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -7143,72 +7140,6 @@ const settingsMenu = ()=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9fSnT":[function(require,module,exports) {
-// domElements.js
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "form", ()=>form);
-parcelHelpers.export(exports, "messageInput", ()=>messageInput);
-parcelHelpers.export(exports, "parentElement", ()=>parentElement);
-parcelHelpers.export(exports, "chatContainer", ()=>chatContainer);
-parcelHelpers.export(exports, "chatParentElement", ()=>chatParentElement);
-parcelHelpers.export(exports, "searchUserParentElement", ()=>searchUserParentElement);
-parcelHelpers.export(exports, "searchInputForUsers", ()=>searchInputForUsers);
-parcelHelpers.export(exports, "searchInputChat", ()=>searchInputChat);
-parcelHelpers.export(exports, "userSelectedToChat", ()=>userSelectedToChat);
-parcelHelpers.export(exports, "messageFormContainer", ()=>messageFormContainer);
-parcelHelpers.export(exports, "receivedMessageCount", ()=>receivedMessageCount);
-parcelHelpers.export(exports, "userClientId", ()=>userClientId);
-parcelHelpers.export(exports, "allUsers", ()=>allUsers);
-parcelHelpers.export(exports, "clientId", ()=>clientId);
-// Getter and setter for userThatReceivesMessage
-parcelHelpers.export(exports, "setUserThatReceivesMessage", ()=>setUserThatReceivesMessage);
-parcelHelpers.export(exports, "getUserThatReceivesMessage", ()=>getUserThatReceivesMessage);
-// Getter and setter for roomName
-parcelHelpers.export(exports, "setRoomName", ()=>setRoomName);
-parcelHelpers.export(exports, "getRoomName", ()=>getRoomName);
-// Getter and setter for receivedMessageCount
-parcelHelpers.export(exports, "setReceivedMessageCount", ()=>setReceivedMessageCount);
-parcelHelpers.export(exports, "getReceivedMessageCount", ()=>getReceivedMessageCount);
-parcelHelpers.export(exports, "initializeDOMElements", ()=>initializeDOMElements);
-const form = $(".form-input");
-const messageInput = $(".inputMessage");
-const parentElement = $(".listUser");
-const chatContainer = $(".messageList");
-const chatParentElement = $(".searchForm");
-const searchUserParentElement = $(".searchForUsers");
-const searchInputForUsers = $(".searchInputUsers");
-const searchInputChat = $(".searchInput");
-const userSelectedToChat = $(".userSelectedChat");
-const messageFormContainer = $(".messageFormContainer");
-let receivedMessageCount = 0; // Export receivedMessageCount
-const userClientId = userLoggedInId;
-let userThatReceivesMessage = null;
-let roomName = null;
-let allUsers = [];
-let clientId = userClientId;
-function setUserThatReceivesMessage(userName) {
-    userThatReceivesMessage = userName;
-}
-function getUserThatReceivesMessage() {
-    return userThatReceivesMessage;
-}
-function setRoomName(room) {
-    roomName = room;
-}
-function getRoomName() {
-    return roomName;
-}
-function setReceivedMessageCount(count) {
-    receivedMessageCount = count;
-}
-function getReceivedMessageCount() {
-    return receivedMessageCount;
-}
-function initializeDOMElements() {
-// Additional initialization code if needed
-}
-
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
 // userHandlers.js
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -7280,12 +7211,74 @@ function handleUserSearchForUsers() {
     (0, _domElementsJs.searchInputForUsers).on("input", (e)=>{
         e.preventDefault();
         const searchQuery = (0, _domElementsJs.searchInputForUsers).val().trim();
-        if (searchQuery.length === 0) (0, _helperFunctionsJs.renderAllUsers)();
+        if (searchQuery.length === 0 || "") (0, _helperFunctionsJs.renderAllUsers)();
         else socket.emit("getUserSearched", searchQuery);
     });
 }
 
-},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2iVDl":[function(require,module,exports) {
+},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9fSnT":[function(require,module,exports) {
+// domElements.js
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "form", ()=>form);
+parcelHelpers.export(exports, "messageInput", ()=>messageInput);
+parcelHelpers.export(exports, "parentElement", ()=>parentElement);
+parcelHelpers.export(exports, "chatContainer", ()=>chatContainer);
+parcelHelpers.export(exports, "chatParentElement", ()=>chatParentElement);
+parcelHelpers.export(exports, "searchUserParentElement", ()=>searchUserParentElement);
+parcelHelpers.export(exports, "searchInputForUsers", ()=>searchInputForUsers);
+parcelHelpers.export(exports, "searchInputChat", ()=>searchInputChat);
+parcelHelpers.export(exports, "userSelectedToChat", ()=>userSelectedToChat);
+parcelHelpers.export(exports, "messageFormContainer", ()=>messageFormContainer);
+parcelHelpers.export(exports, "receivedMessageCount", ()=>receivedMessageCount);
+parcelHelpers.export(exports, "userClientId", ()=>userClientId);
+parcelHelpers.export(exports, "allUsers", ()=>allUsers);
+parcelHelpers.export(exports, "clientId", ()=>clientId);
+// Getter and setter for userThatReceivesMessage
+parcelHelpers.export(exports, "setUserThatReceivesMessage", ()=>setUserThatReceivesMessage);
+parcelHelpers.export(exports, "getUserThatReceivesMessage", ()=>getUserThatReceivesMessage);
+// Getter and setter for roomName
+parcelHelpers.export(exports, "setRoomName", ()=>setRoomName);
+parcelHelpers.export(exports, "getRoomName", ()=>getRoomName);
+// Getter and setter for receivedMessageCount
+parcelHelpers.export(exports, "setReceivedMessageCount", ()=>setReceivedMessageCount);
+parcelHelpers.export(exports, "getReceivedMessageCount", ()=>getReceivedMessageCount);
+const form = $(".form-input");
+const messageInput = $(".inputMessage");
+const parentElement = $(".listUser");
+const chatContainer = $(".messageList");
+const chatParentElement = $(".searchForm");
+const searchUserParentElement = $(".searchForUsers");
+const searchInputForUsers = $(".searchInputUsers");
+const searchInputChat = $(".searchInput");
+const userSelectedToChat = $(".userSelectedChat");
+const messageFormContainer = $(".messageFormContainer");
+let receivedMessageCount = 0;
+const userClientId = userLoggedInId;
+let userThatReceivesMessage = null;
+let roomName = null;
+let allUsers = [];
+let clientId = userClientId;
+function setUserThatReceivesMessage(userName) {
+    userThatReceivesMessage = userName;
+}
+function getUserThatReceivesMessage() {
+    return userThatReceivesMessage;
+}
+function setRoomName(room) {
+    roomName = room;
+}
+function getRoomName() {
+    return roomName;
+}
+function setReceivedMessageCount(count) {
+    receivedMessageCount = count;
+}
+function getReceivedMessageCount() {
+    return receivedMessageCount;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2iVDl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "formattedTime", ()=>formattedTime);
@@ -7298,8 +7291,15 @@ parcelHelpers.export(exports, "createRoomID", ()=>createRoomID);
 parcelHelpers.export(exports, "createUserElement", ()=>createUserElement);
 parcelHelpers.export(exports, "handleContextMenu", ()=>handleContextMenu);
 parcelHelpers.export(exports, "renderAllUsers", ()=>renderAllUsers);
+// Function to update the user list with search results
+parcelHelpers.export(exports, "updateSearchResults", ()=>updateSearchResults);
+// Function to handle user search
+parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
 var _domElementsJs = require("./domElements.js");
-function formattedTime(date) {
+function formattedTime(isoDateString) {
+    if (!isoDateString) return ""; // Return empty string if input is empty or undefined
+    const date = new Date(isoDateString);
+    if (isNaN(date.getTime())) return ""; // Return empty string if date parsing fails
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
@@ -7432,8 +7432,44 @@ function handleCopyMessage(e, messageElement, contextMenu) {
 }
 function renderAllUsers() {
     $(".listUser").empty();
-    allUsers.forEach((user)=>{
+    (0, _domElementsJs.allUsers).forEach((user)=>{
         createUserElement(user, user.message, user.messageTime);
+    });
+}
+$(document).ready(()=>{
+    (0, _domElementsJs.allUsers).length = 0; // Clear the array to avoid duplicates
+    $(".listUser .users").each(function() {
+        const user = {
+            id: $(this).attr("data-user-room"),
+            name: $(this).find(".userName").text(),
+            message: $(this).find(".userMessage").text(),
+            messageTime: $(this).find(".messageTime").text(),
+            photo: $(this).find(".user-img").attr("src").replace("/images/user/", "")
+        };
+        (0, _domElementsJs.allUsers).push(user);
+    });
+});
+function updateSearchResults(searchedUserData, searchedMessageData) {
+    $(".listUser").empty();
+    for(let i = 0; i < searchedUserData.length; i++){
+        const user = searchedUserData[i];
+        const message = searchedMessageData[i] ? searchedMessageData[i].message : "";
+        const createdAt = searchedMessageData[i] ? searchedMessageData[i].createdAt : "";
+        createUserElement(user, message, createdAt);
+    }
+}
+function handleUserSearchForUsers() {
+    searchUserParentElement.on("focus", ".searchInputUsers", (e)=>{
+        searchUserParentElement.addClass("has-focus");
+    });
+    searchUserParentElement.on("blur", ".searchInputUsers", (e)=>{
+        searchUserParentElement.removeClass("has-focus");
+    });
+    searchInputForUsers.on("input", (e)=>{
+        e.preventDefault();
+        const searchQuery = searchInputForUsers.val().trim();
+        if (searchQuery.length === 0) renderAllUsers();
+        else socket.emit("getUserSearched", searchQuery);
     });
 }
 
@@ -7507,6 +7543,9 @@ function socketListeners() {
             const checkIcon = messageContainer.find(".fa-solid.fa-check-double");
             if (checkIcon.length > 0) checkIcon.addClass("double-check");
         }
+    });
+    socket.on("getUserSearchedInfo", (searchedUserData, searchedMessageData)=>{
+        (0, _helperFunctionsJs.updateSearchResults)(searchedUserData, searchedMessageData);
     });
     socket.on("getMessagesSearched", async (messages)=>{
         $(".messageContainer").removeClass("highlight");

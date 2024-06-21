@@ -11,7 +11,7 @@ export const searchInputChat = $('.searchInput');
 export const userSelectedToChat = $('.userSelectedChat');
 export const messageFormContainer = $('.messageFormContainer');
 
-export let receivedMessageCount = 0; // Export receivedMessageCount
+export let receivedMessageCount = 0;
 export const userClientId = userLoggedInId;
 let userThatReceivesMessage = null;
 let roomName = null;
@@ -43,8 +43,4 @@ export function setReceivedMessageCount(count) {
 
 export function getReceivedMessageCount() {
   return receivedMessageCount;
-}
-
-export function initializeDOMElements() {
-  // Additional initialization code if needed
 }

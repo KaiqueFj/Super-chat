@@ -1,17 +1,13 @@
 import {
   createMessageContainer,
   formattedTime,
-  handleContextMenu,
-  createContextMenu,
-  attachContextMenuHandlers,
+  updateSearchResults,
 } from './helperFunctions.js';
 
 import {
   userClientId,
   chatContainer,
   receivedMessageCount,
-  userThatReceivesMessage,
-  roomName,
 } from './domElements.js';
 
 function scrollToBottom() {
@@ -118,6 +114,10 @@ export function socketListeners() {
         checkIcon.addClass('double-check');
       }
     }
+  });
+
+  socket.on('getUserSearchedInfo', (searchedUserData, searchedMessageData) => {
+    updateSearchResults(searchedUserData, searchedMessageData);
   });
 
   socket.on('getMessagesSearched', async (messages) => {

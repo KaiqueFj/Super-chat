@@ -7,8 +7,6 @@ import { toggleBackground } from './toggleBackground';
 import { dropDownMenu } from './dropDownMenu';
 import { updateSettings } from './updateSettings';
 import { settingsMenu } from './handleUserMenuClick';
-
-import { initializeDOMElements } from './domElements.js';
 import {
   handleFormSubmission,
   handleUserClick,
@@ -122,9 +120,6 @@ if (updateUserPassword) {
     );
   });
 }
-
-// Initialize DOM elements
-initializeDOMElements();
 
 // Initialize event handlers
 handleFormSubmission();

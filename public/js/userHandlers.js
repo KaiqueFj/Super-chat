@@ -103,7 +103,7 @@ export function handleUserSearchForUsers() {
   searchInputForUsers.on('input', (e) => {
     e.preventDefault();
     const searchQuery = searchInputForUsers.val().trim();
-    if (searchQuery.length === 0) {
+    if (searchQuery.length === 0 || '') {
       renderAllUsers();
     } else {
       socket.emit('getUserSearched', searchQuery);

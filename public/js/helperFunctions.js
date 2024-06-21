@@ -1,6 +1,11 @@
-import { chatContainer, userClientId } from './domElements.js';
+import { chatContainer, userClientId, allUsers } from './domElements.js';
 
-export function formattedTime(date) {
+export function formattedTime(isoDateString) {
+  if (!isoDateString) return ''; // Return empty string if input is empty or undefined
+
+  const date = new Date(isoDateString);
+  if (isNaN(date.getTime())) return ''; // Return empty string if date parsing fails
+
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
   return `${hours}:${minutes}`;
@@ -204,5 +209,57 @@ export function renderAllUsers() {
   $('.listUser').empty();
   allUsers.forEach((user) => {
     createUserElement(user, user.message, user.messageTime);
+  });
+}
+
+$(document).ready(() => {
+  allUsers.length = 0; // Clear the array to avoid duplicates
+  $('.listUser .users').each(function () {
+    const user = {
+      id: $(this).attr('data-user-room'),
+      name: $(this).find('.userName').text(),
+      message: $(this).find('.userMessage').text(),
+      messageTime: $(this).find('.messageTime').text(),
+      photo: $(this).find('.user-img').attr('src').replace('/images/user/', ''),
+    };
+
+    allUsers.push(user);
+  });
+});
+
+// Function to update the user list with search results
+export function updateSearchResults(searchedUserData, searchedMessageData) {
+  $('.listUser').empty();
+  for (let i = 0; i < searchedUserData.length; i++) {
+    const user = searchedUserData[i];
+    const message = searchedMessageData[i]
+      ? searchedMessageData[i].message
+      : '';
+    const createdAt = searchedMessageData[i]
+      ? searchedMessageData[i].createdAt
+      : '';
+
+    createUserElement(user, message, createdAt);
+  }
+}
+
+// Function to handle user search
+export function handleUserSearchForUsers() {
+  searchUserParentElement.on('focus', '.searchInputUsers', (e) => {
+    searchUserParentElement.addClass('has-focus');
+  });
+
+  searchUserParentElement.on('blur', '.searchInputUsers', (e) => {
+    searchUserParentElement.removeClass('has-focus');
+  });
+
+  searchInputForUsers.on('input', (e) => {
+    e.preventDefault();
+    const searchQuery = searchInputForUsers.val().trim();
+    if (searchQuery.length === 0) {
+      renderAllUsers();
+    } else {
+      socket.emit('getUserSearched', searchQuery);
+    }
   });
 }

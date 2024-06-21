@@ -45,7 +45,7 @@ exports.chatFeatures = (io) => {
           room: message.room,
           user: userID,
           userSender: userSender.name,
-          userReceiver: message.userReceived,
+          userReceiver: message.userThatReceivesMessage,
           isOwner: true,
         });
         await newMessage.save();

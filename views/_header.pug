@@ -104,13 +104,13 @@ header.header
             form.form.form-user-data
               .form__group
                 label.form__label.password(for='password-current') Current password
-                input#password-current.form__input.password(type='password', required , name='currentPassword')
+                input#password-current.form__input.password(type='password', required , placeholder='Current Password' name='currentPassword')
               .form__group
                 label.form__label(for='password') New password
-                input#password.form__input.password(type='password', required ,name='password')
+                input#password.form__input.password(type='password', required , placeholder='Password',name='password')
               .form__group
                 label.form__label(for='password-confirm') Password confirm
-                input#password-confirm.form__input.password(type='password', required ,name='passwordConfirm')
+                input#password-confirm.form__input.password(type='password', required, placeholder='Password Confirm' ,name='passwordConfirm')
 
               .form__group.right
                 button.btn.save
