@@ -20,6 +20,15 @@ router.patch(
   userController.getMe
 );
 
+router.patch(
+  '/updateChat',
+  authController.protect,
+  userController.uploadUserWallpaper,
+  userController.resizeUserWallpaper,
+  userController.updateMe,
+  userController.getMe
+);
+
 router.patch('/updatePassword', authController.updatePassword);
 
 module.exports = router;

@@ -5,7 +5,7 @@ export const updateSettings = async (data, type) => {
   try {
     const urlMap = {
       info: '/api/v1/users/updateUser',
-      background: '/updateChat',
+      background: '/api/v1/users/updateChat',
       password: '/api/v1/users/updatePassword',
     };
 

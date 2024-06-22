@@ -16,13 +16,4 @@ router.get(
   viewController.getChatPage
 );
 
-router.patch(
-  '/updateChat',
-  authController.protect,
-  userController.uploadUserWallpaper,
-  userController.resizeUserWallpaper,
-  userController.updateMe,
-  userController.getMe
-);
-
 module.exports = router;
