@@ -1,5 +1,6 @@
 const express = require('express');
 const authController = require('../Controllers/authController');
+const userController = require('../Controllers/userController');
 
 const router = express.Router();
 
@@ -9,6 +10,15 @@ router.get('/overview', authController.logout);
 
 // protect all routes after this middleware
 router.use(authController.protect);
+
+router.patch(
+  '/updateUser',
+  authController.protect,
+  userController.uploadUserPhoto,
+  userController.resizeUserPhoto,
+  userController.updateMe,
+  userController.getMe
+);
 
 router.patch('/updatePassword', authController.updatePassword);
 

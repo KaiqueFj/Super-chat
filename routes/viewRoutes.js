@@ -17,15 +17,6 @@ router.get(
 );
 
 router.patch(
-  '/updateUser',
-  authController.protect,
-  userController.uploadUserPhoto,
-  userController.resizeUserPhoto,
-  userController.updateMe,
-  userController.getMe
-);
-
-router.patch(
   '/updateChat',
   authController.protect,
   userController.uploadUserWallpaper,

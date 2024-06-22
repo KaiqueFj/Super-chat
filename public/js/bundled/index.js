@@ -7075,7 +7075,7 @@ var _alert = require("./alert");
 const updateSettings = async (data, type)=>{
     try {
         const urlMap = {
-            info: "/updateUser",
+            info: "/api/v1/users/updateUser",
             background: "/updateChat",
             password: "/api/v1/users/updatePassword"
         };
