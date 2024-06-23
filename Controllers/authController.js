@@ -48,13 +48,19 @@ exports.signUp = catchAsync(async (req, res, next) => {
 exports.loginUser = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
+  console.log(req.body);
+
   //1 - check if email and password exist
   if (!email || !password) {
     return next(new AppError('please, provide email and password'), 400);
   }
 
+  console.log(email, password);
+
   //2 - check if user exists && password is correct
   const user = await User.findOne({ email }).select('+password');
+
+  console.log(user);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password!', 401));

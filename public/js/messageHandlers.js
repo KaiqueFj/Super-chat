@@ -35,7 +35,7 @@ export function displayMessageInChat(message, messageID, senderID, createdAt) {
   return messageContainer;
 }
 
-export function socketListeners() {
+export function socketListeners(socket) {
   socket.on('received-message', (message) => {
     if (message.user !== userClientId) {
       $('.users').each(function () {

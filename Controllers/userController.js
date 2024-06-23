@@ -70,7 +70,13 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
   //2- Filtered out unwanted field names
-  const filteredBody = filterObj(req.body, 'name', 'email', 'biography');
+  const filteredBody = filterObj(
+    req.body,
+    'name',
+    'email',
+    'phoneNumber',
+    'biography'
+  );
 
   if (req.file) {
     if (req.file.fieldname === 'photo') {
@@ -79,8 +85,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       filteredBody.wallpaper = req.file.filename;
     }
   }
-
-  console.log(filteredBody);
 
   //2- update user data
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {

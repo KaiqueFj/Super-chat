@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false,
     },
+    phoneNumber: {
+      type: String,
+      default: '+00 00 00000-0000',
+    },
     online: {
       type: Boolean,
       default: false,

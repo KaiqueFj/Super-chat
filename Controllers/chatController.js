@@ -9,7 +9,13 @@ function escapeRegExp(string) {
 
 const getUserIDFromToken = async (socket) => {
   try {
-    const token = socket.handshake.headers.cookie.split('=')[1];
+    const cookieHeader = socket.handshake.headers.cookie;
+    if (!cookieHeader) {
+      console.error('No cookie header present in the socket handshake');
+      return null;
+    }
+
+    const token = cookieHeader.split('=')[1];
     if (token) {
       const decoded = await promisify(jwt.verify)(
         token,
@@ -24,7 +30,6 @@ const getUserIDFromToken = async (socket) => {
     return null;
   }
 };
-
 exports.chatFeatures = (io) => {
   io.on('connection', async (socket) => {
     const userID = await getUserIDFromToken(socket);

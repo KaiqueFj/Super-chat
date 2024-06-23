@@ -19,7 +19,7 @@ block content
           - if (loggedInUserID !== user.id )
 
             .users(data-user-room=user.id, data-online=user.online ? 'true' : 'false')
-              img.user-img(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
+              img.user-img(src=`/images/user/profile-pic/${user.photo || 'default.jpg'}`, alt=`Photo of ${user.name}`)
               .ball(class=user.online ? 'online' : 'offline')
               span.userName= user.name 
               if user.messages &&  user.messages.length > 0

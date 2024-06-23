@@ -163,12 +163,26 @@ body {
 .fa-solid.fa-pencil,
 .fa-solid.fa-copy,
 .fa-solid.fa-trash-can,
+.fa-solid.fa-phone,
 .fa-solid.fa-check,
 .fa-solid.fa-image,
-.fa-solid.fa-key {
+.fa-solid.fa-user,
+.fa-solid.fa-key,
+.fa-solid.fa-user-plus {
   color: var(--icon-colors);
   font-size: 1.7rem;
   padding: 0.5rem;
+}
+
+/* Menu icons */
+.fa-solid.fa-arrow-right-from-bracket,
+.fa-regular.fa-sun,
+.fa-solid.fa-gear,
+.fa-solid.fa-moon,
+.fa-solid.fa-user,
+.fa-solid.fa-arrow-left,
+.fa-regular.fa-pen-to-square {
+  margin-left: auto;
 }
 
 .fa-regular.fa-sun {
@@ -180,14 +194,7 @@ body {
   color: var(--icon-sun);
 }
 
-.fa-solid.fa-arrow-right-from-bracket,
-.fa-regular.fa-sun,
-.fa-solid.fa-gear,
-.fa-solid.fa-moon,
-.fa-solid.fa-arrow-left,
-.fa-regular.fa-pen-to-square {
-  margin-left: auto;
-}
+/* ContextMenu icons */
 
 .fa-solid.fa-pencil,
 .fa-solid.fa-trash-can,

@@ -594,7 +594,13 @@ var _updateSettings = require("./updateSettings");
 var _handleUserMenuClick = require("./handleUserMenuClick");
 var _userHandlersJs = require("./userHandlers.js");
 var _messageHandlersJs = require("./messageHandlers.js");
-//DOM elements
+// Ensure that the socket.io client script is loaded
+document.addEventListener("DOMContentLoaded", ()=>{
+    const socket = io(); // Initialize the socket
+    // Initialize socket listeners
+    (0, _messageHandlersJs.socketListeners)(socket); // Pass the socket object
+});
+// DOM elements
 const signUpForm = document.querySelector(".userSignIn");
 const signInForm = document.querySelector(".userLogIn");
 const logoutBtn = document.querySelector(".menuItem.logout");
@@ -602,6 +608,7 @@ const updateUserForm = document.querySelector(".form-user-data");
 const userPhoto = document.querySelector(".form__user-photo");
 const userPhotoConfig = document.querySelector(".user-img-settings");
 const photoInput = document.getElementById("photo");
+const userPhoneNumber = document.querySelector(".userName-settings.userPhoneNumber");
 const userBiography = document.querySelector(".userName-settings.userBiography");
 const updateUserChat = document.querySelector(".updateUserContainer.chat");
 const backgroundImage = document.querySelector(".form__user-photo.chat");
@@ -632,13 +639,15 @@ if (updateUserForm) {
         };
         reader.readAsDataURL(file);
     });
-    updateUserForm.addEventListener("submit", async (e)=>{
+    if (updateUserForm) updateUserForm.addEventListener("submit", async (e)=>{
         e.preventDefault();
         const form = new FormData();
         form.append("name", document.getElementById("name").value);
         form.append("email", document.getElementById("email").value);
         form.append("biography", document.getElementById("biography").value);
+        form.append("phoneNumber", document.getElementById("phoneNumber").value);
         form.append("photo", document.getElementById("photo").files[0]);
+        userPhoneNumber.textContent = document.getElementById("phoneNumber").value;
         userBiography.textContent = document.getElementById("biography").value;
         await (0, _updateSettings.updateSettings)(form, "info");
     });
@@ -652,7 +661,7 @@ if (updateUserChat) chatBackgroundInput.addEventListener("change", ()=>{
     };
     reader.readAsDataURL(file);
 });
-updateUserChat.addEventListener("submit", async (e)=>{
+if (updateUserChat) updateUserChat.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const form = new FormData();
     form.append("wallpaper", document.getElementById("wallpaper").files[0]);
@@ -674,11 +683,10 @@ if (updateUserPassword) updateUserPassword.addEventListener("submit", async (e)=
 (0, _userHandlersJs.handleUserClick)();
 (0, _userHandlersJs.handleUserSearch)();
 (0, _userHandlersJs.handleUserSearchForUsers)();
-// Initialize socket listeners
-(0, _messageHandlersJs.socketListeners)();
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
 (0, _handleUserMenuClick.settingsMenu)();
+(0, _handleUserMenuClick.contactsMenu)();
 
 },{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6"}],"49tUX":[function(require,module,exports) {
 "use strict";
@@ -7100,126 +7108,65 @@ const updateSettings = async (data, type)=>{
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
-const settingGearButton = $(".menuItem.settings");
-const ContainerWithUserInformations = $(".configurationsMenu");
-const returnBtn = $(".settingsBtn");
-const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
-const ContainerToUpdateUser = $(".updateUserContainer");
-const OpenChatBackgroundForm = $(".listUserItems.backgroundImg");
-const chatBackgroundUpdateForm = $(".updateUserContainer.chat");
-const OpenChangePasswordForm = $(".listUserItems.changePassword");
-const userContainerPasswordChange = $(".updateUserContainer.password");
+parcelHelpers.export(exports, "contactsMenu", ()=>contactsMenu);
+var _domElementsJs = require("./domElements.js");
+var _helperFunctionsJs = require("./helperFunctions.js");
 const settingsMenu = ()=>{
-    settingGearButton.on("click", function(e) {
-        e.preventDefault();
-        ContainerWithUserInformations.toggleClass("show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.settingGearButton), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
     });
-    //return to previous container
-    returnBtn.on("click", function(e) {
-        e.preventDefault();
-        ContainerWithUserInformations.toggleClass("show");
-        ContainerToUpdateUser.removeClass("show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.returnBtn), "click", ()=>{
+        if ((0, _domElementsJs.ContainerWithUserInformations).hasClass("show")) (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
+        (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.ContainerToUpdateUser), "show");
     });
-    // Open the container to update the background
-    OpenChatBackgroundForm.on("click", function(e) {
-        e.preventDefault();
-        chatBackgroundUpdateForm.toggleClass("show");
-        ContainerWithUserInformations.toggleClass("show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.OpenChatBackgroundForm), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.chatBackgroundUpdateForm), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
     });
-    // Open the container to update the userInfo
-    OpenContainerUpdateUserBtn.on("click", function(e) {
-        e.preventDefault();
-        ContainerToUpdateUser.toggleClass("show");
-        chatBackgroundUpdateForm.toggleClass("show");
-        userContainerPasswordChange.toggleClass("show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.OpenContainerUpdateUserBtn), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerToUpdateUser), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.chatBackgroundUpdateForm), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.userContainerPasswordChange), "show");
+        (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.addContactContainer), "show");
     });
-    OpenChangePasswordForm.on("click", function(e) {
-        e.preventDefault();
-        userContainerPasswordChange.toggleClass("show");
-        ContainerWithUserInformations.toggleClass("show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.OpenChangePasswordForm), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.userContainerPasswordChange), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.addContactContainer), "show");
+    });
+};
+const contactsMenu = ()=>{
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.settingsOpenButton), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.contactsContainer), "show");
+    });
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.createContactBtn), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.contactsContainer), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.addContactContainer), "show");
+    });
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.returnBtn), "click", ()=>{
+        if ((0, _domElementsJs.contactsContainer).hasClass("show")) (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.contactsContainer), "show");
+        else if ((0, _domElementsJs.addContactContainer).hasClass("show")) (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.addContactContainer), "show");
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
-// userHandlers.js
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleFormSubmission", ()=>handleFormSubmission);
-parcelHelpers.export(exports, "handleUserClick", ()=>handleUserClick);
-parcelHelpers.export(exports, "handleUserSearch", ()=>handleUserSearch);
-parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
-var _domElementsJs = require("./domElements.js");
-var _helperFunctionsJs = require("./helperFunctions.js");
-function handleFormSubmission() {
-    (0, _domElementsJs.form).on("submit", async (e)=>{
-        e.preventDefault();
-        const message = (0, _domElementsJs.messageInput).val();
-        const selectedUser = $(".listUser .users.selected");
-        if (!message || !selectedUser.length) return;
-        const userID = selectedUser.data("user-room");
-        const room = (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), userID);
-        const userThatReceivesMessage = (0, _domElementsJs.getUserThatReceivesMessage)();
-        const receivedCount = (0, _domElementsJs.getReceivedMessageCount)();
-        const userMessageData = {
-            message,
-            room,
-            userThatReceivesMessage,
-            receivedCount
-        };
-        socket.emit("send-message", userMessageData);
-        (0, _domElementsJs.messageInput).val("");
-    });
-}
-function handleUserClick() {
-    (0, _domElementsJs.parentElement).on("click", ".users", (e)=>{
-        (0, _domElementsJs.messageFormContainer).addClass("visible");
-        (0, _domElementsJs.userSelectedToChat).addClass("visible");
-        const target = $(e.target).closest(".users");
-        const userName = target.find(".userName").text();
-        const userID = target.data("user-room");
-        const userPhoto = target.find(".user-img").attr("src");
-        const userOnline = target.attr("data-online") === "true";
-        const room = (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), userID);
-        (0, _domElementsJs.setUserThatReceivesMessage)(userName);
-        (0, _domElementsJs.setRoomName)(room);
-        target.find(".roundNotification").toggleClass("hidden");
-        (0, _domElementsJs.setReceivedMessageCount)(0);
-        const statusText = userOnline ? "online" : "offline";
-        $(".statusBall").removeClass("online offline").addClass(statusText);
-        $(".userNameSelected").text(userName);
-        $(".user-img.selected").attr("src", userPhoto);
-        $(".users").removeClass("selected");
-        target.addClass("selected");
-        socket.emit("getUserMessageFromDatabase", (0, _domElementsJs.getRoomName)());
-        socket.emit("join-room", (0, _domElementsJs.getRoomName)(), ()=>{});
-    });
-}
-function handleUserSearch() {
-    (0, _domElementsJs.chatParentElement).on("click", ".searchTextInChatBtn", (e)=>{
-        e.preventDefault();
-        (0, _domElementsJs.searchInputChat).toggleClass("hidden");
-        const searchQuery = (0, _domElementsJs.searchInputChat).val().trim();
-        socket.emit("getUserMessageSearched", (0, _domElementsJs.getRoomName)(), searchQuery);
-        (0, _domElementsJs.searchInputChat).val("");
-    });
-}
-function handleUserSearchForUsers() {
-    (0, _domElementsJs.searchUserParentElement).on("click", ".searchInputUsers", (e)=>{
-        e.preventDefault();
-        (0, _domElementsJs.searchUserParentElement).addClass("has-focus");
-    });
-    (0, _domElementsJs.searchInputForUsers).on("input", (e)=>{
-        e.preventDefault();
-        const searchQuery = (0, _domElementsJs.searchInputForUsers).val().trim();
-        if (searchQuery.length === 0 || "") (0, _helperFunctionsJs.renderAllUsers)();
-        else socket.emit("getUserSearched", searchQuery);
-    });
-}
-
 },{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9fSnT":[function(require,module,exports) {
 // domElements.js
+//Menu Elements
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "settingGearButton", ()=>settingGearButton);
+parcelHelpers.export(exports, "ContainerWithUserInformations", ()=>ContainerWithUserInformations);
+parcelHelpers.export(exports, "returnBtn", ()=>returnBtn);
+parcelHelpers.export(exports, "OpenContainerUpdateUserBtn", ()=>OpenContainerUpdateUserBtn);
+parcelHelpers.export(exports, "ContainerToUpdateUser", ()=>ContainerToUpdateUser);
+parcelHelpers.export(exports, "OpenChatBackgroundForm", ()=>OpenChatBackgroundForm);
+parcelHelpers.export(exports, "chatBackgroundUpdateForm", ()=>chatBackgroundUpdateForm);
+parcelHelpers.export(exports, "OpenChangePasswordForm", ()=>OpenChangePasswordForm);
+parcelHelpers.export(exports, "userContainerPasswordChange", ()=>userContainerPasswordChange);
+parcelHelpers.export(exports, "settingsOpenButton", ()=>settingsOpenButton);
+parcelHelpers.export(exports, "contactsContainer", ()=>contactsContainer);
+parcelHelpers.export(exports, "createContactBtn", ()=>createContactBtn);
+parcelHelpers.export(exports, "addContactContainer", ()=>addContactContainer);
 parcelHelpers.export(exports, "form", ()=>form);
 parcelHelpers.export(exports, "messageInput", ()=>messageInput);
 parcelHelpers.export(exports, "parentElement", ()=>parentElement);
@@ -7243,6 +7190,19 @@ parcelHelpers.export(exports, "getRoomName", ()=>getRoomName);
 // Getter and setter for receivedMessageCount
 parcelHelpers.export(exports, "setReceivedMessageCount", ()=>setReceivedMessageCount);
 parcelHelpers.export(exports, "getReceivedMessageCount", ()=>getReceivedMessageCount);
+const settingGearButton = $(".menuItem.settings");
+const ContainerWithUserInformations = $(".configurationsMenu");
+const returnBtn = $(".settingsBtn");
+const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
+const ContainerToUpdateUser = $(".updateUserContainer");
+const OpenChatBackgroundForm = $(".listUserItems.backgroundImg");
+const chatBackgroundUpdateForm = $(".updateUserContainer.chat");
+const OpenChangePasswordForm = $(".listUserItems.changePassword");
+const userContainerPasswordChange = $(".updateUserContainer.password");
+const settingsOpenButton = $(".menuItem.contacts");
+const contactsContainer = $(".contactsContainer");
+const createContactBtn = $(".createContactBtn");
+const addContactContainer = $(".updateUserContainer.contacts");
 const form = $(".form-input");
 const messageInput = $(".inputMessage");
 const parentElement = $(".listUser");
@@ -7254,7 +7214,7 @@ const searchInputChat = $(".searchInput");
 const userSelectedToChat = $(".userSelectedChat");
 const messageFormContainer = $(".messageFormContainer");
 let receivedMessageCount = 0;
-const userClientId = userLoggedInId;
+const userClientId = window.userLoggedInId || null; // or some default value
 let userThatReceivesMessage = null;
 let roomName = null;
 let allUsers = [];
@@ -7282,6 +7242,10 @@ function getReceivedMessageCount() {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "formattedTime", ()=>formattedTime);
+// Handle the functions of menu
+parcelHelpers.export(exports, "toggleClass", ()=>toggleClass);
+parcelHelpers.export(exports, "removeClass", ()=>removeClass);
+parcelHelpers.export(exports, "handleEvent", ()=>handleEvent);
 parcelHelpers.export(exports, "scrollToBottom", ()=>scrollToBottom);
 parcelHelpers.export(exports, "createMenuItem", ()=>createMenuItem);
 parcelHelpers.export(exports, "scrollToMessage", ()=>scrollToMessage);
@@ -7303,6 +7267,18 @@ function formattedTime(isoDateString) {
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
+}
+function toggleClass(element, className) {
+    element.toggleClass(className);
+}
+function removeClass(element, className) {
+    element.removeClass(className);
+}
+function handleEvent(element, eventType, callback) {
+    element.on(eventType, function(e) {
+        e.preventDefault();
+        callback();
+    });
 }
 function scrollToBottom() {
     (0, _domElementsJs.chatContainer).scrollTop((0, _domElementsJs.chatContainer).prop("scrollHeight"));
@@ -7473,7 +7449,83 @@ function handleUserSearchForUsers() {
     });
 }
 
-},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jcuh6":[function(require,module,exports) {
+},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
+// userHandlers.js
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleFormSubmission", ()=>handleFormSubmission);
+parcelHelpers.export(exports, "handleUserClick", ()=>handleUserClick);
+parcelHelpers.export(exports, "handleUserSearch", ()=>handleUserSearch);
+parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
+var _domElementsJs = require("./domElements.js");
+var _helperFunctionsJs = require("./helperFunctions.js");
+function handleFormSubmission() {
+    (0, _domElementsJs.form).on("submit", async (e)=>{
+        e.preventDefault();
+        const message = (0, _domElementsJs.messageInput).val();
+        const selectedUser = $(".listUser .users.selected");
+        if (!message || !selectedUser.length) return;
+        const userID = selectedUser.data("user-room");
+        const room = (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), userID);
+        const userThatReceivesMessage = (0, _domElementsJs.getUserThatReceivesMessage)();
+        const receivedCount = (0, _domElementsJs.getReceivedMessageCount)();
+        const userMessageData = {
+            message,
+            room,
+            userThatReceivesMessage,
+            receivedCount
+        };
+        socket.emit("send-message", userMessageData);
+        (0, _domElementsJs.messageInput).val("");
+    });
+}
+function handleUserClick() {
+    (0, _domElementsJs.parentElement).on("click", ".users", (e)=>{
+        (0, _domElementsJs.messageFormContainer).addClass("visible");
+        (0, _domElementsJs.userSelectedToChat).addClass("visible");
+        const target = $(e.target).closest(".users");
+        const userName = target.find(".userName").text();
+        const userID = target.data("user-room");
+        const userPhoto = target.find(".user-img").attr("src");
+        const userOnline = target.attr("data-online") === "true";
+        const room = (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), userID);
+        (0, _domElementsJs.setUserThatReceivesMessage)(userName);
+        (0, _domElementsJs.setRoomName)(room);
+        target.find(".roundNotification").toggleClass("hidden");
+        (0, _domElementsJs.setReceivedMessageCount)(0);
+        const statusText = userOnline ? "online" : "offline";
+        $(".statusBall").removeClass("online offline").addClass(statusText);
+        $(".userNameSelected").text(userName);
+        $(".user-img.selected").attr("src", userPhoto);
+        $(".users").removeClass("selected");
+        target.addClass("selected");
+        socket.emit("getUserMessageFromDatabase", (0, _domElementsJs.getRoomName)());
+        socket.emit("join-room", (0, _domElementsJs.getRoomName)(), ()=>{});
+    });
+}
+function handleUserSearch() {
+    (0, _domElementsJs.chatParentElement).on("click", ".searchTextInChatBtn", (e)=>{
+        e.preventDefault();
+        (0, _domElementsJs.searchInputChat).toggleClass("hidden");
+        const searchQuery = (0, _domElementsJs.searchInputChat).val().trim();
+        socket.emit("getUserMessageSearched", (0, _domElementsJs.getRoomName)(), searchQuery);
+        (0, _domElementsJs.searchInputChat).val("");
+    });
+}
+function handleUserSearchForUsers() {
+    (0, _domElementsJs.searchUserParentElement).on("click", ".searchInputUsers", (e)=>{
+        e.preventDefault();
+        (0, _domElementsJs.searchUserParentElement).addClass("has-focus");
+    });
+    (0, _domElementsJs.searchInputForUsers).on("input", (e)=>{
+        e.preventDefault();
+        const searchQuery = (0, _domElementsJs.searchInputForUsers).val().trim();
+        if (searchQuery.length === 0 || "") (0, _helperFunctionsJs.renderAllUsers)();
+        else socket.emit("getUserSearched", searchQuery);
+    });
+}
+
+},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jcuh6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayMessageInChat", ()=>displayMessageInChat);
@@ -7495,7 +7547,7 @@ function displayMessageInChat(message, messageID, senderID, createdAt) {
     (0, _domElementsJs.chatContainer).append(messageContainer);
     return messageContainer;
 }
-function socketListeners() {
+function socketListeners(socket) {
     socket.on("received-message", (message)=>{
         if (message.user !== (0, _domElementsJs.userClientId)) $(".users").each(function() {
             const roomID = (0, _domElementsJs.userClientId) + "_" + $(this).data("user-room");

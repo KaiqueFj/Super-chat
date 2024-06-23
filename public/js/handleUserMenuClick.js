@@ -1,45 +1,67 @@
-const settingGearButton = $('.menuItem.settings');
-const ContainerWithUserInformations = $('.configurationsMenu');
-const returnBtn = $('.settingsBtn');
-const OpenContainerUpdateUserBtn = $('.settingsBtn.edit-user-info');
-const ContainerToUpdateUser = $('.updateUserContainer');
-const OpenChatBackgroundForm = $('.listUserItems.backgroundImg');
-const chatBackgroundUpdateForm = $('.updateUserContainer.chat');
-const OpenChangePasswordForm = $('.listUserItems.changePassword');
-const userContainerPasswordChange = $('.updateUserContainer.password');
+import {
+  settingGearButton,
+  ContainerWithUserInformations,
+  returnBtn,
+  OpenContainerUpdateUserBtn,
+  ContainerToUpdateUser,
+  OpenChatBackgroundForm,
+  chatBackgroundUpdateForm,
+  OpenChangePasswordForm,
+  userContainerPasswordChange,
+  settingsOpenButton,
+  contactsContainer,
+  createContactBtn,
+  addContactContainer,
+} from './domElements.js';
+
+import { toggleClass, removeClass, handleEvent } from './helperFunctions.js';
 
 export const settingsMenu = () => {
-  settingGearButton.on('click', function (e) {
-    e.preventDefault();
-
-    ContainerWithUserInformations.toggleClass('show');
+  handleEvent(settingGearButton, 'click', () => {
+    toggleClass(ContainerWithUserInformations, 'show');
   });
 
-  //return to previous container
-  returnBtn.on('click', function (e) {
-    e.preventDefault();
-    ContainerWithUserInformations.toggleClass('show');
-    ContainerToUpdateUser.removeClass('show');
+  handleEvent(returnBtn, 'click', () => {
+    if (ContainerWithUserInformations.hasClass('show')) {
+      toggleClass(ContainerWithUserInformations, 'show');
+    }
+    removeClass(ContainerToUpdateUser, 'show');
   });
 
-  // Open the container to update the background
-  OpenChatBackgroundForm.on('click', function (e) {
-    e.preventDefault();
-    chatBackgroundUpdateForm.toggleClass('show');
-    ContainerWithUserInformations.toggleClass('show');
+  handleEvent(OpenChatBackgroundForm, 'click', () => {
+    toggleClass(chatBackgroundUpdateForm, 'show');
+    toggleClass(ContainerWithUserInformations, 'show');
   });
 
-  // Open the container to update the userInfo
-  OpenContainerUpdateUserBtn.on('click', function (e) {
-    e.preventDefault();
-    ContainerToUpdateUser.toggleClass('show');
-    chatBackgroundUpdateForm.toggleClass('show');
-    userContainerPasswordChange.toggleClass('show');
+  handleEvent(OpenContainerUpdateUserBtn, 'click', () => {
+    toggleClass(ContainerToUpdateUser, 'show');
+    toggleClass(chatBackgroundUpdateForm, 'show');
+    toggleClass(userContainerPasswordChange, 'show');
+    removeClass(addContactContainer, 'show');
   });
 
-  OpenChangePasswordForm.on('click', function (e) {
-    e.preventDefault();
-    userContainerPasswordChange.toggleClass('show');
-    ContainerWithUserInformations.toggleClass('show');
+  handleEvent(OpenChangePasswordForm, 'click', () => {
+    toggleClass(userContainerPasswordChange, 'show');
+    toggleClass(ContainerWithUserInformations, 'show');
+    toggleClass(addContactContainer, 'show');
+  });
+};
+
+export const contactsMenu = () => {
+  handleEvent(settingsOpenButton, 'click', () => {
+    toggleClass(contactsContainer, 'show');
+  });
+
+  handleEvent(createContactBtn, 'click', () => {
+    toggleClass(contactsContainer, 'show');
+    toggleClass(addContactContainer, 'show');
+  });
+
+  handleEvent(returnBtn, 'click', () => {
+    if (contactsContainer.hasClass('show')) {
+      removeClass(contactsContainer, 'show');
+    } else if (addContactContainer.hasClass('show')) {
+      removeClass(addContactContainer, 'show');
+    }
   });
 };

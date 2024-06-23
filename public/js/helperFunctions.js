@@ -11,6 +11,21 @@ export function formattedTime(isoDateString) {
   return `${hours}:${minutes}`;
 }
 
+// Handle the functions of menu
+export function toggleClass(element, className) {
+  element.toggleClass(className);
+}
+export function removeClass(element, className) {
+  element.removeClass(className);
+}
+
+export function handleEvent(element, eventType, callback) {
+  element.on(eventType, function (e) {
+    e.preventDefault();
+    callback();
+  });
+}
+
 export function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
 }

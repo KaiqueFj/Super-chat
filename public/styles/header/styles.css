@@ -51,7 +51,9 @@
 .configurationsMenu,
 .updateUserContainer,
 .updateUserContainer.chat,
-.updateUserContainer.password {
+.updateUserContainer.password,
+.contactsContainer,
+.updateUserContainer.contacts {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -75,7 +77,9 @@
 .configurationsMenu.show,
 .updateUserContainer.show,
 .updateUserContainer.chat.show,
-.updateUserContainer.password.show {
+.updateUserContainer.password.show,
+.contactsContainer.show,
+.updateUserContainer.contacts.show {
   transform: translateX(0);
   opacity: 1;
   pointer-events: auto;
@@ -298,6 +302,26 @@ textarea:focus {
 
 .show {
   display: flex;
+}
+
+/* Contacts */
+
+.contactsContainerInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+  margin: 0.6rem;
+  align-items: center;
+}
+
+.createContactBtn {
+  display: flex;
+  border-radius: 50%;
+  width: fit-content;
+  background: var(--primary-purple-color);
+  padding: 1.5rem;
+  margin-left: auto;
+  margin-right: 1rem;
 }
 
 /* Search for users */

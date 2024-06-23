@@ -17,12 +17,21 @@ header.header
               .menuItemName Settings
               i.fa-solid.fa-gear
 
+            .menuItem.contacts 
+              .menuItemName Contacts
+              i.fa-solid.fa-user
+
+
             .menuItem.logout 
               .menuItemName Logout
               i.fa-solid.fa-arrow-right-from-bracket
 
 
+
+
           .configurationsMenu
+
+
             .headerInfo-settings
               button.settingsBtn
                 i.fa-solid.fa-arrow-left
@@ -31,9 +40,13 @@ header.header
                 i.fa-regular.fa-pen-to-square
 
             .userInfo-settings
-              img.user-img-settings(src=`/images/user/${user.photo}`, alt=`Photo of ${user.name}`)
+              img.user-img-settings(src=`/images/user/profile-pic/${user.photo}`, alt=`Photo of ${user.name}`)
               .listUserItems
                 span.userName-settings=user.name
+
+              .listUserItems
+                i.fa-solid.fa-phone
+                span.userName-settings.userPhoneNumber=user.phoneNumber
 
               .listUserItems
                 i.fa-solid.fa-message
@@ -60,7 +73,7 @@ header.header
 
             form.form.form-user-data
               .form__group
-                img.form__user-photo(src=`/images/user/${user.photo}`, alt='User photo')
+                img.form__user-photo(src=`/images/user/profile-pic/${user.photo}`, alt='User photo')
                 input.form__upload.img(type= 'file', accept='image/*', id='photo', name='photo')
                 label(for='photo') Choose new photo
               .form__group                
@@ -69,6 +82,10 @@ header.header
               .form__group
                 label.form__label(for='email') Email address
                 input#email.form__input.email(type='email', value=`${user.email}`, required, name='email')
+
+              .form__group
+                label.form__label(for='phoneNumber') Phone Number
+                input#phoneNumber.form__input.phoneNumber(type='tel', value=`${user.phoneNumber}`, required, name='phoneNumber')
               .form__group
                 label.form__label(for='biography') Biography
                 textarea#biography.form__input.biography(type='text', name='biography') #{user.biography}
@@ -116,10 +133,51 @@ header.header
                 button.btn.save
                   i.fa-solid.fa-check
 
+          //- form to add the contacts
+          .updateUserContainer.contacts
+            .headerInfo
+              button.settingsBtn.return
+                i.fa-solid.fa-arrow-left
+              span.settingsNameHeader Contacts
+
+            form.form.form-user-data
+              .form__group
+                label.form__label(for='phoneNumber') Phone Number
+                input#phoneNumber.form__input.phoneNumber(type='tel', required, name='phoneNumber')
+
+              .form__group.right
+
+          .contactsContainer
+            .headerInfo-settings
+              button.settingsBtn
+                i.fa-solid.fa-arrow-left
+              span.settingsNameHeader Contact
+            .contactsContainerInfo
+              .searchForUsers
+                input.searchInputUsers(type="text"  placeholder="Search")
+                i.fa-solid.fa-magnifying-glass
+              .usersList
+              .listUser
+                - const loggedInUserID = user.id
+
+                each user in users
+                  - if (loggedInUserID !== user.id )
+
+                    .users(data-user-room=user.id, data-online=user.online ? 'true' : 'false')
+                      img.user-img(src=`/images/user/profile-pic/${user.photo || 'default.jpg'}`, alt=`Photo of ${user.name}`)
+                      span.userName= user.name 
+              button.createContactBtn
+                i.fa-solid.fa-user-plus
+
+
+
+
         .searchForUsers
 
           input.searchInputUsers(type="text"  placeholder="Search")
           i.fa-solid.fa-magnifying-glass
+
+
 
 
       .rightHeader
