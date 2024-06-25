@@ -89,6 +89,16 @@ exports.chatFeatures = (io) => {
       }
     });
 
+    socket.on('getPhoneNumberSearched', async (phoneNumber) => {
+      try {
+        const user = await User.find({ phoneNumber: phoneNumber });
+
+        socket.emit('userWithPhone', user);
+      } catch (err) {
+        socket.emit('error', 'Could not load the messages properly');
+      }
+    });
+
     socket.on('getUserMessageSearched', async (roomName, messagesUser) => {
       try {
         let searchedMessage;

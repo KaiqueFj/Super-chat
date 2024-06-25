@@ -1,31 +1,30 @@
-const body = $('body');
-const html = $('html');
-const main = $('main');
-const footer = $('.footer');
-const header = $('.header');
-const users = $('.users');
-const spanUsername = $('.userName');
-const messageForm = $('.messageFormContainer');
-const userMessage = $('.userMessage');
-const messageTime = $('.messageTime');
-const searchUsersContainerLeftMenu = $('.searchForUsers');
-const searchInputUsers = $('.searchInputUsers');
-const usersSelected = $('.users.selected');
-const dropDownMenuList = $('.dropDownMenuList');
-const leftMenu = $('.leftMenu');
-const inputBox = $('.inputBox');
-const messageOwnerFalse = $('.messageContainer.owner-false');
-const userSelectedToChat = $('.userSelectedChat');
-const messageInput = $('.inputMessage');
-const searchInputChat = $('.searchInput');
-const searchIcon = $('.fa-solid.fa-magnifying-glass');
-const barsIcon = $('.fa-solid.fa-bars');
-const sendMessageIcon = $('.fa-regular.fa-paper-plane');
-const toggleBackgroundButton = $('.menuItem.toggleBackground');
-const userNameSelected = $('.userNameSelected');
-const sunIcon = $('.fa-regular.fa-sun');
-const moonIcon = $('.fa-solid.fa-moon');
-const menuItemDarkModeText = $('.menuItemName.toggleBackground');
+import {
+  body,
+  html,
+  main,
+  footer,
+  header,
+  users,
+  spanUsername,
+  messageForm,
+  userMessage,
+  messageTime,
+  searchUsersContainerLeftMenu,
+  searchInputUsers,
+  usersSelected,
+  leftMenu,
+  inputBox,
+  messageInput,
+  searchInputChat,
+  searchIcon,
+  barsIcon,
+  sendMessageIcon,
+  toggleBackgroundButton,
+  userNameSelected,
+  sunIcon,
+  moonIcon,
+  menuItemDarkModeText,
+} from './domElements.js';
 
 export const toggleBackground = () => {
   let isSunVisible = true; // Track the current state of the icons

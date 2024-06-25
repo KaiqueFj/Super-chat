@@ -1,5 +1,30 @@
 // domElements.js
 
+// Toggle Background
+export const body = $('body');
+export const html = $('html');
+export const main = $('main');
+export const footer = $('.footer');
+export const header = $('.header');
+export const users = $('.users');
+export const spanUsername = $('.userName');
+export const messageForm = $('.messageFormContainer');
+export const userMessage = $('.userMessage');
+export const messageTime = $('.messageTime');
+export const searchUsersContainerLeftMenu = $('.searchForUsers');
+export const searchInputUsers = $('.searchInputUsers');
+export const usersSelected = $('.users.selected');
+export const leftMenu = $('.leftMenu');
+export const inputBox = $('.inputBox');
+export const searchIcon = $('.fa-solid.fa-magnifying-glass');
+export const barsIcon = $('.fa-solid.fa-bars');
+export const sendMessageIcon = $('.fa-regular.fa-paper-plane');
+export const toggleBackgroundButton = $('.menuItem.toggleBackground');
+export const userNameSelected = $('.userNameSelected');
+export const sunIcon = $('.fa-regular.fa-sun');
+export const moonIcon = $('.fa-solid.fa-moon');
+export const menuItemDarkModeText = $('.menuItemName.toggleBackground');
+
 //Menu Elements
 export const settingGearButton = $('.menuItem.settings');
 export const ContainerWithUserInformations = $('.configurationsMenu');
@@ -26,6 +51,32 @@ export const searchInputForUsers = $('.searchInputUsers');
 export const searchInputChat = $('.searchInput');
 export const userSelectedToChat = $('.userSelectedChat');
 export const messageFormContainer = $('.messageFormContainer');
+
+//Menu elements 1
+export const signUpForm = document.querySelector('.userSignIn');
+export const signInForm = document.querySelector('.userLogIn');
+export const logoutBtn = document.querySelector('.menuItem.logout');
+export const updateUserForm = document.querySelector('.form-user-data');
+export const userPhoto = document.querySelector('.form__user-photo');
+export const userPhotoConfig = document.querySelector('.user-img-settings');
+export const photoInput = document.getElementById('photo');
+export const userPhoneNumber = document.querySelector(
+  '.userName-settings.userPhoneNumber'
+);
+export const userBiography = document.querySelector(
+  '.userName-settings.userBiography'
+);
+export const updateUserChat = document.querySelector(
+  '.updateUserContainer.chat'
+);
+export const backgroundImage = document.querySelector('.form__user-photo.chat');
+export const chatBackgroundInput = document.getElementById('wallpaper');
+export const backgroundOfMessageContainer = document.querySelector(
+  '.messageFormContainer'
+);
+export const updateUserPassword = document.querySelector(
+  '.updateUserContainer.password'
+);
 
 export let receivedMessageCount = 0;
 export const userClientId = window.userLoggedInId || null; // or some default value

@@ -103,7 +103,8 @@ header.header
               span.settingsNameHeader Chat Wallpaper
             form.form.form-user-data
               .form__group
-                img.form__user-photo.chat(src=`/images/user/chat-background/${user.wallpaper}`, alt='User wallpaper')
+                img.form__user-photo.chat(src=user.wallpaper ? `/images/user/chat-background/${user.wallpaper}`:'', alt='User wallpaper')
+
                 input.form__upload.img(type= 'file', accept='image/*', id='wallpaper', name='wallpaper')
                 label(for='wallpaper') Choose new Wallpaper
 
@@ -144,19 +145,16 @@ header.header
               .form__group
                 label.form__label(for='phoneNumber') Phone Number
                 input#phoneNumber.form__input.phoneNumber(type='tel', required, name='phoneNumber')
-
-              .form__group.right
+            .listUser
 
           .contactsContainer
-            .headerInfo-settings
+            .headerInfo
               button.settingsBtn
                 i.fa-solid.fa-arrow-left
               span.settingsNameHeader Contact
             .contactsContainerInfo
               .searchForUsers
-                input.searchInputUsers(type="text"  placeholder="Search")
                 i.fa-solid.fa-magnifying-glass
-              .usersList
               .listUser
                 - const loggedInUserID = user.id
 

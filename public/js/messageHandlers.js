@@ -1,14 +1,14 @@
 import {
   createMessageContainer,
+  createRoundNotification,
   formattedTime,
+  showUserFound,
   updateSearchResults,
 } from './helperFunctions.js';
 
-import {
-  userClientId,
-  chatContainer,
-  receivedMessageCount,
-} from './domElements.js';
+import { userClientId, receivedMessageCount } from './domElements.js';
+
+const chatContainer = $('.messageList');
 
 function scrollToBottom() {
   chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
@@ -123,6 +123,10 @@ export function socketListeners(socket) {
 
   socket.on('getUserSearchedInfo', (searchedUserData, searchedMessageData) => {
     updateSearchResults(searchedUserData, searchedMessageData);
+  });
+
+  socket.on('userWithPhone', (userSearched) => {
+    showUserFound(userSearched);
   });
 
   socket.on('getMessagesSearched', async (messages) => {

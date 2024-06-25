@@ -11,41 +11,42 @@ import {
   handleFormSubmission,
   handleUserClick,
   handleUserSearch,
+  handleUserSearchForPhonenumber,
   handleUserSearchForUsers,
 } from './userHandlers.js';
 import { socketListeners } from './messageHandlers.js';
 
+import {
+  signUpForm,
+  signInForm,
+  logoutBtn,
+  updateUserForm,
+  userPhoto,
+  userPhotoConfig,
+  photoInput,
+  userPhoneNumber,
+  userBiography,
+  updateUserChat,
+  backgroundImage,
+  chatBackgroundInput,
+  backgroundOfMessageContainer,
+  updateUserPassword,
+} from './domElements.js';
+
 // Ensure that the socket.io client script is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  const socket = io(); // Initialize the socket
+  const socket = io();
 
-  // Initialize socket listeners
-  socketListeners(socket); // Pass the socket object
+  socketListeners(socket);
+
+  handleFormSubmission(socket); // Pass socket to user handlers
+  handleUserClick(socket);
+  handleUserSearch(socket);
+  handleUserSearchForUsers(socket);
+  handleUserSearchForPhonenumber(socket);
 });
 
 // DOM elements
-const signUpForm = document.querySelector('.userSignIn');
-const signInForm = document.querySelector('.userLogIn');
-const logoutBtn = document.querySelector('.menuItem.logout');
-const updateUserForm = document.querySelector('.form-user-data');
-const userPhoto = document.querySelector('.form__user-photo');
-const userPhotoConfig = document.querySelector('.user-img-settings');
-const photoInput = document.getElementById('photo');
-const userPhoneNumber = document.querySelector(
-  '.userName-settings.userPhoneNumber'
-);
-const userBiography = document.querySelector(
-  '.userName-settings.userBiography'
-);
-const updateUserChat = document.querySelector('.updateUserContainer.chat');
-const backgroundImage = document.querySelector('.form__user-photo.chat');
-const chatBackgroundInput = document.getElementById('wallpaper');
-const backgroundOfMessageContainer = document.querySelector(
-  '.messageFormContainer'
-);
-const updateUserPassword = document.querySelector(
-  '.updateUserContainer.password'
-);
 
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
@@ -139,12 +140,6 @@ if (updateUserPassword) {
     );
   });
 }
-
-// Initialize event handlers
-handleFormSubmission();
-handleUserClick();
-handleUserSearch();
-handleUserSearchForUsers();
 
 toggleBackground();
 dropDownMenu();

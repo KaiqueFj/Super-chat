@@ -594,52 +594,43 @@ var _updateSettings = require("./updateSettings");
 var _handleUserMenuClick = require("./handleUserMenuClick");
 var _userHandlersJs = require("./userHandlers.js");
 var _messageHandlersJs = require("./messageHandlers.js");
+var _domElementsJs = require("./domElements.js");
 // Ensure that the socket.io client script is loaded
 document.addEventListener("DOMContentLoaded", ()=>{
-    const socket = io(); // Initialize the socket
-    // Initialize socket listeners
-    (0, _messageHandlersJs.socketListeners)(socket); // Pass the socket object
+    const socket = io();
+    (0, _messageHandlersJs.socketListeners)(socket);
+    (0, _userHandlersJs.handleFormSubmission)(socket); // Pass socket to user handlers
+    (0, _userHandlersJs.handleUserClick)(socket);
+    (0, _userHandlersJs.handleUserSearch)(socket);
+    (0, _userHandlersJs.handleUserSearchForUsers)(socket);
+    (0, _userHandlersJs.handleUserSearchForPhonenumber)(socket);
 });
 // DOM elements
-const signUpForm = document.querySelector(".userSignIn");
-const signInForm = document.querySelector(".userLogIn");
-const logoutBtn = document.querySelector(".menuItem.logout");
-const updateUserForm = document.querySelector(".form-user-data");
-const userPhoto = document.querySelector(".form__user-photo");
-const userPhotoConfig = document.querySelector(".user-img-settings");
-const photoInput = document.getElementById("photo");
-const userPhoneNumber = document.querySelector(".userName-settings.userPhoneNumber");
-const userBiography = document.querySelector(".userName-settings.userBiography");
-const updateUserChat = document.querySelector(".updateUserContainer.chat");
-const backgroundImage = document.querySelector(".form__user-photo.chat");
-const chatBackgroundInput = document.getElementById("wallpaper");
-const backgroundOfMessageContainer = document.querySelector(".messageFormContainer");
-const updateUserPassword = document.querySelector(".updateUserContainer.password");
-if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
-if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
+if (0, _domElementsJs.logoutBtn) (0, _domElementsJs.logoutBtn).addEventListener("click", (0, _login.logout));
+if (0, _domElementsJs.signUpForm) (0, _domElementsJs.signUpForm).addEventListener("submit", (e)=>{
     e.preventDefault();
     const name = document.querySelector(".inputName").value;
     const email = document.querySelector(".inputEmail").value;
     const password = document.querySelector(".inputPassword").value;
     (0, _signUp.signUp)(name, email, password);
 });
-if (signInForm) signInForm.addEventListener("submit", (e)=>{
+if (0, _domElementsJs.signInForm) (0, _domElementsJs.signInForm).addEventListener("submit", (e)=>{
     e.preventDefault();
     const email = document.querySelector(".inputEmail").value;
     const password = document.querySelector(".inputPassword").value;
     (0, _login.signIn)(email, password);
 });
-if (updateUserForm) {
-    photoInput.addEventListener("change", ()=>{
-        const file = photoInput.files[0];
+if (0, _domElementsJs.updateUserForm) {
+    (0, _domElementsJs.photoInput).addEventListener("change", ()=>{
+        const file = (0, _domElementsJs.photoInput).files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
-            userPhoto.src = e.target.result;
-            userPhotoConfig.src = e.target.result;
+            (0, _domElementsJs.userPhoto).src = e.target.result;
+            (0, _domElementsJs.userPhotoConfig).src = e.target.result;
         };
         reader.readAsDataURL(file);
     });
-    if (updateUserForm) updateUserForm.addEventListener("submit", async (e)=>{
+    if (0, _domElementsJs.updateUserForm) (0, _domElementsJs.updateUserForm).addEventListener("submit", async (e)=>{
         e.preventDefault();
         const form = new FormData();
         form.append("name", document.getElementById("name").value);
@@ -647,27 +638,27 @@ if (updateUserForm) {
         form.append("biography", document.getElementById("biography").value);
         form.append("phoneNumber", document.getElementById("phoneNumber").value);
         form.append("photo", document.getElementById("photo").files[0]);
-        userPhoneNumber.textContent = document.getElementById("phoneNumber").value;
-        userBiography.textContent = document.getElementById("biography").value;
+        (0, _domElementsJs.userPhoneNumber).textContent = document.getElementById("phoneNumber").value;
+        (0, _domElementsJs.userBiography).textContent = document.getElementById("biography").value;
         await (0, _updateSettings.updateSettings)(form, "info");
     });
 }
-if (updateUserChat) chatBackgroundInput.addEventListener("change", ()=>{
-    const file = chatBackgroundInput.files[0];
+if (0, _domElementsJs.updateUserChat) (0, _domElementsJs.chatBackgroundInput).addEventListener("change", ()=>{
+    const file = (0, _domElementsJs.chatBackgroundInput).files[0];
     const reader = new FileReader();
     reader.onload = function(e) {
-        backgroundImage.src = e.target.result;
-        backgroundOfMessageContainer.style.backgroundImage = `url(${e.target.result})`;
+        (0, _domElementsJs.backgroundImage).src = e.target.result;
+        (0, _domElementsJs.backgroundOfMessageContainer).style.backgroundImage = `url(${e.target.result})`;
     };
     reader.readAsDataURL(file);
 });
-if (updateUserChat) updateUserChat.addEventListener("submit", async (e)=>{
+if (0, _domElementsJs.updateUserChat) (0, _domElementsJs.updateUserChat).addEventListener("submit", async (e)=>{
     e.preventDefault();
     const form = new FormData();
     form.append("wallpaper", document.getElementById("wallpaper").files[0]);
     await (0, _updateSettings.updateSettings)(form, "background");
 });
-if (updateUserPassword) updateUserPassword.addEventListener("submit", async (e)=>{
+if (0, _domElementsJs.updateUserPassword) (0, _domElementsJs.updateUserPassword).addEventListener("submit", async (e)=>{
     e.preventDefault();
     const currentPassword = document.getElementById("password-current").value;
     const password = document.getElementById("password").value;
@@ -678,17 +669,12 @@ if (updateUserPassword) updateUserPassword.addEventListener("submit", async (e)=
         passwordConfirm
     }, "password");
 });
-// Initialize event handlers
-(0, _userHandlersJs.handleFormSubmission)();
-(0, _userHandlersJs.handleUserClick)();
-(0, _userHandlersJs.handleUserSearch)();
-(0, _userHandlersJs.handleUserSearchForUsers)();
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
 (0, _handleUserMenuClick.settingsMenu)();
 (0, _handleUserMenuClick.contactsMenu)();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -7004,6 +6990,113 @@ const logout = async ()=>{
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "toggleBackground", ()=>toggleBackground);
+var _domElementsJs = require("./domElements.js");
+const toggleBackground = ()=>{
+    let isSunVisible = true; // Track the current state of the icons
+    (0, _domElementsJs.toggleBackgroundButton).on("click", function(e) {
+        e.preventDefault();
+        (0, _domElementsJs.html).add((0, _domElementsJs.body)).add((0, _domElementsJs.footer)).add((0, _domElementsJs.header)).add((0, _domElementsJs.main)).add((0, _domElementsJs.leftMenu)).toggleClass("light-mode");
+        (0, _domElementsJs.searchUsersContainerLeftMenu).add((0, _domElementsJs.searchInputChat)).add((0, _domElementsJs.messageInput)).add((0, _domElementsJs.inputBox)).toggleClass("light-mode-color-details");
+        // User username, message, time - white background
+        (0, _domElementsJs.spanUsername).add((0, _domElementsJs.userNameSelected)).toggleClass("light-mode-color-details-text");
+        (0, _domElementsJs.userMessage).add((0, _domElementsJs.messageTime)).add((0, _domElementsJs.searchIcon)).add((0, _domElementsJs.searchInputChat)).add((0, _domElementsJs.sendMessageIcon)).add((0, _domElementsJs.barsIcon)).toggleClass("light-mode-color-details-subText");
+        (0, _domElementsJs.users).toggleClass("light-mode-color-hover");
+        (0, _domElementsJs.usersSelected).toggleClass("light-mode usersselected");
+        (0, _domElementsJs.messageForm).toggleClass("light-mode-color-container");
+        (0, _domElementsJs.inputBox).add((0, _domElementsJs.searchInputUsers)).add((0, _domElementsJs.searchUsersContainerLeftMenu)).add((0, _domElementsJs.searchInputChat)).add((0, _domElementsJs.messageInput)).toggleClass("light-mode-color-input");
+        // Toggle visibility of sun and moon icons based on the current state
+        if (isSunVisible) {
+            (0, _domElementsJs.sunIcon).css("display", "none");
+            (0, _domElementsJs.moonIcon).css("display", "block");
+            (0, _domElementsJs.menuItemDarkModeText).text("Dark mode"); // Change button text
+        } else {
+            (0, _domElementsJs.sunIcon).css("display", "block");
+            (0, _domElementsJs.moonIcon).css("display", "none");
+            (0, _domElementsJs.menuItemDarkModeText).text("Light mode"); // Change button text
+        }
+        // Update the state of the icons
+        isSunVisible = !isSunVisible;
+    });
+};
+
+},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9fSnT":[function(require,module,exports) {
+// domElements.js
+// Toggle Background
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "body", ()=>body);
+parcelHelpers.export(exports, "html", ()=>html);
+parcelHelpers.export(exports, "main", ()=>main);
+parcelHelpers.export(exports, "footer", ()=>footer);
+parcelHelpers.export(exports, "header", ()=>header);
+parcelHelpers.export(exports, "users", ()=>users);
+parcelHelpers.export(exports, "spanUsername", ()=>spanUsername);
+parcelHelpers.export(exports, "messageForm", ()=>messageForm);
+parcelHelpers.export(exports, "userMessage", ()=>userMessage);
+parcelHelpers.export(exports, "messageTime", ()=>messageTime);
+parcelHelpers.export(exports, "searchUsersContainerLeftMenu", ()=>searchUsersContainerLeftMenu);
+parcelHelpers.export(exports, "searchInputUsers", ()=>searchInputUsers);
+parcelHelpers.export(exports, "usersSelected", ()=>usersSelected);
+parcelHelpers.export(exports, "leftMenu", ()=>leftMenu);
+parcelHelpers.export(exports, "inputBox", ()=>inputBox);
+parcelHelpers.export(exports, "searchIcon", ()=>searchIcon);
+parcelHelpers.export(exports, "barsIcon", ()=>barsIcon);
+parcelHelpers.export(exports, "sendMessageIcon", ()=>sendMessageIcon);
+parcelHelpers.export(exports, "toggleBackgroundButton", ()=>toggleBackgroundButton);
+parcelHelpers.export(exports, "userNameSelected", ()=>userNameSelected);
+parcelHelpers.export(exports, "sunIcon", ()=>sunIcon);
+parcelHelpers.export(exports, "moonIcon", ()=>moonIcon);
+parcelHelpers.export(exports, "menuItemDarkModeText", ()=>menuItemDarkModeText);
+parcelHelpers.export(exports, "settingGearButton", ()=>settingGearButton);
+parcelHelpers.export(exports, "ContainerWithUserInformations", ()=>ContainerWithUserInformations);
+parcelHelpers.export(exports, "returnBtn", ()=>returnBtn);
+parcelHelpers.export(exports, "OpenContainerUpdateUserBtn", ()=>OpenContainerUpdateUserBtn);
+parcelHelpers.export(exports, "ContainerToUpdateUser", ()=>ContainerToUpdateUser);
+parcelHelpers.export(exports, "OpenChatBackgroundForm", ()=>OpenChatBackgroundForm);
+parcelHelpers.export(exports, "chatBackgroundUpdateForm", ()=>chatBackgroundUpdateForm);
+parcelHelpers.export(exports, "OpenChangePasswordForm", ()=>OpenChangePasswordForm);
+parcelHelpers.export(exports, "userContainerPasswordChange", ()=>userContainerPasswordChange);
+parcelHelpers.export(exports, "settingsOpenButton", ()=>settingsOpenButton);
+parcelHelpers.export(exports, "contactsContainer", ()=>contactsContainer);
+parcelHelpers.export(exports, "createContactBtn", ()=>createContactBtn);
+parcelHelpers.export(exports, "addContactContainer", ()=>addContactContainer);
+parcelHelpers.export(exports, "form", ()=>form);
+parcelHelpers.export(exports, "messageInput", ()=>messageInput);
+parcelHelpers.export(exports, "parentElement", ()=>parentElement);
+parcelHelpers.export(exports, "chatContainer", ()=>chatContainer);
+parcelHelpers.export(exports, "chatParentElement", ()=>chatParentElement);
+parcelHelpers.export(exports, "searchUserParentElement", ()=>searchUserParentElement);
+parcelHelpers.export(exports, "searchInputForUsers", ()=>searchInputForUsers);
+parcelHelpers.export(exports, "searchInputChat", ()=>searchInputChat);
+parcelHelpers.export(exports, "userSelectedToChat", ()=>userSelectedToChat);
+parcelHelpers.export(exports, "messageFormContainer", ()=>messageFormContainer);
+parcelHelpers.export(exports, "signUpForm", ()=>signUpForm);
+parcelHelpers.export(exports, "signInForm", ()=>signInForm);
+parcelHelpers.export(exports, "logoutBtn", ()=>logoutBtn);
+parcelHelpers.export(exports, "updateUserForm", ()=>updateUserForm);
+parcelHelpers.export(exports, "userPhoto", ()=>userPhoto);
+parcelHelpers.export(exports, "userPhotoConfig", ()=>userPhotoConfig);
+parcelHelpers.export(exports, "photoInput", ()=>photoInput);
+parcelHelpers.export(exports, "userPhoneNumber", ()=>userPhoneNumber);
+parcelHelpers.export(exports, "userBiography", ()=>userBiography);
+parcelHelpers.export(exports, "updateUserChat", ()=>updateUserChat);
+parcelHelpers.export(exports, "backgroundImage", ()=>backgroundImage);
+parcelHelpers.export(exports, "chatBackgroundInput", ()=>chatBackgroundInput);
+parcelHelpers.export(exports, "backgroundOfMessageContainer", ()=>backgroundOfMessageContainer);
+parcelHelpers.export(exports, "updateUserPassword", ()=>updateUserPassword);
+parcelHelpers.export(exports, "receivedMessageCount", ()=>receivedMessageCount);
+parcelHelpers.export(exports, "userClientId", ()=>userClientId);
+parcelHelpers.export(exports, "allUsers", ()=>allUsers);
+parcelHelpers.export(exports, "clientId", ()=>clientId);
+// Getter and setter for userThatReceivesMessage
+parcelHelpers.export(exports, "setUserThatReceivesMessage", ()=>setUserThatReceivesMessage);
+parcelHelpers.export(exports, "getUserThatReceivesMessage", ()=>getUserThatReceivesMessage);
+// Getter and setter for roomName
+parcelHelpers.export(exports, "setRoomName", ()=>setRoomName);
+parcelHelpers.export(exports, "getRoomName", ()=>getRoomName);
+// Getter and setter for receivedMessageCount
+parcelHelpers.export(exports, "setReceivedMessageCount", ()=>setReceivedMessageCount);
+parcelHelpers.export(exports, "getReceivedMessageCount", ()=>getReceivedMessageCount);
 const body = $("body");
 const html = $("html");
 const main = $("main");
@@ -7017,13 +7110,8 @@ const messageTime = $(".messageTime");
 const searchUsersContainerLeftMenu = $(".searchForUsers");
 const searchInputUsers = $(".searchInputUsers");
 const usersSelected = $(".users.selected");
-const dropDownMenuList = $(".dropDownMenuList");
 const leftMenu = $(".leftMenu");
 const inputBox = $(".inputBox");
-const messageOwnerFalse = $(".messageContainer.owner-false");
-const userSelectedToChat = $(".userSelectedChat");
-const messageInput = $(".inputMessage");
-const searchInputChat = $(".searchInput");
 const searchIcon = $(".fa-solid.fa-magnifying-glass");
 const barsIcon = $(".fa-solid.fa-bars");
 const sendMessageIcon = $(".fa-regular.fa-paper-plane");
@@ -7032,33 +7120,67 @@ const userNameSelected = $(".userNameSelected");
 const sunIcon = $(".fa-regular.fa-sun");
 const moonIcon = $(".fa-solid.fa-moon");
 const menuItemDarkModeText = $(".menuItemName.toggleBackground");
-const toggleBackground = ()=>{
-    let isSunVisible = true; // Track the current state of the icons
-    toggleBackgroundButton.on("click", function(e) {
-        e.preventDefault();
-        html.add(body).add(footer).add(header).add(main).add(leftMenu).toggleClass("light-mode");
-        searchUsersContainerLeftMenu.add(searchInputChat).add(messageInput).add(inputBox).toggleClass("light-mode-color-details");
-        // User username, message, time - white background
-        spanUsername.add(userNameSelected).toggleClass("light-mode-color-details-text");
-        userMessage.add(messageTime).add(searchIcon).add(searchInputChat).add(sendMessageIcon).add(barsIcon).toggleClass("light-mode-color-details-subText");
-        users.toggleClass("light-mode-color-hover");
-        usersSelected.toggleClass("light-mode usersselected");
-        messageForm.toggleClass("light-mode-color-container");
-        inputBox.add(searchInputUsers).add(searchUsersContainerLeftMenu).add(searchInputChat).add(messageInput).toggleClass("light-mode-color-input");
-        // Toggle visibility of sun and moon icons based on the current state
-        if (isSunVisible) {
-            sunIcon.css("display", "none");
-            moonIcon.css("display", "block");
-            menuItemDarkModeText.text("Dark mode"); // Change button text
-        } else {
-            sunIcon.css("display", "block");
-            moonIcon.css("display", "none");
-            menuItemDarkModeText.text("Light mode"); // Change button text
-        }
-        // Update the state of the icons
-        isSunVisible = !isSunVisible;
-    });
-};
+const settingGearButton = $(".menuItem.settings");
+const ContainerWithUserInformations = $(".configurationsMenu");
+const returnBtn = $(".settingsBtn");
+const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
+const ContainerToUpdateUser = $(".updateUserContainer");
+const OpenChatBackgroundForm = $(".listUserItems.backgroundImg");
+const chatBackgroundUpdateForm = $(".updateUserContainer.chat");
+const OpenChangePasswordForm = $(".listUserItems.changePassword");
+const userContainerPasswordChange = $(".updateUserContainer.password");
+const settingsOpenButton = $(".menuItem.contacts");
+const contactsContainer = $(".contactsContainer");
+const createContactBtn = $(".createContactBtn");
+const addContactContainer = $(".updateUserContainer.contacts");
+const form = $(".form-input");
+const messageInput = $(".inputMessage");
+const parentElement = $(".listUser");
+const chatContainer = $(".messageList");
+const chatParentElement = $(".searchForm");
+const searchUserParentElement = $(".searchForUsers");
+const searchInputForUsers = $(".searchInputUsers");
+const searchInputChat = $(".searchInput");
+const userSelectedToChat = $(".userSelectedChat");
+const messageFormContainer = $(".messageFormContainer");
+const signUpForm = document.querySelector(".userSignIn");
+const signInForm = document.querySelector(".userLogIn");
+const logoutBtn = document.querySelector(".menuItem.logout");
+const updateUserForm = document.querySelector(".form-user-data");
+const userPhoto = document.querySelector(".form__user-photo");
+const userPhotoConfig = document.querySelector(".user-img-settings");
+const photoInput = document.getElementById("photo");
+const userPhoneNumber = document.querySelector(".userName-settings.userPhoneNumber");
+const userBiography = document.querySelector(".userName-settings.userBiography");
+const updateUserChat = document.querySelector(".updateUserContainer.chat");
+const backgroundImage = document.querySelector(".form__user-photo.chat");
+const chatBackgroundInput = document.getElementById("wallpaper");
+const backgroundOfMessageContainer = document.querySelector(".messageFormContainer");
+const updateUserPassword = document.querySelector(".updateUserContainer.password");
+let receivedMessageCount = 0;
+const userClientId = window.userLoggedInId || null; // or some default value
+let userThatReceivesMessage = null;
+let roomName = null;
+let allUsers = [];
+let clientId = userClientId;
+function setUserThatReceivesMessage(userName) {
+    userThatReceivesMessage = userName;
+}
+function getUserThatReceivesMessage() {
+    return userThatReceivesMessage;
+}
+function setRoomName(room) {
+    roomName = room;
+}
+function getRoomName() {
+    return roomName;
+}
+function setReceivedMessageCount(count) {
+    receivedMessageCount = count;
+}
+function getReceivedMessageCount() {
+    return receivedMessageCount;
+}
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ezEYc":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -7149,96 +7271,7 @@ const contactsMenu = ()=>{
     });
 };
 
-},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9fSnT":[function(require,module,exports) {
-// domElements.js
-//Menu Elements
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "settingGearButton", ()=>settingGearButton);
-parcelHelpers.export(exports, "ContainerWithUserInformations", ()=>ContainerWithUserInformations);
-parcelHelpers.export(exports, "returnBtn", ()=>returnBtn);
-parcelHelpers.export(exports, "OpenContainerUpdateUserBtn", ()=>OpenContainerUpdateUserBtn);
-parcelHelpers.export(exports, "ContainerToUpdateUser", ()=>ContainerToUpdateUser);
-parcelHelpers.export(exports, "OpenChatBackgroundForm", ()=>OpenChatBackgroundForm);
-parcelHelpers.export(exports, "chatBackgroundUpdateForm", ()=>chatBackgroundUpdateForm);
-parcelHelpers.export(exports, "OpenChangePasswordForm", ()=>OpenChangePasswordForm);
-parcelHelpers.export(exports, "userContainerPasswordChange", ()=>userContainerPasswordChange);
-parcelHelpers.export(exports, "settingsOpenButton", ()=>settingsOpenButton);
-parcelHelpers.export(exports, "contactsContainer", ()=>contactsContainer);
-parcelHelpers.export(exports, "createContactBtn", ()=>createContactBtn);
-parcelHelpers.export(exports, "addContactContainer", ()=>addContactContainer);
-parcelHelpers.export(exports, "form", ()=>form);
-parcelHelpers.export(exports, "messageInput", ()=>messageInput);
-parcelHelpers.export(exports, "parentElement", ()=>parentElement);
-parcelHelpers.export(exports, "chatContainer", ()=>chatContainer);
-parcelHelpers.export(exports, "chatParentElement", ()=>chatParentElement);
-parcelHelpers.export(exports, "searchUserParentElement", ()=>searchUserParentElement);
-parcelHelpers.export(exports, "searchInputForUsers", ()=>searchInputForUsers);
-parcelHelpers.export(exports, "searchInputChat", ()=>searchInputChat);
-parcelHelpers.export(exports, "userSelectedToChat", ()=>userSelectedToChat);
-parcelHelpers.export(exports, "messageFormContainer", ()=>messageFormContainer);
-parcelHelpers.export(exports, "receivedMessageCount", ()=>receivedMessageCount);
-parcelHelpers.export(exports, "userClientId", ()=>userClientId);
-parcelHelpers.export(exports, "allUsers", ()=>allUsers);
-parcelHelpers.export(exports, "clientId", ()=>clientId);
-// Getter and setter for userThatReceivesMessage
-parcelHelpers.export(exports, "setUserThatReceivesMessage", ()=>setUserThatReceivesMessage);
-parcelHelpers.export(exports, "getUserThatReceivesMessage", ()=>getUserThatReceivesMessage);
-// Getter and setter for roomName
-parcelHelpers.export(exports, "setRoomName", ()=>setRoomName);
-parcelHelpers.export(exports, "getRoomName", ()=>getRoomName);
-// Getter and setter for receivedMessageCount
-parcelHelpers.export(exports, "setReceivedMessageCount", ()=>setReceivedMessageCount);
-parcelHelpers.export(exports, "getReceivedMessageCount", ()=>getReceivedMessageCount);
-const settingGearButton = $(".menuItem.settings");
-const ContainerWithUserInformations = $(".configurationsMenu");
-const returnBtn = $(".settingsBtn");
-const OpenContainerUpdateUserBtn = $(".settingsBtn.edit-user-info");
-const ContainerToUpdateUser = $(".updateUserContainer");
-const OpenChatBackgroundForm = $(".listUserItems.backgroundImg");
-const chatBackgroundUpdateForm = $(".updateUserContainer.chat");
-const OpenChangePasswordForm = $(".listUserItems.changePassword");
-const userContainerPasswordChange = $(".updateUserContainer.password");
-const settingsOpenButton = $(".menuItem.contacts");
-const contactsContainer = $(".contactsContainer");
-const createContactBtn = $(".createContactBtn");
-const addContactContainer = $(".updateUserContainer.contacts");
-const form = $(".form-input");
-const messageInput = $(".inputMessage");
-const parentElement = $(".listUser");
-const chatContainer = $(".messageList");
-const chatParentElement = $(".searchForm");
-const searchUserParentElement = $(".searchForUsers");
-const searchInputForUsers = $(".searchInputUsers");
-const searchInputChat = $(".searchInput");
-const userSelectedToChat = $(".userSelectedChat");
-const messageFormContainer = $(".messageFormContainer");
-let receivedMessageCount = 0;
-const userClientId = window.userLoggedInId || null; // or some default value
-let userThatReceivesMessage = null;
-let roomName = null;
-let allUsers = [];
-let clientId = userClientId;
-function setUserThatReceivesMessage(userName) {
-    userThatReceivesMessage = userName;
-}
-function getUserThatReceivesMessage() {
-    return userThatReceivesMessage;
-}
-function setRoomName(room) {
-    roomName = room;
-}
-function getRoomName() {
-    return roomName;
-}
-function setReceivedMessageCount(count) {
-    receivedMessageCount = count;
-}
-function getReceivedMessageCount() {
-    return receivedMessageCount;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2iVDl":[function(require,module,exports) {
+},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2iVDl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "formattedTime", ()=>formattedTime);
@@ -7257,6 +7290,7 @@ parcelHelpers.export(exports, "handleContextMenu", ()=>handleContextMenu);
 parcelHelpers.export(exports, "renderAllUsers", ()=>renderAllUsers);
 // Function to update the user list with search results
 parcelHelpers.export(exports, "updateSearchResults", ()=>updateSearchResults);
+parcelHelpers.export(exports, "showUserFound", ()=>showUserFound);
 // Function to handle user search
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
 var _domElementsJs = require("./domElements.js");
@@ -7426,6 +7460,7 @@ $(document).ready(()=>{
     });
 });
 function updateSearchResults(searchedUserData, searchedMessageData) {
+    console.log(searchedUserData, searchedMessageData);
     $(".listUser").empty();
     for(let i = 0; i < searchedUserData.length; i++){
         const user = searchedUserData[i];
@@ -7433,6 +7468,14 @@ function updateSearchResults(searchedUserData, searchedMessageData) {
         const createdAt = searchedMessageData[i] ? searchedMessageData[i].createdAt : "";
         createUserElement(user, message, createdAt);
     }
+}
+function showUserFound(searchedUser) {
+    $(".listUser").empty();
+    console.log("showUserFound", searchedUser);
+    searchedUser.forEach((user)=>{
+        console.log("foreach query", searchedUser);
+        createUserElement(user);
+    });
 }
 function handleUserSearchForUsers() {
     searchUserParentElement.on("focus", ".searchInputUsers", (e)=>{
@@ -7450,16 +7493,17 @@ function handleUserSearchForUsers() {
 }
 
 },{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
-// userHandlers.js
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleFormSubmission", ()=>handleFormSubmission);
 parcelHelpers.export(exports, "handleUserClick", ()=>handleUserClick);
 parcelHelpers.export(exports, "handleUserSearch", ()=>handleUserSearch);
+parcelHelpers.export(exports, "handleUserSearchForPhonenumber", ()=>handleUserSearchForPhonenumber);
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
 var _domElementsJs = require("./domElements.js");
 var _helperFunctionsJs = require("./helperFunctions.js");
-function handleFormSubmission() {
+const inputNumberContact = $(".form__input.phoneNumber");
+function handleFormSubmission(socket) {
     (0, _domElementsJs.form).on("submit", async (e)=>{
         e.preventDefault();
         const message = (0, _domElementsJs.messageInput).val();
@@ -7479,7 +7523,7 @@ function handleFormSubmission() {
         (0, _domElementsJs.messageInput).val("");
     });
 }
-function handleUserClick() {
+function handleUserClick(socket) {
     (0, _domElementsJs.parentElement).on("click", ".users", (e)=>{
         (0, _domElementsJs.messageFormContainer).addClass("visible");
         (0, _domElementsJs.userSelectedToChat).addClass("visible");
@@ -7503,16 +7547,23 @@ function handleUserClick() {
         socket.emit("join-room", (0, _domElementsJs.getRoomName)(), ()=>{});
     });
 }
-function handleUserSearch() {
+function handleUserSearch(socket) {
     (0, _domElementsJs.chatParentElement).on("click", ".searchTextInChatBtn", (e)=>{
         e.preventDefault();
-        (0, _domElementsJs.searchInputChat).toggleClass("hidden");
-        const searchQuery = (0, _domElementsJs.searchInputChat).val().trim();
+        searchInputChat.toggleClass("hidden");
+        const searchQuery = searchInputChat.val().trim();
         socket.emit("getUserMessageSearched", (0, _domElementsJs.getRoomName)(), searchQuery);
-        (0, _domElementsJs.searchInputChat).val("");
+        searchInputChat.val("");
     });
 }
-function handleUserSearchForUsers() {
+function handleUserSearchForPhonenumber(socket) {
+    inputNumberContact.on("input", (e)=>{
+        e.preventDefault();
+        const searchQuery = e.target.value.trim();
+        socket.emit("getPhoneNumberSearched", searchQuery);
+    });
+}
+function handleUserSearchForUsers(socket) {
     (0, _domElementsJs.searchUserParentElement).on("click", ".searchInputUsers", (e)=>{
         e.preventDefault();
         (0, _domElementsJs.searchUserParentElement).addClass("has-focus");
@@ -7525,26 +7576,27 @@ function handleUserSearchForUsers() {
     });
 }
 
-},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jcuh6":[function(require,module,exports) {
+},{"./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./domElements.js":"9fSnT"}],"jcuh6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayMessageInChat", ()=>displayMessageInChat);
 parcelHelpers.export(exports, "socketListeners", ()=>socketListeners);
 var _helperFunctionsJs = require("./helperFunctions.js");
 var _domElementsJs = require("./domElements.js");
+const chatContainer = $(".messageList");
 function scrollToBottom() {
-    (0, _domElementsJs.chatContainer).scrollTop((0, _domElementsJs.chatContainer).prop("scrollHeight"));
+    chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
 }
 function scrollToMessage(messageID) {
     const messageElement = $(`.messageContainer[data-user-message="${messageID}"]`);
     if (messageElement.length) {
         const position = messageElement.position().top;
-        (0, _domElementsJs.chatContainer).scrollTop(position);
+        chatContainer.scrollTop(position);
     }
 }
 function displayMessageInChat(message, messageID, senderID, createdAt) {
     const messageContainer = (0, _helperFunctionsJs.createMessageContainer)(message, messageID, senderID, createdAt);
-    (0, _domElementsJs.chatContainer).append(messageContainer);
+    chatContainer.append(messageContainer);
     return messageContainer;
 }
 function socketListeners(socket) {
@@ -7557,7 +7609,7 @@ function socketListeners(socket) {
                 const CreatedAt = (0, _helperFunctionsJs.formattedTime)(formatTime);
                 0, _domElementsJs.receivedMessageCount++;
                 $(".roundNotification").removeClass("hidden");
-                createRoundNotification(messageContainer, (0, _domElementsJs.receivedMessageCount));
+                (0, _helperFunctionsJs.createRoundNotification)(messageContainer, (0, _domElementsJs.receivedMessageCount));
                 messageContainer.find(".userMessage").text(message.message);
                 messageContainer.find(".messageTime").text(CreatedAt);
             }
@@ -7604,6 +7656,9 @@ function socketListeners(socket) {
     });
     socket.on("getUserSearchedInfo", (searchedUserData, searchedMessageData)=>{
         (0, _helperFunctionsJs.updateSearchResults)(searchedUserData, searchedMessageData);
+    });
+    socket.on("userWithPhone", (userSearched)=>{
+        (0, _helperFunctionsJs.showUserFound)(userSearched);
     });
     socket.on("getMessagesSearched", async (messages)=>{
         $(".messageContainer").removeClass("highlight");

@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema(
     },
     wallpaper: {
       type: String,
-      default: 'default.jpg',
     },
   },
   {

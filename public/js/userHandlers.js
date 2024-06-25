@@ -1,31 +1,26 @@
-// userHandlers.js
-
 import {
   form,
   messageInput,
   parentElement,
-  messageFormContainer,
   chatParentElement,
-  userSelectedToChat,
-  searchInputChat,
   searchUserParentElement,
   searchInputForUsers,
-  userClientId,
-  setUserThatReceivesMessage,
-  getUserThatReceivesMessage,
-  setRoomName,
-  getRoomName,
-  setReceivedMessageCount,
+  userSelectedToChat,
+  messageFormContainer,
   getReceivedMessageCount,
+  getRoomName,
+  getUserThatReceivesMessage,
+  setReceivedMessageCount,
+  setRoomName,
+  setUserThatReceivesMessage,
+  userClientId,
 } from './domElements.js';
 
-import {
-  createRoomID,
-  createUserElement,
-  renderAllUsers,
-} from './helperFunctions.js';
+import { createRoomID, renderAllUsers } from './helperFunctions.js';
 
-export function handleFormSubmission() {
+const inputNumberContact = $('.form__input.phoneNumber');
+
+export function handleFormSubmission(socket) {
   form.on('submit', async (e) => {
     e.preventDefault();
     const message = messageInput.val();
@@ -49,7 +44,7 @@ export function handleFormSubmission() {
   });
 }
 
-export function handleUserClick() {
+export function handleUserClick(socket) {
   parentElement.on('click', '.users', (e) => {
     messageFormContainer.addClass('visible');
     userSelectedToChat.addClass('visible');
@@ -81,7 +76,7 @@ export function handleUserClick() {
   });
 }
 
-export function handleUserSearch() {
+export function handleUserSearch(socket) {
   chatParentElement.on('click', '.searchTextInChatBtn', (e) => {
     e.preventDefault();
 
@@ -94,7 +89,16 @@ export function handleUserSearch() {
   });
 }
 
-export function handleUserSearchForUsers() {
+export function handleUserSearchForPhonenumber(socket) {
+  inputNumberContact.on('input', (e) => {
+    e.preventDefault();
+    const searchQuery = e.target.value.trim();
+
+    socket.emit('getPhoneNumberSearched', searchQuery);
+  });
+}
+
+export function handleUserSearchForUsers(socket) {
   searchUserParentElement.on('click', '.searchInputUsers', (e) => {
     e.preventDefault();
     searchUserParentElement.addClass('has-focus');
@@ -103,6 +107,7 @@ export function handleUserSearchForUsers() {
   searchInputForUsers.on('input', (e) => {
     e.preventDefault();
     const searchQuery = searchInputForUsers.val().trim();
+
     if (searchQuery.length === 0 || '') {
       renderAllUsers();
     } else {

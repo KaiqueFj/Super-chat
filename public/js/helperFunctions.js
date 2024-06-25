@@ -244,6 +244,7 @@ $(document).ready(() => {
 
 // Function to update the user list with search results
 export function updateSearchResults(searchedUserData, searchedMessageData) {
+  console.log(searchedUserData, searchedMessageData);
   $('.listUser').empty();
   for (let i = 0; i < searchedUserData.length; i++) {
     const user = searchedUserData[i];
@@ -256,6 +257,16 @@ export function updateSearchResults(searchedUserData, searchedMessageData) {
 
     createUserElement(user, message, createdAt);
   }
+}
+
+export function showUserFound(searchedUser) {
+  $('.listUser').empty();
+  console.log('showUserFound', searchedUser);
+
+  searchedUser.forEach((user) => {
+    console.log('foreach query', searchedUser);
+    createUserElement(user);
+  });
 }
 
 // Function to handle user search
