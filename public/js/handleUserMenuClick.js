@@ -43,7 +43,7 @@ export const settingsMenu = () => {
   handleEvent(OpenChangePasswordForm, 'click', () => {
     toggleClass(userContainerPasswordChange, 'show');
     toggleClass(ContainerWithUserInformations, 'show');
-    toggleClass(addContactContainer, 'show');
+    removeClass(addContactContainer, 'show');
   });
 };
 

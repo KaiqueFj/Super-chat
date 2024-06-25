@@ -60,6 +60,8 @@
   position: absolute;
   top: 5rem;
   left: 1rem;
+  max-height: 80vh; /* Ensures the container doesn't exceed the viewport height */
+  overflow-y: auto; /* Adds a scrollbar if the content exceeds the container's height */
   border-radius: 16px;
   backdrop-filter: blur(10px);
   width: 26rem;
@@ -83,8 +85,35 @@
   transform: translateX(0);
   opacity: 1;
   pointer-events: auto;
+  max-height: 90vh !important;
+}
+.updateUserContainer::-webkit-scrollbar {
+  width: 8px;
 }
 
+.updateUserContainer::-webkit-scrollbar-thumb {
+  background-color: var(--primary-purple-color);
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.updateUserContainer::-webkit-scrollbar-thumb:hover {
+  background-color: var(--secondary-purple-color);
+}
+
+.updateUserContainer::-webkit-scrollbar-track {
+  background: var(--primary-black-color);
+  border-radius: 10px;
+}
+
+.updateUserContainer {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-purple-color) var(--primary-black-color);
+}
+
+.updateUserContainer {
+  scrollbar-gutter: stable both-edges;
+}
 .menuItem {
   display: flex;
   align-items: center;
@@ -132,8 +161,8 @@
   margin: 0.2rem;
 }
 
-.listUserItems:nth-child(5):hover,
-.listUserItems:nth-child(6):hover {
+.listUserItems:nth-child(6):hover,
+.listUserItems:nth-child(7):hover {
   cursor: pointer;
   background: var(--primary-gray-color);
 }

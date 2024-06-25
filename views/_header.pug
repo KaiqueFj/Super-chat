@@ -122,13 +122,13 @@ header.header
             form.form.form-user-data
               .form__group
                 label.form__label.password(for='password-current') Current password
-                input#password-current.form__input.password(type='password', required, name='currentPassword')
+                input#password-current.form__input.password(type='password', required, autocomplete='current password', name='currentPassword')
               .form__group
                 label.form__label(for='password') New password
-                input#password.form__input.password(type='password', required , name='password')
+                input#password.form__input.password(type='password', required , autocomplete='Password' ,name='password')
               .form__group
                 label.form__label(for='password-confirm') Password confirm
-                input#password-confirm.form__input.password(type='password', required, name='passwordConfirm')
+                input#password-confirm.form__input.password(type='password', required, autocomplete='Password-confirm' name='passwordConfirm')
 
               .form__group.right
                 button.btn.save
@@ -144,7 +144,7 @@ header.header
             form.form.form-user-data
               .form__group
                 label.form__label(for='phoneNumber') Phone Number
-                input#phoneNumber.form__input.phoneNumber(type='tel', required, name='phoneNumber')
+                input#phoneNumberContact.form__input.phoneNumber(type='tel', required, name='phoneNumber')
             .listUser
 
           .contactsContainer

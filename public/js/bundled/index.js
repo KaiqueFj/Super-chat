@@ -7254,7 +7254,7 @@ const settingsMenu = ()=>{
     (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.OpenChangePasswordForm), "click", ()=>{
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.userContainerPasswordChange), "show");
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
-        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.addContactContainer), "show");
+        (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.addContactContainer), "show");
     });
 };
 const contactsMenu = ()=>{
@@ -7576,7 +7576,7 @@ function handleUserSearchForUsers(socket) {
     });
 }
 
-},{"./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./domElements.js":"9fSnT"}],"jcuh6":[function(require,module,exports) {
+},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jcuh6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayMessageInChat", ()=>displayMessageInChat);
