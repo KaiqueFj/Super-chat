@@ -145,7 +145,13 @@ header.header
               .form__group
                 label.form__label(for='phoneNumber') Phone Number
                 input#phoneNumberContact.form__input.phoneNumber(type='tel', required, name='phoneNumber')
-            .listUser
+              .form__group
+                label.form__label(for='nickName') Nickname
+                input#nickNameContact.form__input.nickName(type='tel', required, name='nickNamw')
+              .listUser
+              .form__group.right
+                button.btn.save
+                  i.fa-solid.fa-check
 
           .contactsContainer
             .headerInfo

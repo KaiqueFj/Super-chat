@@ -7,6 +7,7 @@ import { toggleBackground } from './toggleBackground';
 import { dropDownMenu } from './dropDownMenu';
 import { updateSettings } from './updateSettings';
 import { settingsMenu, contactsMenu } from './handleUserMenuClick';
+import { createContact } from './addUserContact.js';
 import {
   handleFormSubmission,
   handleUserClick,
@@ -31,6 +32,7 @@ import {
   chatBackgroundInput,
   backgroundOfMessageContainer,
   updateUserPassword,
+  createContactContainer,
 } from './domElements.js';
 
 // Ensure that the socket.io client script is loaded
@@ -138,6 +140,17 @@ if (updateUserPassword) {
       { currentPassword, password, passwordConfirm },
       'password'
     );
+  });
+}
+
+if (createContactContainer) {
+  createContactContainer.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const phoneNumber = document.getElementById('phoneNumberContact').value;
+    const nickname = document.getElementById('nickNameContact').value;
+    const contactUser = document.querySelector('.users').dataset.userRoom;
+
+    await createContact({ phoneNumber, nickname, contactUser }, 'contact');
   });
 }
 

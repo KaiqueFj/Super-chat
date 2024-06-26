@@ -31,4 +31,6 @@ router.patch(
 
 router.patch('/updatePassword', authController.updatePassword);
 
+router.post('/addContact', userController.createContact);
+
 module.exports = router;

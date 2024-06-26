@@ -40,6 +40,12 @@ const userSchema = new mongoose.Schema(
     wallpaper: {
       type: String,
     },
+    contacts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Contact',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

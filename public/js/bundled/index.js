@@ -592,6 +592,7 @@ var _toggleBackground = require("./toggleBackground");
 var _dropDownMenu = require("./dropDownMenu");
 var _updateSettings = require("./updateSettings");
 var _handleUserMenuClick = require("./handleUserMenuClick");
+var _addUserContactJs = require("./addUserContact.js");
 var _userHandlersJs = require("./userHandlers.js");
 var _messageHandlersJs = require("./messageHandlers.js");
 var _domElementsJs = require("./domElements.js");
@@ -669,12 +670,23 @@ if (0, _domElementsJs.updateUserPassword) (0, _domElementsJs.updateUserPassword)
         passwordConfirm
     }, "password");
 });
+if (0, _domElementsJs.createContactContainer) (0, _domElementsJs.createContactContainer).addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const phoneNumber = document.getElementById("phoneNumberContact").value;
+    const nickname = document.getElementById("nickNameContact").value;
+    const contactUser = document.querySelector(".users").dataset.userRoom;
+    await (0, _addUserContactJs.createContact)({
+        phoneNumber,
+        nickname,
+        contactUser
+    }, "contact");
+});
 (0, _toggleBackground.toggleBackground)();
 (0, _dropDownMenu.dropDownMenu)();
 (0, _handleUserMenuClick.settingsMenu)();
 (0, _handleUserMenuClick.contactsMenu)();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT","./addUserContact.js":"iREgH"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -7084,6 +7096,7 @@ parcelHelpers.export(exports, "backgroundImage", ()=>backgroundImage);
 parcelHelpers.export(exports, "chatBackgroundInput", ()=>chatBackgroundInput);
 parcelHelpers.export(exports, "backgroundOfMessageContainer", ()=>backgroundOfMessageContainer);
 parcelHelpers.export(exports, "updateUserPassword", ()=>updateUserPassword);
+parcelHelpers.export(exports, "createContactContainer", ()=>createContactContainer);
 parcelHelpers.export(exports, "receivedMessageCount", ()=>receivedMessageCount);
 parcelHelpers.export(exports, "userClientId", ()=>userClientId);
 parcelHelpers.export(exports, "allUsers", ()=>allUsers);
@@ -7157,6 +7170,7 @@ const backgroundImage = document.querySelector(".form__user-photo.chat");
 const chatBackgroundInput = document.getElementById("wallpaper");
 const backgroundOfMessageContainer = document.querySelector(".messageFormContainer");
 const updateUserPassword = document.querySelector(".updateUserContainer.password");
+const createContactContainer = document.querySelector(".updateUserContainer.contacts");
 let receivedMessageCount = 0;
 const userClientId = window.userLoggedInId || null; // or some default value
 let userThatReceivesMessage = null;
@@ -7471,9 +7485,7 @@ function updateSearchResults(searchedUserData, searchedMessageData) {
 }
 function showUserFound(searchedUser) {
     $(".listUser").empty();
-    console.log("showUserFound", searchedUser);
     searchedUser.forEach((user)=>{
-        console.log("foreach query", searchedUser);
         createUserElement(user);
     });
 }
@@ -7674,6 +7686,35 @@ function socketListeners(socket) {
     });
 }
 
-},{"./helperFunctions.js":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"./helperFunctions.js":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iREgH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "createContact", ()=>createContact);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
+const createContact = async (data, type)=>{
+    try {
+        const urlMap = {
+            contact: "/api/v1/users/addContact"
+        };
+        const url = urlMap[type];
+        if (!url) throw new Error("Invalid type");
+        const res = await (0, _axiosDefault.default)({
+            method: "POST",
+            url,
+            data,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (res.data.status === "success") (0, _alert.showAlert)("success", `${type} created successfully`);
+        return res.data;
+    } catch (err) {
+        (0, _alert.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map

@@ -78,6 +78,10 @@ export const updateUserPassword = document.querySelector(
   '.updateUserContainer.password'
 );
 
+export const createContactContainer = document.querySelector(
+  '.updateUserContainer.contacts'
+);
+
 export let receivedMessageCount = 0;
 export const userClientId = window.userLoggedInId || null; // or some default value
 

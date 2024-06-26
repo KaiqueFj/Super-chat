@@ -261,10 +261,8 @@ export function updateSearchResults(searchedUserData, searchedMessageData) {
 
 export function showUserFound(searchedUser) {
   $('.listUser').empty();
-  console.log('showUserFound', searchedUser);
 
   searchedUser.forEach((user) => {
-    console.log('foreach query', searchedUser);
     createUserElement(user);
   });
 }

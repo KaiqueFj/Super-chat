@@ -3,6 +3,7 @@ const sharp = require('sharp');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const multer = require('multer');
+const Contact = require('../Models/contactModel');
 
 const multerStorage = multer.memoryStorage();
 
@@ -103,4 +104,29 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 exports.getMe = catchAsync(async (req, res, next) => {
   req.params.id = req.user.id;
   next();
+});
+
+exports.createContact = catchAsync(async (req, res, next) => {
+  //1 - create Contact
+  const contact = await Contact.create({
+    user: req.user.id,
+    phoneNumber: req.body.phoneNumber,
+    nickname: req.body.nickname,
+    contactUser: req.body.contactUser,
+  });
+
+  // Add the contact to the user's contacts array
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    { $push: { contacts: contact._id } },
+    { new: true, runValidators: true }
+  );
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      user: updatedUser,
+      contact,
+    },
+  });
 });
