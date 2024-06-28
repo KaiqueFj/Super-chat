@@ -13,26 +13,22 @@ block content
   main.main
     .leftMenu
       .listUser
-        - const loggedInUserID = user.id
+        each contact in contacts
+          .users(data-user-room=contact.contactUser.id, data-online=contact.contactUser.online ? 'true' : 'false')
+            img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
+            .ball(class=contact.contactUser.online ? 'online' : 'offline')
+            span.userName= contact.nickname
 
-        each user in users
-          - if (loggedInUserID !== user.id )
+            - const lastMessage = messages.find(message => message.userReceiver === contact.contactUser.name);
+            if lastMessage
+              span.userMessage= lastMessage.message
+              span.messageTime= new Date(lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
-            .users(data-user-room=user.id, data-online=user.online ? 'true' : 'false')
-              img.user-img(src=`/images/user/profile-pic/${user.photo || 'default.jpg'}`, alt=`Photo of ${user.name}`)
-              .ball(class=user.online ? 'online' : 'offline')
-              span.userName= user.name 
-              if user.messages &&  user.messages.length > 0
-                - const lastMessage = user.messages.sort((a, b) => b.createdAt - a.createdAt)[0]
-                span.userMessage= lastMessage.message
-                - const formattedTime = lastMessage.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                span.messageTime= formattedTime
 
 
     .messageFormContainer(style=(user.wallpaper ? `background-image: url('/images/user/chat-background/${user.wallpaper}')` : ''))
       .messagesContainer
         .messageList
-
 
       .form
         .notch
@@ -41,3 +37,4 @@ block content
             input.inputMessage(placeholder="Message")
             button(type="submit")
               i.fa-regular.fa-paper-plane
+

@@ -7172,7 +7172,7 @@ const backgroundOfMessageContainer = document.querySelector(".messageFormContain
 const updateUserPassword = document.querySelector(".updateUserContainer.password");
 const createContactContainer = document.querySelector(".updateUserContainer.contacts");
 let receivedMessageCount = 0;
-const userClientId = window.userLoggedInId || null; // or some default value
+const userClientId = window.userLoggedInId || null;
 let userThatReceivesMessage = null;
 let roomName = null;
 let allUsers = [];
@@ -7380,7 +7380,7 @@ function createRoomID(userID1, userID2) {
 function createUserElement(user, message, createdAt) {
     const createdAtDate = new Date(createdAt);
     const formattedTimeResult = formattedTime(createdAtDate);
-    const userElement = $("<div>").addClass("users").attr("data-user-room", user.id).append($("<span>").addClass("userName").text(user.name), $("<img>").addClass("user-img").attr("src", `/images/user/${user.photo}`), $("<span>").addClass("userMessage").text(message), $("<span>").addClass("messageTime").text(formattedTimeResult));
+    const userElement = $("<div>").addClass("users").attr("data-user-room", user.id).append($("<span>").addClass("userName").text(user.name), $("<img>").addClass("user-img").attr("src", `/images/user/profile-pic/${user.photo}`), $("<span>").addClass("userMessage").text(message), $("<span>").addClass("messageTime").text(formattedTimeResult));
     $(".listUser").append(userElement);
 }
 function handleContextMenu(event, messageElement, senderID) {

@@ -83,7 +83,7 @@ export const createContactContainer = document.querySelector(
 );
 
 export let receivedMessageCount = 0;
-export const userClientId = window.userLoggedInId || null; // or some default value
+export const userClientId = window.userLoggedInId || null;
 
 let userThatReceivesMessage = null;
 let roomName = null;

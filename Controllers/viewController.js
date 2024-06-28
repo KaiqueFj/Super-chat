@@ -2,16 +2,25 @@ const User = require('../Models/userModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getChatPage = catchAsync(async (req, res) => {
-  const users = await User.find().populate({
-    path: 'messages',
-  });
+  const userId = req.user.id;
 
-  const preparedMessages = users.flatMap((user) => user.messages);
+  const user = await User.findById(userId)
+    .populate({
+      path: 'contacts',
+      populate: {
+        path: 'contactUser',
+        model: 'User',
+      },
+    })
+    .populate({
+      path: 'messages',
+      options: { sort: { createdAt: -1 } },
+    });
 
   res.status(200).render('overview', {
-    title: 'Your account',
-    users: users,
-    message: preparedMessages,
+    user: user,
+    contacts: user.contacts,
+    messages: user.messages,
   });
 });
 

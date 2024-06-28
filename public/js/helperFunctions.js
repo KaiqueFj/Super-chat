@@ -114,7 +114,9 @@ export function createUserElement(user, message, createdAt) {
     .attr('data-user-room', user.id)
     .append(
       $('<span>').addClass('userName').text(user.name),
-      $('<img>').addClass('user-img').attr('src', `/images/user/${user.photo}`),
+      $('<img>')
+        .addClass('user-img')
+        .attr('src', `/images/user/profile-pic/${user.photo}`),
       $('<span>').addClass('userMessage').text(message),
       $('<span>').addClass('messageTime').text(formattedTimeResult)
     );

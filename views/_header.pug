@@ -147,11 +147,13 @@ header.header
                 input#phoneNumberContact.form__input.phoneNumber(type='tel', required, name='phoneNumber')
               .form__group
                 label.form__label(for='nickName') Nickname
-                input#nickNameContact.form__input.nickName(type='tel', required, name='nickNamw')
+                input#nickNameContact.form__input.nickName(type='tel', required, name='nickName')
               .listUser
               .form__group.right
                 button.btn.save
                   i.fa-solid.fa-check
+
+
 
           .contactsContainer
             .headerInfo
@@ -162,14 +164,11 @@ header.header
               .searchForUsers
                 i.fa-solid.fa-magnifying-glass
               .listUser
-                - const loggedInUserID = user.id
-
-                each user in users
-                  - if (loggedInUserID !== user.id )
-
-                    .users(data-user-room=user.id, data-online=user.online ? 'true' : 'false')
-                      img.user-img(src=`/images/user/profile-pic/${user.photo || 'default.jpg'}`, alt=`Photo of ${user.name}`)
-                      span.userName= user.name 
+                each contact in contacts
+                  .users(data-user-room=contact.contactUser.id, data-online=contact.contactUser.online ? 'true' : 'false')
+                    img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
+                    .ball(class=contact.contactUser.online ? 'online' : 'offline')
+                    span.userName= contact.nickname
               button.createContactBtn
                 i.fa-solid.fa-user-plus
 
