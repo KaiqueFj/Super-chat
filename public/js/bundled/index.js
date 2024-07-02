@@ -596,6 +596,7 @@ var _addUserContactJs = require("./addUserContact.js");
 var _userHandlersJs = require("./userHandlers.js");
 var _messageHandlersJs = require("./messageHandlers.js");
 var _domElementsJs = require("./domElements.js");
+var _optionsMenuJs = require("./OptionsMenu.js");
 // Ensure that the socket.io client script is loaded
 document.addEventListener("DOMContentLoaded", ()=>{
     const socket = io();
@@ -685,8 +686,9 @@ if (0, _domElementsJs.createContactContainer) (0, _domElementsJs.createContactCo
 (0, _dropDownMenu.dropDownMenu)();
 (0, _handleUserMenuClick.settingsMenu)();
 (0, _handleUserMenuClick.contactsMenu)();
+(0, _optionsMenuJs.handleMenuOptions)();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT","./addUserContact.js":"iREgH"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./addUserContact.js":"iREgH","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT","./OptionsMenu.js":"iaW6h"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -7504,7 +7506,36 @@ function handleUserSearchForUsers() {
     });
 }
 
-},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
+},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iREgH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "createContact", ()=>createContact);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
+const createContact = async (data, type)=>{
+    try {
+        const urlMap = {
+            contact: "/api/v1/users/addContact"
+        };
+        const url = urlMap[type];
+        if (!url) throw new Error("Invalid type");
+        const res = await (0, _axiosDefault.default)({
+            method: "POST",
+            url,
+            data,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (res.data.status === "success") (0, _alert.showAlert)("success", `${type} created successfully`);
+        return res.data;
+    } catch (err) {
+        (0, _alert.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleFormSubmission", ()=>handleFormSubmission);
@@ -7686,35 +7717,35 @@ function socketListeners(socket) {
     });
 }
 
-},{"./helperFunctions.js":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iREgH":[function(require,module,exports) {
+},{"./helperFunctions.js":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iaW6h":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "createContact", ()=>createContact);
-var _axios = require("axios");
-var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert");
-const createContact = async (data, type)=>{
-    try {
-        const urlMap = {
-            contact: "/api/v1/users/addContact"
-        };
-        const url = urlMap[type];
-        if (!url) throw new Error("Invalid type");
-        const res = await (0, _axiosDefault.default)({
-            method: "POST",
-            url,
-            data,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        if (res.data.status === "success") (0, _alert.showAlert)("success", `${type} created successfully`);
-        return res.data;
-    } catch (err) {
-        (0, _alert.showAlert)("error", err.response.data.message);
-    }
+parcelHelpers.export(exports, "handleMenuOptions", ()=>handleMenuOptions);
+var _helperFunctions = require("./helperFunctions");
+const leftMenuButton = $(".circle");
+const leftMenuOptions = $(".options");
+const leftMenu = $(".leftMenu");
+const handleMenuOptions = ()=>{
+    (0, _helperFunctions.handleEvent)(leftMenuButton, "click", ()=>{
+        (0, _helperFunctions.toggleClass)(leftMenuOptions, "show");
+        // toggle the grow effect between both icons
+        const iconElement = leftMenuButton.find("i");
+        iconElement.removeClass("grow");
+        iconElement[0].offsetWidth;
+        iconElement.addClass("grow");
+        // Toggle Font Awesome icon
+        const currentIcon = leftMenuButton.find("i").attr("class");
+        if (currentIcon.includes("fa-regular fa-pen-to-square")) leftMenuButton.find("i").removeClass("fa-regular fa-pen-to-square").addClass("fa-solid fa-x");
+        else leftMenuButton.find("i").removeClass("fa-solid fa-x").addClass("fa-regular fa-pen-to-square");
+    });
+    // Hide button when mouse leaves left menu
+    (0, _helperFunctions.handleEvent)(leftMenu, "mouseleave", ()=>{
+        leftMenuButton.removeClass("show");
+        // Close options if they are open
+        if (leftMenuOptions.hasClass("show")) leftMenuOptions.removeClass("show");
+    });
 };
 
-},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"./helperFunctions":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map

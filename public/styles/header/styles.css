@@ -60,8 +60,8 @@
   position: absolute;
   top: 5rem;
   left: 1rem;
-  max-height: 80vh; /* Ensures the container doesn't exceed the viewport height */
-  overflow-y: auto; /* Adds a scrollbar if the content exceeds the container's height */
+  max-height: 80vh;
+  overflow-y: auto;
   border-radius: 16px;
   backdrop-filter: blur(10px);
   width: 26rem;

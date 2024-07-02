@@ -168,6 +168,8 @@ body {
 .fa-solid.fa-image,
 .fa-solid.fa-user,
 .fa-solid.fa-key,
+.fa-solid.fa-user-group,
+.fa-solid.fa-x,
 .fa-solid.fa-user-plus {
   color: var(--icon-colors);
   font-size: 1.7rem;

@@ -34,6 +34,7 @@ import {
   updateUserPassword,
   createContactContainer,
 } from './domElements.js';
+import { handleMenuOptions } from './OptionsMenu.js';
 
 // Ensure that the socket.io client script is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -158,3 +159,4 @@ toggleBackground();
 dropDownMenu();
 settingsMenu();
 contactsMenu();
+handleMenuOptions();

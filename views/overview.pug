@@ -24,6 +24,18 @@ block content
               span.userMessage= lastMessage.message
               span.messageTime= new Date(lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
+      .circle
+        i.fa-regular.fa-pen-to-square
+      .options
+        .menuItems
+          i.fa-solid.fa-user-group
+          | New group
+
+        .menuItems
+          i.fa-solid.fa-user-plus
+          | New message
+
+
 
 
     .messageFormContainer(style=(user.wallpaper ? `background-image: url('/images/user/chat-background/${user.wallpaper}')` : ''))
