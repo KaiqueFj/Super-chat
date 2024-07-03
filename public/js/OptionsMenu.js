@@ -1,8 +1,22 @@
-import { handleEvent, toggleClass } from './helperFunctions';
+import {
+  addContactContainer,
+  contactsContainer,
+  createContactBtn,
+} from './domElements';
+import {
+  createUserSelectedElement,
+  handleEvent,
+  toggleClass,
+} from './helperFunctions';
 
 const leftMenuButton = $('.circle');
 const leftMenuOptions = $('.options');
 const leftMenu = $('.leftMenu');
+const newGroupIcon = $('.fa-solid.fa-user-group');
+const newChatIcon = $('.fa-user-plus');
+const containerGroup = $('.createGroupContainer');
+const checkboxes = $('.user-checkbox');
+const pickedUpUser = $('.pickedUserGroup');
 
 export const handleMenuOptions = () => {
   handleEvent(leftMenuButton, 'click', () => {
@@ -37,5 +51,62 @@ export const handleMenuOptions = () => {
     if (leftMenuOptions.hasClass('show')) {
       leftMenuOptions.removeClass('show');
     }
+  });
+
+  handleEvent(newGroupIcon, 'click', () => {
+    toggleClass(containerGroup, 'show');
+  });
+
+  handleEvent(newChatIcon, 'click', () => {
+    toggleClass(contactsContainer, 'show');
+  });
+
+  // Get selected users
+
+  checkboxes.each(function () {
+    handleEvent($(this), 'change', () => {
+      const selectedUsers = [];
+
+      checkboxes.each(function () {
+        if (this.checked) {
+          const userId = this.value;
+          const userName = $(this).closest('.users').find('.userName').text();
+          const userImage = $(this)
+            .closest('.users')
+            .find('.user-img')
+            .attr('src');
+
+          selectedUsers.push({
+            id: userId,
+            username: userName,
+            photo: userImage,
+          });
+        }
+      });
+
+      console.log(selectedUsers);
+
+      // Clear existing selected users display
+      $('.selectedUsersForGroup').empty();
+
+      // Display selected users in the UI
+      selectedUsers.forEach((user) => {
+        createUserSelectedElement(user.photo, user.username);
+      });
+    });
+  });
+
+  // Add hover effect for selected users
+  const pickedUpUsers = $(' .pickedUserGroup');
+  pickedUpUsers.each(function () {
+    handleEvent($(this), 'mouseenter', () => {
+      $(this).addClass('highlight');
+      $(this).find('.close-icon').addClass('show');
+    });
+
+    handleEvent($(this), 'mouseleave', () => {
+      $(this).removeClass('highlight');
+      $(this).find('.close-icon').removeClass('show');
+    });
   });
 };

@@ -53,7 +53,8 @@
 .updateUserContainer.chat,
 .updateUserContainer.password,
 .contactsContainer,
-.updateUserContainer.contacts {
+.updateUserContainer.contacts,
+.createGroupContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -81,7 +82,8 @@
 .updateUserContainer.chat.show,
 .updateUserContainer.password.show,
 .contactsContainer.show,
-.updateUserContainer.contacts.show {
+.updateUserContainer.contacts.show,
+.createGroupContainer.show {
   transform: translateX(0);
   opacity: 1;
   pointer-events: auto;

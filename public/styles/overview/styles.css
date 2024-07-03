@@ -210,6 +210,120 @@
   background-color: var(--primary-gray-color);
 }
 
+/* Container for adding user to group */
+
+.selectedUsersForGroup {
+  display: flex;
+  flex-flow: row wrap;
+  flex-shrink: 0;
+  margin: 0.625rem 0.25rem;
+  padding: 0 1rem 0.25rem 0.75rem;
+  border-bottom: 1px solid var(--primary-gray-color);
+}
+.highlight {
+  background-color: red;
+}
+.pickedUserGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--primary-gray-color);
+
+  height: 3.2rem;
+  min-width: 2rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-right: 1rem;
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 1;
+  transition: background-color 0.15s ease;
+  max-width: calc(50% - 0.5rem);
+  cursor: pointer;
+}
+
+.pickedUserGroup > .avatar-size {
+  height: 3.2rem;
+  width: 3.2rem;
+  border-radius: 50%;
+}
+
+.pickedUserGroup > .avatar-name {
+  font-size: 1.4rem;
+  margin-left: 0.7rem;
+  font-weight: bold;
+  color: var(--text-color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Checkbox of creating groups */
+
+/* Hide the default checkbox */
+.checkbox-container input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  user-select: none;
+}
+
+.checkbox-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkbox-container .checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
 /* Message in the chat */
 
 .messageFormContainer {

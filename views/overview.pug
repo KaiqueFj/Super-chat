@@ -12,6 +12,7 @@ block append head
 block content
   main.main
     .leftMenu
+
       .listUser
         each contact in contacts
           .users(data-user-room=contact.contactUser.id, data-online=contact.contactUser.online ? 'true' : 'false')
@@ -34,6 +35,24 @@ block content
         .menuItems
           i.fa-solid.fa-user-plus
           | New message
+
+    .createGroupContainer
+      .headerInfo
+        button.settingsBtn
+          i.fa-solid.fa-arrow-left
+        span.settingsNameHeader Add Members
+      .createGroupContainerInfo
+        .selectedUsersForGroup
+        .listUser
+          each contact in contacts
+            .users(data-user-room=contact.contactUser.id, data-online=contact.contactUser.online ? 'true' : 'false')
+              label.checkbox-container
+                input.user-checkbox(type='checkbox', name='selectedUsers', value=contact.contactUser.id)
+                span.checkmark
+              img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
+              span.userName= contact.nickname
+        button.createContactBtn
+          i.fa-solid.fa-arrow-right
 
 
 

@@ -7302,6 +7302,7 @@ parcelHelpers.export(exports, "createMessageContainer", ()=>createMessageContain
 parcelHelpers.export(exports, "createRoundNotification", ()=>createRoundNotification);
 parcelHelpers.export(exports, "createRoomID", ()=>createRoomID);
 parcelHelpers.export(exports, "createUserElement", ()=>createUserElement);
+parcelHelpers.export(exports, "createUserSelectedElement", ()=>createUserSelectedElement);
 parcelHelpers.export(exports, "handleContextMenu", ()=>handleContextMenu);
 parcelHelpers.export(exports, "renderAllUsers", ()=>renderAllUsers);
 // Function to update the user list with search results
@@ -7384,6 +7385,10 @@ function createUserElement(user, message, createdAt) {
     const formattedTimeResult = formattedTime(createdAtDate);
     const userElement = $("<div>").addClass("users").attr("data-user-room", user.id).append($("<span>").addClass("userName").text(user.name), $("<img>").addClass("user-img").attr("src", `/images/user/profile-pic/${user.photo}`), $("<span>").addClass("userMessage").text(message), $("<span>").addClass("messageTime").text(formattedTimeResult));
     $(".listUser").append(userElement);
+}
+function createUserSelectedElement(photo, userName) {
+    const userElement = $("<div>").addClass("pickedUserGroup").append($("<img>").addClass("avatar-size").attr("src", `${photo}`), $("<span>").addClass("avatar-name").text(userName));
+    $(".selectedUsersForGroup").append(userElement);
 }
 function handleContextMenu(event, messageElement, senderID) {
     event.preventDefault();
@@ -7721,10 +7726,16 @@ function socketListeners(socket) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleMenuOptions", ()=>handleMenuOptions);
+var _domElements = require("./domElements");
 var _helperFunctions = require("./helperFunctions");
 const leftMenuButton = $(".circle");
 const leftMenuOptions = $(".options");
 const leftMenu = $(".leftMenu");
+const newGroupIcon = $(".fa-solid.fa-user-group");
+const newChatIcon = $(".fa-user-plus");
+const containerGroup = $(".createGroupContainer");
+const checkboxes = $(".user-checkbox");
+const pickedUpUser = $(".pickedUserGroup");
 const handleMenuOptions = ()=>{
     (0, _helperFunctions.handleEvent)(leftMenuButton, "click", ()=>{
         (0, _helperFunctions.toggleClass)(leftMenuOptions, "show");
@@ -7744,8 +7755,51 @@ const handleMenuOptions = ()=>{
         // Close options if they are open
         if (leftMenuOptions.hasClass("show")) leftMenuOptions.removeClass("show");
     });
+    (0, _helperFunctions.handleEvent)(newGroupIcon, "click", ()=>{
+        (0, _helperFunctions.toggleClass)(containerGroup, "show");
+    });
+    (0, _helperFunctions.handleEvent)(newChatIcon, "click", ()=>{
+        (0, _helperFunctions.toggleClass)((0, _domElements.contactsContainer), "show");
+    });
+    // Get selected users
+    checkboxes.each(function() {
+        (0, _helperFunctions.handleEvent)($(this), "change", ()=>{
+            const selectedUsers = [];
+            checkboxes.each(function() {
+                if (this.checked) {
+                    const userId = this.value;
+                    const userName = $(this).closest(".users").find(".userName").text();
+                    const userImage = $(this).closest(".users").find(".user-img").attr("src");
+                    selectedUsers.push({
+                        id: userId,
+                        username: userName,
+                        photo: userImage
+                    });
+                }
+            });
+            console.log(selectedUsers);
+            // Clear existing selected users display
+            $(".selectedUsersForGroup").empty();
+            // Display selected users in the UI
+            selectedUsers.forEach((user)=>{
+                (0, _helperFunctions.createUserSelectedElement)(user.photo, user.username);
+            });
+        });
+    });
+    // Add hover effect for selected users
+    const pickedUpUsers = $(" .pickedUserGroup");
+    pickedUpUsers.each(function() {
+        (0, _helperFunctions.handleEvent)($(this), "mouseenter", ()=>{
+            $(this).addClass("highlight");
+            $(this).find(".close-icon").addClass("show");
+        });
+        (0, _helperFunctions.handleEvent)($(this), "mouseleave", ()=>{
+            $(this).removeClass("highlight");
+            $(this).find(".close-icon").removeClass("show");
+        });
+    });
 };
 
-},{"./helperFunctions":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"./domElements":"9fSnT","./helperFunctions":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map

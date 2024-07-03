@@ -124,6 +124,17 @@ export function createUserElement(user, message, createdAt) {
   $('.listUser').append(userElement);
 }
 
+export function createUserSelectedElement(photo, userName) {
+  const userElement = $('<div>')
+    .addClass('pickedUserGroup')
+    .append(
+      $('<img>').addClass('avatar-size').attr('src', `${photo}`),
+      $('<span>').addClass('avatar-name').text(userName)
+    );
+
+  $('.selectedUsersForGroup').append(userElement);
+}
+
 export function handleContextMenu(event, messageElement, senderID) {
   event.preventDefault();
   event.stopPropagation();
