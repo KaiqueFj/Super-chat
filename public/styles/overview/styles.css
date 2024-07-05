@@ -220,6 +220,9 @@
   padding: 0 1rem 0.25rem 0.75rem;
   border-bottom: 1px solid var(--primary-gray-color);
 }
+.chatMemberList {
+  display: flex;
+}
 .highlight {
   background-color: red;
 }
@@ -239,7 +242,6 @@
   overflow: hidden;
   flex-shrink: 1;
   transition: background-color 0.15s ease;
-  max-width: calc(50% - 0.5rem);
   cursor: pointer;
 }
 

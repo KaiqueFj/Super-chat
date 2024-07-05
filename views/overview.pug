@@ -51,11 +51,23 @@ block content
                 span.checkmark
               img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
               span.userName= contact.nickname
-        button.createContactBtn
+        button.circularButton.forwardGroup
           i.fa-solid.fa-arrow-right
 
-
-
+    .updateUserContainer.groupInfo
+      .headerInfo
+        button.settingsBtn
+          i.fa-solid.fa-arrow-left
+        span.settingsNameHeader New Group
+      form.form.form-user-data
+        .form__group
+          label.form__label(for='groupName') Group Name
+          input#groupName.form__input.groupName(type='text', required, name='groupName')
+        h3.chat-member-head 
+        .chatMemberList
+        .form__group.right
+          button.btn.save(type="submit")
+            i.fa-solid.fa-check
 
     .messageFormContainer(style=(user.wallpaper ? `background-image: url('/images/user/chat-background/${user.wallpaper}')` : ''))
       .messagesContainer

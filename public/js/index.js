@@ -11,6 +11,7 @@ import { createContact } from './addUserContact.js';
 import {
   handleFormSubmission,
   handleUserClick,
+  handleUserGroup,
   handleUserSearch,
   handleUserSearchForPhonenumber,
   handleUserSearchForUsers,
@@ -42,11 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   socketListeners(socket);
 
-  handleFormSubmission(socket); // Pass socket to user handlers
+  handleFormSubmission(socket);
   handleUserClick(socket);
   handleUserSearch(socket);
   handleUserSearchForUsers(socket);
   handleUserSearchForPhonenumber(socket);
+  handleUserGroup(socket); // Pass socket to handleUserGroup
 });
 
 // DOM elements

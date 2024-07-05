@@ -54,7 +54,9 @@
 .updateUserContainer.password,
 .contactsContainer,
 .updateUserContainer.contacts,
-.createGroupContainer {
+.createGroupContainer,
+.GroupContainerInfo,
+.updateUserContainer.groupInfo {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -83,7 +85,9 @@
 .updateUserContainer.password.show,
 .contactsContainer.show,
 .updateUserContainer.contacts.show,
-.createGroupContainer.show {
+.createGroupContainer.show,
+.GroupContainerInfo.show,
+.updateUserContainer.groupInfo.show {
   transform: translateX(0);
   opacity: 1;
   pointer-events: auto;
@@ -345,7 +349,7 @@ textarea:focus {
   align-items: center;
 }
 
-.createContactBtn {
+.circularButton {
   display: flex;
   border-radius: 50%;
   width: fit-content;

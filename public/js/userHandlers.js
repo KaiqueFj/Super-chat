@@ -16,9 +16,21 @@ import {
   userClientId,
 } from './domElements.js';
 
-import { createRoomID, renderAllUsers } from './helperFunctions.js';
+import {
+  createRoomID,
+  createUserSelectedElement,
+  renderAllUsers,
+  updateSelectedUserCount,
+} from './helperFunctions.js';
 
 const inputNumberContact = $('.form__input.phoneNumber');
+const checkboxes = $('.user-checkbox');
+const groupForm = $('.updateUserContainer.groupInfo');
+const selectedUsers = [];
+
+function createGroupRoomID() {
+  return 'group_' + Math.random().toString(36).substr(2, 9); // Example: 'group_abc123'
+}
 
 export function handleFormSubmission(socket) {
   form.on('submit', async (e) => {
@@ -43,6 +55,64 @@ export function handleFormSubmission(socket) {
     messageInput.val('');
   });
 }
+
+export function handleCreateGroup(socket, selectedUsers, createdBy) {
+  const groupName = $('.groupName').val();
+  const groupRoom = createGroupRoomID();
+
+  // Emit event to server to create a new group chat
+  socket.emit('create-group-chat', {
+    room: groupRoom,
+    customName: groupName,
+    members: selectedUsers.map((user) => user.id),
+    createdBy: createdBy,
+  });
+}
+
+export const handleUserGroup = (socket) => {
+  let selectedUsers = [];
+
+  $('.user-checkbox').on('change', function () {
+    const userId = this.value;
+    const userName = $(this).closest('.users').find('.userName').text();
+    const userImage = $(this).closest('.users').find('.user-img').attr('src');
+    const isChecked = this.checked;
+
+    if (isChecked) {
+      selectedUsers.push({
+        id: userId,
+        username: userName,
+        photo: userImage,
+      });
+    } else {
+      // Remove user from selectedUsers if unchecked
+      selectedUsers = selectedUsers.filter((user) => user.id !== userId);
+    }
+
+    // Display selected users in the UI
+    $('.chatMemberList').empty();
+    $('.selectedUsersForGroup').empty();
+    selectedUsers.forEach((user) => {
+      createUserSelectedElement(user.photo, user.username);
+    });
+
+    updateSelectedUserCount(selectedUsers.length);
+  });
+
+  groupForm.on('submit', async (e) => {
+    e.preventDefault();
+    const groupName = $('.groupName').val();
+    const groupRoom = createGroupRoomID();
+
+    // Emit event to server to create a new group chat
+    socket.emit('create-group-chat', {
+      room: groupRoom,
+      customName: groupName,
+      members: selectedUsers.map((user) => user.id),
+      createdBy: userClientId,
+    });
+  });
+};
 
 export function handleUserClick(socket) {
   parentElement.on('click', '.users', (e) => {

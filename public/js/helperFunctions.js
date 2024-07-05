@@ -132,7 +132,15 @@ export function createUserSelectedElement(photo, userName) {
       $('<span>').addClass('avatar-name').text(userName)
     );
 
+  const userElementForChatMemberList = userElement.clone();
+
   $('.selectedUsersForGroup').append(userElement);
+  $('.chatMemberList').append(userElementForChatMemberList);
+}
+
+export function updateSelectedUserCount(count) {
+  const pluralText = count > 1 ? 'Members' : 'Member';
+  $('.chat-member-head').text(`${count} ${pluralText}`);
 }
 
 export function handleContextMenu(event, messageElement, senderID) {
@@ -257,7 +265,6 @@ $(document).ready(() => {
 
 // Function to update the user list with search results
 export function updateSearchResults(searchedUserData, searchedMessageData) {
-  console.log(searchedUserData, searchedMessageData);
   $('.listUser').empty();
   for (let i = 0; i < searchedUserData.length; i++) {
     const user = searchedUserData[i];

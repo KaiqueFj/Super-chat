@@ -46,6 +46,12 @@ const userSchema = new mongoose.Schema(
         ref: 'Contact',
       },
     ],
+    groups: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

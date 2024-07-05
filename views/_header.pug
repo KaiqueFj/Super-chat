@@ -169,7 +169,7 @@ header.header
                     img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
                     .ball(class=contact.contactUser.online ? 'online' : 'offline')
                     span.userName= contact.nickname
-              button.createContactBtn
+              button.circularButton.createContactBtn
                 i.fa-solid.fa-user-plus
 
 

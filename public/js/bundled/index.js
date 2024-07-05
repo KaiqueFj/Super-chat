@@ -601,11 +601,12 @@ var _optionsMenuJs = require("./OptionsMenu.js");
 document.addEventListener("DOMContentLoaded", ()=>{
     const socket = io();
     (0, _messageHandlersJs.socketListeners)(socket);
-    (0, _userHandlersJs.handleFormSubmission)(socket); // Pass socket to user handlers
+    (0, _userHandlersJs.handleFormSubmission)(socket);
     (0, _userHandlersJs.handleUserClick)(socket);
     (0, _userHandlersJs.handleUserSearch)(socket);
     (0, _userHandlersJs.handleUserSearchForUsers)(socket);
     (0, _userHandlersJs.handleUserSearchForPhonenumber)(socket);
+    (0, _userHandlersJs.handleUserGroup)(socket); // Pass socket to handleUserGroup
 });
 // DOM elements
 if (0, _domElementsJs.logoutBtn) (0, _domElementsJs.logoutBtn).addEventListener("click", (0, _login.logout));
@@ -7303,6 +7304,7 @@ parcelHelpers.export(exports, "createRoundNotification", ()=>createRoundNotifica
 parcelHelpers.export(exports, "createRoomID", ()=>createRoomID);
 parcelHelpers.export(exports, "createUserElement", ()=>createUserElement);
 parcelHelpers.export(exports, "createUserSelectedElement", ()=>createUserSelectedElement);
+parcelHelpers.export(exports, "updateSelectedUserCount", ()=>updateSelectedUserCount);
 parcelHelpers.export(exports, "handleContextMenu", ()=>handleContextMenu);
 parcelHelpers.export(exports, "renderAllUsers", ()=>renderAllUsers);
 // Function to update the user list with search results
@@ -7388,7 +7390,13 @@ function createUserElement(user, message, createdAt) {
 }
 function createUserSelectedElement(photo, userName) {
     const userElement = $("<div>").addClass("pickedUserGroup").append($("<img>").addClass("avatar-size").attr("src", `${photo}`), $("<span>").addClass("avatar-name").text(userName));
+    const userElementForChatMemberList = userElement.clone();
     $(".selectedUsersForGroup").append(userElement);
+    $(".chatMemberList").append(userElementForChatMemberList);
+}
+function updateSelectedUserCount(count) {
+    const pluralText = count > 1 ? "Members" : "Member";
+    $(".chat-member-head").text(`${count} ${pluralText}`);
 }
 function handleContextMenu(event, messageElement, senderID) {
     event.preventDefault();
@@ -7481,7 +7489,6 @@ $(document).ready(()=>{
     });
 });
 function updateSearchResults(searchedUserData, searchedMessageData) {
-    console.log(searchedUserData, searchedMessageData);
     $(".listUser").empty();
     for(let i = 0; i < searchedUserData.length; i++){
         const user = searchedUserData[i];
@@ -7544,6 +7551,8 @@ const createContact = async (data, type)=>{
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleFormSubmission", ()=>handleFormSubmission);
+parcelHelpers.export(exports, "handleCreateGroup", ()=>handleCreateGroup);
+parcelHelpers.export(exports, "handleUserGroup", ()=>handleUserGroup);
 parcelHelpers.export(exports, "handleUserClick", ()=>handleUserClick);
 parcelHelpers.export(exports, "handleUserSearch", ()=>handleUserSearch);
 parcelHelpers.export(exports, "handleUserSearchForPhonenumber", ()=>handleUserSearchForPhonenumber);
@@ -7551,6 +7560,12 @@ parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchFo
 var _domElementsJs = require("./domElements.js");
 var _helperFunctionsJs = require("./helperFunctions.js");
 const inputNumberContact = $(".form__input.phoneNumber");
+const checkboxes = $(".user-checkbox");
+const groupForm = $(".updateUserContainer.groupInfo");
+const selectedUsers = [];
+function createGroupRoomID() {
+    return "group_" + Math.random().toString(36).substr(2, 9); // Example: 'group_abc123'
+}
 function handleFormSubmission(socket) {
     (0, _domElementsJs.form).on("submit", async (e)=>{
         e.preventDefault();
@@ -7571,6 +7586,52 @@ function handleFormSubmission(socket) {
         (0, _domElementsJs.messageInput).val("");
     });
 }
+function handleCreateGroup(socket, selectedUsers, createdBy) {
+    const groupName = $(".groupName").val();
+    const groupRoom = createGroupRoomID();
+    // Emit event to server to create a new group chat
+    socket.emit("create-group-chat", {
+        room: groupRoom,
+        customName: groupName,
+        members: selectedUsers.map((user)=>user.id),
+        createdBy: createdBy
+    });
+}
+const handleUserGroup = (socket)=>{
+    let selectedUsers = [];
+    $(".user-checkbox").on("change", function() {
+        const userId = this.value;
+        const userName = $(this).closest(".users").find(".userName").text();
+        const userImage = $(this).closest(".users").find(".user-img").attr("src");
+        const isChecked = this.checked;
+        if (isChecked) selectedUsers.push({
+            id: userId,
+            username: userName,
+            photo: userImage
+        });
+        else // Remove user from selectedUsers if unchecked
+        selectedUsers = selectedUsers.filter((user)=>user.id !== userId);
+        // Display selected users in the UI
+        $(".chatMemberList").empty();
+        $(".selectedUsersForGroup").empty();
+        selectedUsers.forEach((user)=>{
+            (0, _helperFunctionsJs.createUserSelectedElement)(user.photo, user.username);
+        });
+        (0, _helperFunctionsJs.updateSelectedUserCount)(selectedUsers.length);
+    });
+    groupForm.on("submit", async (e)=>{
+        e.preventDefault();
+        const groupName = $(".groupName").val();
+        const groupRoom = createGroupRoomID();
+        // Emit event to server to create a new group chat
+        socket.emit("create-group-chat", {
+            room: groupRoom,
+            customName: groupName,
+            members: selectedUsers.map((user)=>user.id),
+            createdBy: (0, _domElementsJs.userClientId)
+        });
+    });
+};
 function handleUserClick(socket) {
     (0, _domElementsJs.parentElement).on("click", ".users", (e)=>{
         (0, _domElementsJs.messageFormContainer).addClass("visible");
@@ -7734,8 +7795,9 @@ const leftMenu = $(".leftMenu");
 const newGroupIcon = $(".fa-solid.fa-user-group");
 const newChatIcon = $(".fa-user-plus");
 const containerGroup = $(".createGroupContainer");
-const checkboxes = $(".user-checkbox");
-const pickedUpUser = $(".pickedUserGroup");
+const forwardGroupButton = $(".forwardGroup");
+const groupContainerInfo = $(".GroupContainerInfo");
+const groupContainerForm = $(".updateUserContainer.groupInfo");
 const handleMenuOptions = ()=>{
     (0, _helperFunctions.handleEvent)(leftMenuButton, "click", ()=>{
         (0, _helperFunctions.toggleClass)(leftMenuOptions, "show");
@@ -7761,42 +7823,10 @@ const handleMenuOptions = ()=>{
     (0, _helperFunctions.handleEvent)(newChatIcon, "click", ()=>{
         (0, _helperFunctions.toggleClass)((0, _domElements.contactsContainer), "show");
     });
-    // Get selected users
-    checkboxes.each(function() {
-        (0, _helperFunctions.handleEvent)($(this), "change", ()=>{
-            const selectedUsers = [];
-            checkboxes.each(function() {
-                if (this.checked) {
-                    const userId = this.value;
-                    const userName = $(this).closest(".users").find(".userName").text();
-                    const userImage = $(this).closest(".users").find(".user-img").attr("src");
-                    selectedUsers.push({
-                        id: userId,
-                        username: userName,
-                        photo: userImage
-                    });
-                }
-            });
-            console.log(selectedUsers);
-            // Clear existing selected users display
-            $(".selectedUsersForGroup").empty();
-            // Display selected users in the UI
-            selectedUsers.forEach((user)=>{
-                (0, _helperFunctions.createUserSelectedElement)(user.photo, user.username);
-            });
-        });
-    });
-    // Add hover effect for selected users
-    const pickedUpUsers = $(" .pickedUserGroup");
-    pickedUpUsers.each(function() {
-        (0, _helperFunctions.handleEvent)($(this), "mouseenter", ()=>{
-            $(this).addClass("highlight");
-            $(this).find(".close-icon").addClass("show");
-        });
-        (0, _helperFunctions.handleEvent)($(this), "mouseleave", ()=>{
-            $(this).removeClass("highlight");
-            $(this).find(".close-icon").removeClass("show");
-        });
+    //Click on forwardButton to open groupInfo
+    (0, _helperFunctions.handleEvent)(forwardGroupButton, "click", ()=>{
+        (0, _helperFunctions.toggleClass)(groupContainerForm, "show");
+        containerGroup.removeClass("show");
     });
 };
 
