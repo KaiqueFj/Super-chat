@@ -1,5 +1,20 @@
 // domElements.js
 
+// Drop downMenu
+export const dropDownMenuBtn = $('.dropBtn');
+export const dropDownMenuItems = $('.dropDownItems');
+
+// OptionsMenu
+export const leftMenuButton = $('.circle');
+export const leftMenuOptions = $('.options');
+export const newGroupIcon = $('.fa-solid.fa-user-group');
+export const newChatIcon = $('.fa-user-plus');
+export const containerGroup = $('.createGroupContainer');
+export const forwardGroupButton = $('.forwardGroup');
+export const groupContainerForm = $('.updateUserContainer.groupInfo');
+export const inputNumberContact = $('.form__input.phoneNumber');
+export const groupForm = $('.updateUserContainer.groupInfo');
+
 // Toggle Background
 export const body = $('body');
 export const html = $('html');

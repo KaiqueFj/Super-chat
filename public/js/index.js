@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
   handleUserSearch(socket);
   handleUserSearchForUsers(socket);
   handleUserSearchForPhonenumber(socket);
-  handleUserGroup(socket); // Pass socket to handleUserGroup
+  handleUserGroup(socket);
 });
 
 // DOM elements

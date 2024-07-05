@@ -1,5 +1,4 @@
-const dropDownMenuBtn = $('.dropBtn');
-const dropDownMenuItems = $('.dropDownItems');
+import { dropDownMenuBtn, dropDownMenuItems } from './domElements.js';
 
 export const dropDownMenu = () => {
   dropDownMenuBtn.on('click', function (e) {

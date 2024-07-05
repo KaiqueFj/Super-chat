@@ -12,6 +12,8 @@ import {
   contactsContainer,
   createContactBtn,
   addContactContainer,
+  groupContainerForm,
+  containerGroup,
 } from './domElements.js';
 
 import { toggleClass, removeClass, handleEvent } from './helperFunctions.js';
@@ -25,6 +27,7 @@ export const settingsMenu = () => {
     if (ContainerWithUserInformations.hasClass('show')) {
       toggleClass(ContainerWithUserInformations, 'show');
     }
+    toggleClass(containerGroup, 'show');
     removeClass(ContainerToUpdateUser, 'show');
   });
 
@@ -37,6 +40,7 @@ export const settingsMenu = () => {
     toggleClass(ContainerToUpdateUser, 'show');
     toggleClass(chatBackgroundUpdateForm, 'show');
     toggleClass(userContainerPasswordChange, 'show');
+    toggleClass(containerGroup, 'show');
     removeClass(addContactContainer, 'show');
   });
 
@@ -44,6 +48,7 @@ export const settingsMenu = () => {
     toggleClass(userContainerPasswordChange, 'show');
     toggleClass(ContainerWithUserInformations, 'show');
     removeClass(addContactContainer, 'show');
+    removeClass(containerGroup, 'show');
   });
 };
 

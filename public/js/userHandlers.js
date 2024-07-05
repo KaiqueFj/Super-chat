@@ -14,6 +14,8 @@ import {
   setRoomName,
   setUserThatReceivesMessage,
   userClientId,
+  inputNumberContact,
+  groupForm,
 } from './domElements.js';
 
 import {
@@ -23,13 +25,8 @@ import {
   updateSelectedUserCount,
 } from './helperFunctions.js';
 
-const inputNumberContact = $('.form__input.phoneNumber');
-const checkboxes = $('.user-checkbox');
-const groupForm = $('.updateUserContainer.groupInfo');
-const selectedUsers = [];
-
 function createGroupRoomID() {
-  return 'group_' + Math.random().toString(36).substr(2, 9); // Example: 'group_abc123'
+  return 'group_' + Math.random().toString(36).substring(2, 11);
 }
 
 export function handleFormSubmission(socket) {

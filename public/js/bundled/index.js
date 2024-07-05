@@ -606,7 +606,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     (0, _userHandlersJs.handleUserSearch)(socket);
     (0, _userHandlersJs.handleUserSearchForUsers)(socket);
     (0, _userHandlersJs.handleUserSearchForPhonenumber)(socket);
-    (0, _userHandlersJs.handleUserGroup)(socket); // Pass socket to handleUserGroup
+    (0, _userHandlersJs.handleUserGroup)(socket);
 });
 // DOM elements
 if (0, _domElementsJs.logoutBtn) (0, _domElementsJs.logoutBtn).addEventListener("click", (0, _login.logout));
@@ -7036,9 +7036,20 @@ const toggleBackground = ()=>{
 
 },{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9fSnT":[function(require,module,exports) {
 // domElements.js
-// Toggle Background
+// Drop downMenu
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "dropDownMenuBtn", ()=>dropDownMenuBtn);
+parcelHelpers.export(exports, "dropDownMenuItems", ()=>dropDownMenuItems);
+parcelHelpers.export(exports, "leftMenuButton", ()=>leftMenuButton);
+parcelHelpers.export(exports, "leftMenuOptions", ()=>leftMenuOptions);
+parcelHelpers.export(exports, "newGroupIcon", ()=>newGroupIcon);
+parcelHelpers.export(exports, "newChatIcon", ()=>newChatIcon);
+parcelHelpers.export(exports, "containerGroup", ()=>containerGroup);
+parcelHelpers.export(exports, "forwardGroupButton", ()=>forwardGroupButton);
+parcelHelpers.export(exports, "groupContainerForm", ()=>groupContainerForm);
+parcelHelpers.export(exports, "inputNumberContact", ()=>inputNumberContact);
+parcelHelpers.export(exports, "groupForm", ()=>groupForm);
 parcelHelpers.export(exports, "body", ()=>body);
 parcelHelpers.export(exports, "html", ()=>html);
 parcelHelpers.export(exports, "main", ()=>main);
@@ -7113,6 +7124,17 @@ parcelHelpers.export(exports, "getRoomName", ()=>getRoomName);
 // Getter and setter for receivedMessageCount
 parcelHelpers.export(exports, "setReceivedMessageCount", ()=>setReceivedMessageCount);
 parcelHelpers.export(exports, "getReceivedMessageCount", ()=>getReceivedMessageCount);
+const dropDownMenuBtn = $(".dropBtn");
+const dropDownMenuItems = $(".dropDownItems");
+const leftMenuButton = $(".circle");
+const leftMenuOptions = $(".options");
+const newGroupIcon = $(".fa-solid.fa-user-group");
+const newChatIcon = $(".fa-user-plus");
+const containerGroup = $(".createGroupContainer");
+const forwardGroupButton = $(".forwardGroup");
+const groupContainerForm = $(".updateUserContainer.groupInfo");
+const inputNumberContact = $(".form__input.phoneNumber");
+const groupForm = $(".updateUserContainer.groupInfo");
 const body = $("body");
 const html = $("html");
 const main = $("main");
@@ -7203,16 +7225,15 @@ function getReceivedMessageCount() {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "dropDownMenu", ()=>dropDownMenu);
-const dropDownMenuBtn = $(".dropBtn");
-const dropDownMenuItems = $(".dropDownItems");
+var _domElementsJs = require("./domElements.js");
 const dropDownMenu = ()=>{
-    dropDownMenuBtn.on("click", function(e) {
+    (0, _domElementsJs.dropDownMenuBtn).on("click", function(e) {
         e.preventDefault();
-        dropDownMenuItems.toggleClass("show");
+        (0, _domElementsJs.dropDownMenuItems).toggleClass("show");
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports) {
+},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
@@ -7256,6 +7277,7 @@ const settingsMenu = ()=>{
     });
     (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.returnBtn), "click", ()=>{
         if ((0, _domElementsJs.ContainerWithUserInformations).hasClass("show")) (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.containerGroup), "show");
         (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.ContainerToUpdateUser), "show");
     });
     (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.OpenChatBackgroundForm), "click", ()=>{
@@ -7266,12 +7288,14 @@ const settingsMenu = ()=>{
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerToUpdateUser), "show");
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.chatBackgroundUpdateForm), "show");
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.userContainerPasswordChange), "show");
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.containerGroup), "show");
         (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.addContactContainer), "show");
     });
     (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.OpenChangePasswordForm), "click", ()=>{
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.userContainerPasswordChange), "show");
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
         (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.addContactContainer), "show");
+        (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.containerGroup), "show");
     });
 };
 const contactsMenu = ()=>{
@@ -7314,9 +7338,9 @@ parcelHelpers.export(exports, "showUserFound", ()=>showUserFound);
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
 var _domElementsJs = require("./domElements.js");
 function formattedTime(isoDateString) {
-    if (!isoDateString) return ""; // Return empty string if input is empty or undefined
+    if (!isoDateString) return "";
     const date = new Date(isoDateString);
-    if (isNaN(date.getTime())) return ""; // Return empty string if date parsing fails
+    if (isNaN(date.getTime())) return "";
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
@@ -7559,12 +7583,8 @@ parcelHelpers.export(exports, "handleUserSearchForPhonenumber", ()=>handleUserSe
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
 var _domElementsJs = require("./domElements.js");
 var _helperFunctionsJs = require("./helperFunctions.js");
-const inputNumberContact = $(".form__input.phoneNumber");
-const checkboxes = $(".user-checkbox");
-const groupForm = $(".updateUserContainer.groupInfo");
-const selectedUsers = [];
 function createGroupRoomID() {
-    return "group_" + Math.random().toString(36).substr(2, 9); // Example: 'group_abc123'
+    return "group_" + Math.random().toString(36).substring(2, 11);
 }
 function handleFormSubmission(socket) {
     (0, _domElementsJs.form).on("submit", async (e)=>{
@@ -7619,7 +7639,7 @@ const handleUserGroup = (socket)=>{
         });
         (0, _helperFunctionsJs.updateSelectedUserCount)(selectedUsers.length);
     });
-    groupForm.on("submit", async (e)=>{
+    (0, _domElementsJs.groupForm).on("submit", async (e)=>{
         e.preventDefault();
         const groupName = $(".groupName").val();
         const groupRoom = createGroupRoomID();
@@ -7666,7 +7686,7 @@ function handleUserSearch(socket) {
     });
 }
 function handleUserSearchForPhonenumber(socket) {
-    inputNumberContact.on("input", (e)=>{
+    (0, _domElementsJs.inputNumberContact).on("input", (e)=>{
         e.preventDefault();
         const searchQuery = e.target.value.trim();
         socket.emit("getPhoneNumberSearched", searchQuery);
@@ -7789,47 +7809,44 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleMenuOptions", ()=>handleMenuOptions);
 var _domElements = require("./domElements");
 var _helperFunctions = require("./helperFunctions");
-const leftMenuButton = $(".circle");
-const leftMenuOptions = $(".options");
-const leftMenu = $(".leftMenu");
-const newGroupIcon = $(".fa-solid.fa-user-group");
-const newChatIcon = $(".fa-user-plus");
-const containerGroup = $(".createGroupContainer");
-const forwardGroupButton = $(".forwardGroup");
-const groupContainerInfo = $(".GroupContainerInfo");
-const groupContainerForm = $(".updateUserContainer.groupInfo");
+var _domElementsJs = require("./domElements.js");
 const handleMenuOptions = ()=>{
-    (0, _helperFunctions.handleEvent)(leftMenuButton, "click", ()=>{
-        (0, _helperFunctions.toggleClass)(leftMenuOptions, "show");
+    (0, _helperFunctions.handleEvent)((0, _domElementsJs.leftMenuButton), "click", ()=>{
+        (0, _helperFunctions.toggleClass)((0, _domElementsJs.leftMenuOptions), "show");
         // toggle the grow effect between both icons
-        const iconElement = leftMenuButton.find("i");
+        const iconElement = (0, _domElementsJs.leftMenuButton).find("i");
         iconElement.removeClass("grow");
         iconElement[0].offsetWidth;
         iconElement.addClass("grow");
         // Toggle Font Awesome icon
-        const currentIcon = leftMenuButton.find("i").attr("class");
-        if (currentIcon.includes("fa-regular fa-pen-to-square")) leftMenuButton.find("i").removeClass("fa-regular fa-pen-to-square").addClass("fa-solid fa-x");
-        else leftMenuButton.find("i").removeClass("fa-solid fa-x").addClass("fa-regular fa-pen-to-square");
+        const currentIcon = (0, _domElementsJs.leftMenuButton).find("i").attr("class");
+        if (currentIcon.includes("fa-regular fa-pen-to-square")) (0, _domElementsJs.leftMenuButton).find("i").removeClass("fa-regular fa-pen-to-square").addClass("fa-solid fa-x");
+        else (0, _domElementsJs.leftMenuButton).find("i").removeClass("fa-solid fa-x").addClass("fa-regular fa-pen-to-square");
     });
     // Hide button when mouse leaves left menu
-    (0, _helperFunctions.handleEvent)(leftMenu, "mouseleave", ()=>{
-        leftMenuButton.removeClass("show");
+    (0, _helperFunctions.handleEvent)((0, _domElementsJs.leftMenu), "mouseleave", ()=>{
+        (0, _domElementsJs.leftMenuButton).removeClass("show");
         // Close options if they are open
-        if (leftMenuOptions.hasClass("show")) leftMenuOptions.removeClass("show");
+        if ((0, _domElementsJs.leftMenuOptions).hasClass("show")) (0, _domElementsJs.leftMenuOptions).removeClass("show");
     });
-    (0, _helperFunctions.handleEvent)(newGroupIcon, "click", ()=>{
-        (0, _helperFunctions.toggleClass)(containerGroup, "show");
+    (0, _helperFunctions.handleEvent)((0, _domElementsJs.newGroupIcon), "click", ()=>{
+        (0, _helperFunctions.toggleClass)((0, _domElementsJs.containerGroup), "show");
     });
-    (0, _helperFunctions.handleEvent)(newChatIcon, "click", ()=>{
+    (0, _helperFunctions.handleEvent)((0, _domElementsJs.newChatIcon), "click", ()=>{
         (0, _helperFunctions.toggleClass)((0, _domElements.contactsContainer), "show");
     });
     //Click on forwardButton to open groupInfo
-    (0, _helperFunctions.handleEvent)(forwardGroupButton, "click", ()=>{
-        (0, _helperFunctions.toggleClass)(groupContainerForm, "show");
-        containerGroup.removeClass("show");
+    (0, _helperFunctions.handleEvent)((0, _domElementsJs.forwardGroupButton), "click", ()=>{
+        (0, _helperFunctions.toggleClass)((0, _domElementsJs.groupContainerForm), "show");
+        (0, _domElementsJs.containerGroup).removeClass("show");
+    });
+    (0, _helperFunctions.handleEvent)((0, _domElementsJs.returnBtn), "click", ()=>{
+        // Check for specific contexts before toggling
+        if ((0, _domElementsJs.groupContainerForm).hasClass("show")) (0, _domElementsJs.groupContainerForm).removeClass("show");
+        else if ((0, _domElementsJs.containerGroup).hasClass("show")) (0, _helperFunctions.removeClass)((0, _domElementsJs.containerGroup), "show");
     });
 };
 
-},{"./domElements":"9fSnT","./helperFunctions":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"./domElements":"9fSnT","./helperFunctions":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map

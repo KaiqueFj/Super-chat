@@ -1,15 +1,16 @@
 import { contactsContainer } from './domElements';
 import { handleEvent, removeClass, toggleClass } from './helperFunctions';
-
-const leftMenuButton = $('.circle');
-const leftMenuOptions = $('.options');
-const leftMenu = $('.leftMenu');
-const newGroupIcon = $('.fa-solid.fa-user-group');
-const newChatIcon = $('.fa-user-plus');
-const containerGroup = $('.createGroupContainer');
-const forwardGroupButton = $('.forwardGroup');
-const groupContainerInfo = $('.GroupContainerInfo');
-const groupContainerForm = $('.updateUserContainer.groupInfo');
+import {
+  leftMenuButton,
+  leftMenuOptions,
+  leftMenu,
+  newGroupIcon,
+  newChatIcon,
+  containerGroup,
+  forwardGroupButton,
+  groupContainerForm,
+  returnBtn,
+} from './domElements.js';
 
 export const handleMenuOptions = () => {
   handleEvent(leftMenuButton, 'click', () => {
@@ -58,5 +59,14 @@ export const handleMenuOptions = () => {
   handleEvent(forwardGroupButton, 'click', () => {
     toggleClass(groupContainerForm, 'show');
     containerGroup.removeClass('show');
+  });
+
+  handleEvent(returnBtn, 'click', () => {
+    // Check for specific contexts before toggling
+    if (groupContainerForm.hasClass('show')) {
+      groupContainerForm.removeClass('show');
+    } else if (containerGroup.hasClass('show')) {
+      removeClass(containerGroup, 'show');
+    }
   });
 };

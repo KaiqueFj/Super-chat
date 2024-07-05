@@ -226,7 +226,8 @@
   font-weight: 500;
   margin-bottom: 0.75rem;
 }
-.form__label.password {
+.form__label.password,
+.form__label.groupName {
   text-align: left;
 }
 
