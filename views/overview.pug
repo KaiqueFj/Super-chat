@@ -25,6 +25,13 @@ block content
               span.userMessage= lastMessage.message
               span.messageTime= new Date(lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
+        // Render groups
+      .listGroup
+        each group in groups
+          .group(data-group-room=group.id)
+            img.group-img(src=`/images/group/${group.groupPhoto || 'default.jpg'}`, alt=`Photo of ${group.customName}`)
+            span.groupName= group.customName
+
       .circle
         i.fa-regular.fa-pen-to-square
       .options
@@ -51,6 +58,8 @@ block content
                 span.checkmark
               img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
               span.userName= contact.nickname
+
+
         button.circularButton.forwardGroup
           i.fa-solid.fa-arrow-right
 
@@ -61,8 +70,12 @@ block content
         span.settingsNameHeader New Group
       form.form.form-user-data
         .form__group
-          label.form__label.groupName(for='groupName') Group Name
-          input#groupName.form__input.groupName(type='text', required, name='groupName')
+          img.form__user-photo.group(src=`/images/user/profile-pic/${user.photo}`, alt='User photo')
+          input.form__upload.img(type= 'file', accept='image/*', id='groupPhoto', name='groupPhoto')
+          label(for='groupPhoto') Choose new photo
+        .form__group
+          label.form__label.customName(for='customName') Group Name
+          input#customName.form__input.customName(type='text', required, name='customName')
         h3.chat-member-head 
         .chatMemberList
         .form__group.right

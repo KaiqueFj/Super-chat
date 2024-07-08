@@ -13,6 +13,13 @@ exports.getChatPage = catchAsync(async (req, res) => {
       },
     })
     .populate({
+      path: 'groups',
+      populate: {
+        path: 'members',
+        model: 'User',
+      },
+    })
+    .populate({
       path: 'messages',
       options: { sort: { createdAt: -1 } },
     });
@@ -21,6 +28,7 @@ exports.getChatPage = catchAsync(async (req, res) => {
     user: user,
     contacts: user.contacts,
     messages: user.messages,
+    groups: user.groups,
   });
 });
 

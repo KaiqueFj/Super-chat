@@ -18,11 +18,31 @@
   width: 25%;
   min-width: 25%;
   padding: 0.7rem;
-  overflow: hidden;
+  overflow: scroll;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.listUser {
+.leftMenu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.leftMenu::-webkit-scrollbar-thumb {
+  background-color: var(--primary-purple-color);
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.leftMenu::-webkit-scrollbar-thumb:hover {
+  background-color: var(--secondary-purple-color);
+}
+
+.leftMenu::-webkit-scrollbar-track {
+  background: var(--primary-black-color);
+  border-radius: 10px;
+}
+
+.listUser,
+.listGroup {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -30,7 +50,8 @@
 
 /* Edit users list */
 
-.users {
+.users,
+.group {
   position: relative;
   display: grid;
   padding: 0.7rem;
@@ -46,11 +67,13 @@
   gap: 0.5rem;
 }
 
-.users:hover {
+.users:hover,
+.group:hover {
   background-color: var(--primary-gray-color);
 }
 
-.users.selected {
+.users.selected,
+.group.selected {
   background-color: var(--primary-purple-color);
   transition: background-color 0.3s ease-in-out;
   outline: none;
@@ -76,14 +99,16 @@
   background-color: var(--gray-offline-color);
 }
 
-.users > .user-img {
+.users > .user-img,
+.group > .group-img {
   grid-area: imageProfile;
   height: 6.5rem;
   width: 6.5rem;
   border-radius: 50%;
 }
 
-.users > .userName {
+.users > .userName,
+.group > .groupName {
   grid-area: userName;
   font-size: 1.8rem;
   font-weight: bold;

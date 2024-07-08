@@ -597,6 +597,7 @@ var _userHandlersJs = require("./userHandlers.js");
 var _messageHandlersJs = require("./messageHandlers.js");
 var _domElementsJs = require("./domElements.js");
 var _optionsMenuJs = require("./OptionsMenu.js");
+var _groupCreateJs = require("./groupCreate.js");
 // Ensure that the socket.io client script is loaded
 document.addEventListener("DOMContentLoaded", ()=>{
     const socket = io();
@@ -606,7 +607,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     (0, _userHandlersJs.handleUserSearch)(socket);
     (0, _userHandlersJs.handleUserSearchForUsers)(socket);
     (0, _userHandlersJs.handleUserSearchForPhonenumber)(socket);
-    (0, _userHandlersJs.handleUserGroup)(socket);
+    (0, _userHandlersJs.handleUserGroup)();
 });
 // DOM elements
 if (0, _domElementsJs.logoutBtn) (0, _domElementsJs.logoutBtn).addEventListener("click", (0, _login.logout));
@@ -622,6 +623,28 @@ if (0, _domElementsJs.signInForm) (0, _domElementsJs.signInForm).addEventListene
     const email = document.querySelector(".inputEmail").value;
     const password = document.querySelector(".inputPassword").value;
     (0, _login.signIn)(email, password);
+});
+if (0, _domElementsJs.groupPhoto) (0, _domElementsJs.groupPhoto).on("change", ()=>{
+    const file = (0, _domElementsJs.groupPhoto)[0].files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        (0, _domElementsJs.groupPhotoPrev).attr("src", e.target.result);
+    };
+    reader.readAsDataURL(file);
+});
+if (0, _domElementsJs.groupForm) (0, _domElementsJs.groupForm).on("submit", async (e)=>{
+    e.preventDefault();
+    const customName = $("#customName").val();
+    const fileInput = $("#groupPhoto")[0];
+    if (fileInput.files.length === 0) {
+        console.error("No file selected.");
+        return;
+    }
+    const form = new FormData();
+    form.append("customName", customName);
+    (0, _userHandlersJs.selectedUsers).forEach((user)=>form.append("members", user.id));
+    form.append("groupPhoto", fileInput.files[0]);
+    await (0, _groupCreateJs.createGroup)(form, "group");
 });
 if (0, _domElementsJs.updateUserForm) {
     (0, _domElementsJs.photoInput).addEventListener("change", ()=>{
@@ -689,7 +712,7 @@ if (0, _domElementsJs.createContactContainer) (0, _domElementsJs.createContactCo
 (0, _handleUserMenuClick.contactsMenu)();
 (0, _optionsMenuJs.handleMenuOptions)();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./addUserContact.js":"iREgH","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT","./OptionsMenu.js":"iaW6h"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./addUserContact.js":"iREgH","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT","./OptionsMenu.js":"iaW6h","./groupCreate.js":"5MeR4"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -7050,6 +7073,8 @@ parcelHelpers.export(exports, "forwardGroupButton", ()=>forwardGroupButton);
 parcelHelpers.export(exports, "groupContainerForm", ()=>groupContainerForm);
 parcelHelpers.export(exports, "inputNumberContact", ()=>inputNumberContact);
 parcelHelpers.export(exports, "groupForm", ()=>groupForm);
+parcelHelpers.export(exports, "groupPhoto", ()=>groupPhoto);
+parcelHelpers.export(exports, "groupPhotoPrev", ()=>groupPhotoPrev);
 parcelHelpers.export(exports, "body", ()=>body);
 parcelHelpers.export(exports, "html", ()=>html);
 parcelHelpers.export(exports, "main", ()=>main);
@@ -7135,6 +7160,8 @@ const forwardGroupButton = $(".forwardGroup");
 const groupContainerForm = $(".updateUserContainer.groupInfo");
 const inputNumberContact = $(".form__input.phoneNumber");
 const groupForm = $(".updateUserContainer.groupInfo");
+const groupPhoto = $("#groupPhoto");
+const groupPhotoPrev = $(".form__user-photo.group");
 const body = $("body");
 const html = $("html");
 const main = $("main");
@@ -7574,8 +7601,8 @@ const createContact = async (data, type)=>{
 },{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "selectedUsers", ()=>selectedUsers);
 parcelHelpers.export(exports, "handleFormSubmission", ()=>handleFormSubmission);
-parcelHelpers.export(exports, "handleCreateGroup", ()=>handleCreateGroup);
 parcelHelpers.export(exports, "handleUserGroup", ()=>handleUserGroup);
 parcelHelpers.export(exports, "handleUserClick", ()=>handleUserClick);
 parcelHelpers.export(exports, "handleUserSearch", ()=>handleUserSearch);
@@ -7583,9 +7610,7 @@ parcelHelpers.export(exports, "handleUserSearchForPhonenumber", ()=>handleUserSe
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
 var _domElementsJs = require("./domElements.js");
 var _helperFunctionsJs = require("./helperFunctions.js");
-function createGroupRoomID() {
-    return "group_" + Math.random().toString(36).substring(2, 11);
-}
+let selectedUsers = [];
 function handleFormSubmission(socket) {
     (0, _domElementsJs.form).on("submit", async (e)=>{
         e.preventDefault();
@@ -7606,19 +7631,7 @@ function handleFormSubmission(socket) {
         (0, _domElementsJs.messageInput).val("");
     });
 }
-function handleCreateGroup(socket, selectedUsers, createdBy) {
-    const groupName = $(".groupName").val();
-    const groupRoom = createGroupRoomID();
-    // Emit event to server to create a new group chat
-    socket.emit("create-group-chat", {
-        room: groupRoom,
-        customName: groupName,
-        members: selectedUsers.map((user)=>user.id),
-        createdBy: createdBy
-    });
-}
-const handleUserGroup = (socket)=>{
-    let selectedUsers = [];
+const handleUserGroup = ()=>{
     $(".user-checkbox").on("change", function() {
         const userId = this.value;
         const userName = $(this).closest(".users").find(".userName").text();
@@ -7629,8 +7642,7 @@ const handleUserGroup = (socket)=>{
             username: userName,
             photo: userImage
         });
-        else // Remove user from selectedUsers if unchecked
-        selectedUsers = selectedUsers.filter((user)=>user.id !== userId);
+        else selectedUsers = selectedUsers.filter((user)=>user.id !== userId);
         // Display selected users in the UI
         $(".chatMemberList").empty();
         $(".selectedUsersForGroup").empty();
@@ -7638,18 +7650,6 @@ const handleUserGroup = (socket)=>{
             (0, _helperFunctionsJs.createUserSelectedElement)(user.photo, user.username);
         });
         (0, _helperFunctionsJs.updateSelectedUserCount)(selectedUsers.length);
-    });
-    (0, _domElementsJs.groupForm).on("submit", async (e)=>{
-        e.preventDefault();
-        const groupName = $(".groupName").val();
-        const groupRoom = createGroupRoomID();
-        // Emit event to server to create a new group chat
-        socket.emit("create-group-chat", {
-            room: groupRoom,
-            customName: groupName,
-            members: selectedUsers.map((user)=>user.id),
-            createdBy: (0, _domElementsJs.userClientId)
-        });
     });
 };
 function handleUserClick(socket) {
@@ -7679,10 +7679,10 @@ function handleUserClick(socket) {
 function handleUserSearch(socket) {
     (0, _domElementsJs.chatParentElement).on("click", ".searchTextInChatBtn", (e)=>{
         e.preventDefault();
-        searchInputChat.toggleClass("hidden");
-        const searchQuery = searchInputChat.val().trim();
+        (0, _domElementsJs.searchInputChat).toggleClass("hidden");
+        const searchQuery = (0, _domElementsJs.searchInputChat).val().trim();
         socket.emit("getUserMessageSearched", (0, _domElementsJs.getRoomName)(), searchQuery);
-        searchInputChat.val("");
+        (0, _domElementsJs.searchInputChat).val("");
     });
 }
 function handleUserSearchForPhonenumber(socket) {
@@ -7847,6 +7847,35 @@ const handleMenuOptions = ()=>{
     });
 };
 
-},{"./domElements":"9fSnT","./helperFunctions":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"./domElements":"9fSnT","./helperFunctions":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5MeR4":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "createGroup", ()=>createGroup);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
+const createGroup = async (data, type)=>{
+    try {
+        const urlMap = {
+            group: "/api/v1/users/createGroup"
+        };
+        const url = urlMap[type];
+        if (!url) throw new Error("Invalid type");
+        const res = await (0, _axiosDefault.default)({
+            method: "POST",
+            url,
+            data,
+            headers: {
+                "Content-Type": type === "password" ? "application/json" : "multipart/form-data"
+            }
+        });
+        if (res.data.status === "success") (0, _alert.showAlert)("success", `${type} updated successfully`);
+        return res.data;
+    } catch (err) {
+        (0, _alert.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map

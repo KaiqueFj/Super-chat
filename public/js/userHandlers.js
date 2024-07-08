@@ -16,6 +16,7 @@ import {
   userClientId,
   inputNumberContact,
   groupForm,
+  searchInputChat,
 } from './domElements.js';
 
 import {
@@ -25,9 +26,7 @@ import {
   updateSelectedUserCount,
 } from './helperFunctions.js';
 
-function createGroupRoomID() {
-  return 'group_' + Math.random().toString(36).substring(2, 11);
-}
+export let selectedUsers = [];
 
 export function handleFormSubmission(socket) {
   form.on('submit', async (e) => {
@@ -47,28 +46,14 @@ export function handleFormSubmission(socket) {
       userThatReceivesMessage,
       receivedCount,
     };
+
     socket.emit('send-message', userMessageData);
 
     messageInput.val('');
   });
 }
 
-export function handleCreateGroup(socket, selectedUsers, createdBy) {
-  const groupName = $('.groupName').val();
-  const groupRoom = createGroupRoomID();
-
-  // Emit event to server to create a new group chat
-  socket.emit('create-group-chat', {
-    room: groupRoom,
-    customName: groupName,
-    members: selectedUsers.map((user) => user.id),
-    createdBy: createdBy,
-  });
-}
-
-export const handleUserGroup = (socket) => {
-  let selectedUsers = [];
-
+export const handleUserGroup = () => {
   $('.user-checkbox').on('change', function () {
     const userId = this.value;
     const userName = $(this).closest('.users').find('.userName').text();
@@ -82,7 +67,6 @@ export const handleUserGroup = (socket) => {
         photo: userImage,
       });
     } else {
-      // Remove user from selectedUsers if unchecked
       selectedUsers = selectedUsers.filter((user) => user.id !== userId);
     }
 
@@ -94,20 +78,6 @@ export const handleUserGroup = (socket) => {
     });
 
     updateSelectedUserCount(selectedUsers.length);
-  });
-
-  groupForm.on('submit', async (e) => {
-    e.preventDefault();
-    const groupName = $('.groupName').val();
-    const groupRoom = createGroupRoomID();
-
-    // Emit event to server to create a new group chat
-    socket.emit('create-group-chat', {
-      room: groupRoom,
-      customName: groupName,
-      members: selectedUsers.map((user) => user.id),
-      createdBy: userClientId,
-    });
   });
 };
 

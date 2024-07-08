@@ -4,6 +4,7 @@ const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const multer = require('multer');
 const Contact = require('../Models/contactModel');
+const Group = require('../Models/groupModel');
 
 const multerStorage = multer.memoryStorage();
 
@@ -15,6 +16,10 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
+function createGroupRoomID() {
+  return 'group_' + Math.random().toString(36).substring(2, 11);
+}
+
 const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
@@ -23,6 +28,8 @@ const upload = multer({
 exports.uploadUserPhoto = upload.single('photo');
 
 exports.uploadUserWallpaper = upload.single('wallpaper');
+
+exports.uploadGroupPhoto = upload.single('groupPhoto');
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
@@ -48,6 +55,20 @@ exports.resizeUserWallpaper = catchAsync(async (req, res, next) => {
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`public/images/user/chat-background/${req.file.filename}`);
+
+  next();
+});
+
+exports.resizeGroupPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.file.filename = `wallpaper-${req.user.id}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(550, 550)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/images/group/${req.file.filename}`);
 
   next();
 });
@@ -104,6 +125,37 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 exports.getMe = catchAsync(async (req, res, next) => {
   req.params.id = req.user.id;
   next();
+});
+
+exports.createGroup = catchAsync(async (req, res, next) => {
+  const { customName, members } = req.body;
+  const groupRoom = createGroupRoomID();
+
+  const groupData = {
+    name: groupRoom,
+    customName: customName,
+    members: members,
+    createdBy: req.user.id,
+  };
+
+  if (req.file) {
+    groupData.groupPhoto = req.file.filename;
+  }
+
+  const group = await Group.create(groupData);
+
+  await User.findByIdAndUpdate(
+    req.user.id,
+    { $push: { groups: group._id } },
+    { new: true }
+  );
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      group,
+    },
+  });
 });
 
 exports.createContact = catchAsync(async (req, res, next) => {

@@ -15,6 +15,7 @@ import {
   handleUserSearch,
   handleUserSearchForPhonenumber,
   handleUserSearchForUsers,
+  selectedUsers,
 } from './userHandlers.js';
 import { socketListeners } from './messageHandlers.js';
 
@@ -34,8 +35,12 @@ import {
   backgroundOfMessageContainer,
   updateUserPassword,
   createContactContainer,
+  groupForm,
+  groupPhoto,
+  groupPhotoPrev,
 } from './domElements.js';
 import { handleMenuOptions } from './OptionsMenu.js';
+import { createGroup } from './groupCreate.js';
 
 // Ensure that the socket.io client script is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   handleUserSearch(socket);
   handleUserSearchForUsers(socket);
   handleUserSearchForPhonenumber(socket);
-  handleUserGroup(socket);
+  handleUserGroup();
 });
 
 // DOM elements
@@ -73,6 +78,39 @@ if (signInForm) {
     const password = document.querySelector('.inputPassword').value;
 
     signIn(email, password);
+  });
+}
+
+if (groupPhoto) {
+  groupPhoto.on('change', () => {
+    const file = groupPhoto[0].files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      groupPhotoPrev.attr('src', e.target.result);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+if (groupForm) {
+  groupForm.on('submit', async (e) => {
+    e.preventDefault();
+    const customName = $('#customName').val();
+    const fileInput = $('#groupPhoto')[0];
+
+    if (fileInput.files.length === 0) {
+      console.error('No file selected.');
+      return;
+    }
+
+    const form = new FormData();
+    form.append('customName', customName);
+    selectedUsers.forEach((user) => form.append('members', user.id));
+    form.append('groupPhoto', fileInput.files[0]);
+
+    await createGroup(form, 'group');
   });
 }
 

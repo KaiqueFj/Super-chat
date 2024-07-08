@@ -33,4 +33,11 @@ router.patch('/updatePassword', authController.updatePassword);
 
 router.post('/addContact', userController.createContact);
 
+router.post(
+  '/createGroup',
+  userController.uploadGroupPhoto,
+  userController.resizeGroupPhoto,
+  userController.createGroup
+);
+
 module.exports = router;

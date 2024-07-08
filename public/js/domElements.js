@@ -14,6 +14,8 @@ export const forwardGroupButton = $('.forwardGroup');
 export const groupContainerForm = $('.updateUserContainer.groupInfo');
 export const inputNumberContact = $('.form__input.phoneNumber');
 export const groupForm = $('.updateUserContainer.groupInfo');
+export const groupPhoto = $('#groupPhoto');
+export const groupPhotoPrev = $('.form__user-photo.group');
 
 // Toggle Background
 export const body = $('body');

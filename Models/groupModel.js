@@ -24,6 +24,10 @@ const groupSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  groupPhoto: {
+    type: String,
+    default: 'default.jpg',
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);

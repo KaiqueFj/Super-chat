@@ -41,54 +41,22 @@ exports.chatFeatures = (io) => {
 
     io.emit('user-status-updated', { userID, online: true });
 
-    // Handle creating a group
-    socket.on('create-group-chat', async (data) => {
-      const { room, customName, members, createdBy } = data;
-      try {
-        const newGroup = new Group({
-          name: room,
-          customName: customName,
-          members: members,
-          createdBy: createdBy,
-        });
-        await newGroup.save();
-
-        // Update the user document with the new group
-        await User.findByIdAndUpdate(
-          userID,
-          { $push: { groups: newGroup._id } },
-          { new: true }
-        );
-
-        members.forEach((memberId) => {
-          socket.to(memberId).emit('group-created', newGroup);
-        });
-
-        socket.emit('group-created', newGroup); // Notify the creator as well
-      } catch (err) {
-        console.error('Error creating group:', err);
-        socket.emit('error', 'Could not create group');
-      }
-    });
-
     // Handle sending messages
     socket.on('send-message', async (message) => {
       try {
         const userID = await getUserIDFromToken(socket);
         const userSender = await User.findById(userID);
-        const isGroupMessage = message.room.startsWith('group_');
-        const room = isGroupMessage
-          ? message.room
-          : userID + '_' + message.userThatReceivesMessage;
+        const room = message.room;
+
         const newMessage = new Message({
           message: message.message,
           room: room,
           user: userID,
           userSender: userSender.name,
-          userReceiver: isGroupMessage ? null : message.userThatReceivesMessage,
+          userReceiver: message.userThatReceivesMessage,
           isOwner: true,
-          group: isGroupMessage ? message.room : null,
         });
+
         await newMessage.save();
         io.to(room).emit('received-message', newMessage);
         io.to(room).emit('getUserMessageFromDatabase', room);
