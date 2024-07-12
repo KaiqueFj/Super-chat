@@ -144,10 +144,22 @@ exports.createGroup = catchAsync(async (req, res, next) => {
 
   const group = await Group.create(groupData);
 
+  // Update the current user's groups
   await User.findByIdAndUpdate(
     req.user.id,
     { $push: { groups: group._id } },
     { new: true }
+  );
+
+  // Update each member's groups
+  await Promise.all(
+    members.map(async (memberId) => {
+      await User.findByIdAndUpdate(
+        memberId,
+        { $push: { groups: group._id } },
+        { new: true }
+      );
+    })
   );
 
   res.status(201).json({
@@ -159,7 +171,6 @@ exports.createGroup = catchAsync(async (req, res, next) => {
 });
 
 exports.createContact = catchAsync(async (req, res, next) => {
-  //1 - create Contact
   const contact = await Contact.create({
     user: req.user.id,
     phoneNumber: req.body.phoneNumber,
@@ -167,9 +178,14 @@ exports.createContact = catchAsync(async (req, res, next) => {
     contactUser: req.body.contactUser,
   });
 
-  // Add the contact to the user's contacts array
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
+    { $push: { contacts: contact._id } },
+    { new: true, runValidators: true }
+  );
+
+  const updatedContactUser = await User.findByIdAndUpdate(
+    req.body.contactUser,
     { $push: { contacts: contact._id } },
     { new: true, runValidators: true }
   );

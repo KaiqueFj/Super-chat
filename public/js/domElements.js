@@ -60,7 +60,8 @@ export const addContactContainer = $('.updateUserContainer.contacts');
 // Chat Elements
 export const form = $('.form-input');
 export const messageInput = $('.inputMessage');
-export const parentElement = $('.listUser');
+export const parentElementUserContainer = $('.listUser');
+export const parentElementGroupContainer = $('.listGroup');
 export const chatContainer = $('.messageList');
 export const chatParentElement = $('.searchForm');
 export const searchUserParentElement = $('.searchForUsers');

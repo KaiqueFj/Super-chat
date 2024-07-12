@@ -7113,7 +7113,8 @@ parcelHelpers.export(exports, "createContactBtn", ()=>createContactBtn);
 parcelHelpers.export(exports, "addContactContainer", ()=>addContactContainer);
 parcelHelpers.export(exports, "form", ()=>form);
 parcelHelpers.export(exports, "messageInput", ()=>messageInput);
-parcelHelpers.export(exports, "parentElement", ()=>parentElement);
+parcelHelpers.export(exports, "parentElementUserContainer", ()=>parentElementUserContainer);
+parcelHelpers.export(exports, "parentElementGroupContainer", ()=>parentElementGroupContainer);
 parcelHelpers.export(exports, "chatContainer", ()=>chatContainer);
 parcelHelpers.export(exports, "chatParentElement", ()=>chatParentElement);
 parcelHelpers.export(exports, "searchUserParentElement", ()=>searchUserParentElement);
@@ -7200,7 +7201,8 @@ const createContactBtn = $(".createContactBtn");
 const addContactContainer = $(".updateUserContainer.contacts");
 const form = $(".form-input");
 const messageInput = $(".inputMessage");
-const parentElement = $(".listUser");
+const parentElementUserContainer = $(".listUser");
+const parentElementGroupContainer = $(".listGroup");
 const chatContainer = $(".messageList");
 const chatParentElement = $(".searchForm");
 const searchUserParentElement = $(".searchForUsers");
@@ -7603,8 +7605,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "selectedUsers", ()=>selectedUsers);
 parcelHelpers.export(exports, "handleFormSubmission", ()=>handleFormSubmission);
-parcelHelpers.export(exports, "handleUserGroup", ()=>handleUserGroup);
 parcelHelpers.export(exports, "handleUserClick", ()=>handleUserClick);
+parcelHelpers.export(exports, "handleUserGroup", ()=>handleUserGroup);
 parcelHelpers.export(exports, "handleUserSearch", ()=>handleUserSearch);
 parcelHelpers.export(exports, "handleUserSearchForPhonenumber", ()=>handleUserSearchForPhonenumber);
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
@@ -7615,10 +7617,13 @@ function handleFormSubmission(socket) {
     (0, _domElementsJs.form).on("submit", async (e)=>{
         e.preventDefault();
         const message = (0, _domElementsJs.messageInput).val();
-        const selectedUser = $(".listUser .users.selected");
-        if (!message || !selectedUser.length) return;
-        const userID = selectedUser.data("user-room");
-        const room = (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), userID);
+        const selectedElement = $(".listUser .users.selected, .listGroup .group.selected");
+        if (!message || !selectedElement.length) return;
+        let room, userID;
+        if (selectedElement.hasClass("users")) {
+            userID = selectedElement.data("user-room");
+            room = (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), userID);
+        } else if (selectedElement.hasClass("group")) room = selectedElement.data("group-room");
         const userThatReceivesMessage = (0, _domElementsJs.getUserThatReceivesMessage)();
         const receivedCount = (0, _domElementsJs.getReceivedMessageCount)();
         const userMessageData = {
@@ -7627,9 +7632,44 @@ function handleFormSubmission(socket) {
             userThatReceivesMessage,
             receivedCount
         };
+        console.log(userMessageData);
         socket.emit("send-message", userMessageData);
         (0, _domElementsJs.messageInput).val("");
     });
+}
+function handleUserClick(socket) {
+    function handleClick(event) {
+        const target = $(event.target).closest(".users, .group");
+        let name, id, photo, isOnline;
+        if (target.hasClass("users")) {
+            name = target.find(".userName").text();
+            id = target.data("user-room");
+            photo = target.find(".user-img").attr("src");
+            isOnline = target.attr("data-online") === "true";
+        } else if (target.hasClass("group")) {
+            name = target.find(".groupName").text();
+            id = target.data("group-room");
+            photo = target.find(".group-img").attr("src");
+            isOnline = false;
+        }
+        const room = target.hasClass("users") ? (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), id) : id;
+        (0, _domElementsJs.messageFormContainer).addClass("visible");
+        (0, _domElementsJs.userSelectedToChat).addClass("visible");
+        (0, _domElementsJs.setUserThatReceivesMessage)(name);
+        (0, _domElementsJs.setRoomName)(room);
+        target.find(".roundNotification").toggleClass("hidden");
+        (0, _domElementsJs.setReceivedMessageCount)(0);
+        const statusText = isOnline ? "online" : "offline";
+        $(".statusBall").removeClass("online offline").addClass(statusText);
+        $(".userNameSelected").text(name);
+        $(".user-img.selected").attr("src", photo);
+        $(".users, .group").removeClass("selected");
+        target.addClass("selected");
+        socket.emit("getUserMessageFromDatabase", (0, _domElementsJs.getRoomName)());
+        socket.emit("join-room", (0, _domElementsJs.getRoomName)(), ()=>{});
+    }
+    (0, _domElementsJs.parentElementUserContainer).on("click", ".users", handleClick);
+    (0, _domElementsJs.parentElementGroupContainer).on("click", ".group", handleClick);
 }
 const handleUserGroup = ()=>{
     $(".user-checkbox").on("change", function() {
@@ -7637,12 +7677,14 @@ const handleUserGroup = ()=>{
         const userName = $(this).closest(".users").find(".userName").text();
         const userImage = $(this).closest(".users").find(".user-img").attr("src");
         const isChecked = this.checked;
-        if (isChecked) selectedUsers.push({
-            id: userId,
-            username: userName,
-            photo: userImage
-        });
-        else selectedUsers = selectedUsers.filter((user)=>user.id !== userId);
+        if (isChecked) {
+            selectedUsers.push({
+                id: userId,
+                username: userName,
+                photo: userImage
+            });
+            console.log(selectedUsers);
+        } else selectedUsers = selectedUsers.filter((user)=>user.id !== userId);
         // Display selected users in the UI
         $(".chatMemberList").empty();
         $(".selectedUsersForGroup").empty();
@@ -7652,30 +7694,6 @@ const handleUserGroup = ()=>{
         (0, _helperFunctionsJs.updateSelectedUserCount)(selectedUsers.length);
     });
 };
-function handleUserClick(socket) {
-    (0, _domElementsJs.parentElement).on("click", ".users", (e)=>{
-        (0, _domElementsJs.messageFormContainer).addClass("visible");
-        (0, _domElementsJs.userSelectedToChat).addClass("visible");
-        const target = $(e.target).closest(".users");
-        const userName = target.find(".userName").text();
-        const userID = target.data("user-room");
-        const userPhoto = target.find(".user-img").attr("src");
-        const userOnline = target.attr("data-online") === "true";
-        const room = (0, _helperFunctionsJs.createRoomID)((0, _domElementsJs.userClientId), userID);
-        (0, _domElementsJs.setUserThatReceivesMessage)(userName);
-        (0, _domElementsJs.setRoomName)(room);
-        target.find(".roundNotification").toggleClass("hidden");
-        (0, _domElementsJs.setReceivedMessageCount)(0);
-        const statusText = userOnline ? "online" : "offline";
-        $(".statusBall").removeClass("online offline").addClass(statusText);
-        $(".userNameSelected").text(userName);
-        $(".user-img.selected").attr("src", userPhoto);
-        $(".users").removeClass("selected");
-        target.addClass("selected");
-        socket.emit("getUserMessageFromDatabase", (0, _domElementsJs.getRoomName)());
-        socket.emit("join-room", (0, _domElementsJs.getRoomName)(), ()=>{});
-    });
-}
 function handleUserSearch(socket) {
     (0, _domElementsJs.chatParentElement).on("click", ".searchTextInChatBtn", (e)=>{
         e.preventDefault();
