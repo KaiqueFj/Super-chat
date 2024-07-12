@@ -121,8 +121,6 @@ export const handleUserGroup = () => {
         username: userName,
         photo: userImage,
       });
-
-      console.log(selectedUsers);
     } else {
       selectedUsers = selectedUsers.filter((user) => user.id !== userId);
     }

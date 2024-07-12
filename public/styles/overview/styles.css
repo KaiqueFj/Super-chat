@@ -189,6 +189,12 @@
   }
 }
 
+.form__user-photo.group {
+  height: 11rem;
+  width: 11rem;
+  border-radius: 50%;
+}
+
 .leftMenu:hover .circle {
   opacity: 1;
   transform: scale(1.3);

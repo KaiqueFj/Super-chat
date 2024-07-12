@@ -7677,14 +7677,12 @@ const handleUserGroup = ()=>{
         const userName = $(this).closest(".users").find(".userName").text();
         const userImage = $(this).closest(".users").find(".user-img").attr("src");
         const isChecked = this.checked;
-        if (isChecked) {
-            selectedUsers.push({
-                id: userId,
-                username: userName,
-                photo: userImage
-            });
-            console.log(selectedUsers);
-        } else selectedUsers = selectedUsers.filter((user)=>user.id !== userId);
+        if (isChecked) selectedUsers.push({
+            id: userId,
+            username: userName,
+            photo: userImage
+        });
+        else selectedUsers = selectedUsers.filter((user)=>user.id !== userId);
         // Display selected users in the UI
         $(".chatMemberList").empty();
         $(".selectedUsersForGroup").empty();
