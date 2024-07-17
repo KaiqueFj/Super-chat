@@ -37,15 +37,15 @@ export const handleMenuOptions = () => {
     }
   });
 
-  // // Hide button when mouse leaves left menu
-  // handleEvent(leftMenu, 'mouseleave', () => {
-  //   leftMenuButton.removeClass('show');
+  // Hide button when mouse leaves left menu
+  handleEvent(leftMenu, 'mouseleave', () => {
+    leftMenuButton.removeClass('show');
 
-  //   // Close options if they are open
-  //   if (leftMenuOptions.hasClass('show')) {
-  //     leftMenuOptions.removeClass('show');
-  //   }
-  // });
+    // Close options if they are open
+    if (leftMenuOptions.hasClass('show')) {
+      leftMenuOptions.removeClass('show');
+    }
+  });
 
   handleEvent(newGroupIcon, 'click', () => {
     toggleClass(containerGroup, 'show');
