@@ -24,13 +24,23 @@ function scrollToMessage(messageID) {
   }
 }
 
-export function displayMessageInChat(message, messageID, senderID, createdAt) {
+export function displayMessageInChat(
+  message,
+  messageID,
+  senderID,
+  createdAt,
+  username,
+  isGroupChat
+) {
   const messageContainer = createMessageContainer(
     message,
     messageID,
     senderID,
-    createdAt
+    createdAt,
+    username,
+    isGroupChat
   );
+
   chatContainer.append(messageContainer);
   return messageContainer;
 }
@@ -63,24 +73,44 @@ export function socketListeners(socket) {
       });
     }
 
+    // Determine if the message is for a group
+    let isGroupChat = false;
+    if (message.room.startsWith('group_')) {
+      isGroupChat = true;
+    }
+
+    const userName = message.userSender || ''; // Assuming message contains userName
+
     displayMessageInChat(
       message.message,
       message._id,
       message.user,
-      message.createdAt
+      message.createdAt,
+      userName,
+      isGroupChat
     );
+
     scrollToBottom();
   });
 
   socket.on('getUsersMessage', async (messages) => {
     $('.messageList').empty();
     const displayPromises = messages.map((message) => {
+      let isGroupChat = false;
+      if (message.room.startsWith('group_')) {
+        isGroupChat = true;
+      }
+
+      const userName = message.userSender || '';
       const messageContainer = displayMessageInChat(
         message.message,
         message._id,
         message.user,
-        message.createdAt
+        message.createdAt,
+        userName,
+        isGroupChat
       );
+
       // Emit messageRead event if the message is received and belongs to the recipient
       if (message.user === userClientId) {
         socket.emit('messageRead', {

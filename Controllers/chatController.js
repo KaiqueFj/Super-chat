@@ -67,7 +67,7 @@ exports.chatFeatures = (io) => {
     });
 
     socket.on('messageRead', async (data) => {
-      const { messageId, readerId, userReceiver } = data;
+      const { messageId, userReceiver } = data;
       try {
         const message = await Message.findById(messageId);
         if (message.userReceiver === userReceiver) {

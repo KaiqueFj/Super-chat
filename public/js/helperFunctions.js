@@ -1,5 +1,31 @@
 import { chatContainer, userClientId, allUsers } from './domElements.js';
 
+const colors = [
+  '#33FF57', // Green
+  '#F1C40F', // Yellow
+  '#ff0000', // Red
+  '#E67E22', // Orange
+  '#ffffff', // Orange
+];
+
+function getRandomColorFromList() {
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+}
+
+const userColors = {};
+
+function getUsernameColor(username) {
+  if (!userColors[username]) {
+    let assignedColor = getRandomColorFromList();
+    while (Object.values(userColors).includes(assignedColor)) {
+      assignedColor = getRandomColorFromList();
+    }
+    userColors[username] = assignedColor;
+  }
+  return userColors[username];
+}
+
 export function formattedTime(isoDateString) {
   if (!isoDateString) return '';
 
@@ -51,7 +77,9 @@ export function createMessageContainer(
   message,
   messageID,
   senderID,
-  createdAt
+  createdAt,
+  userName,
+  isGroupChat
 ) {
   const userMessage = createUserMessage(message, messageID);
   const userMessageCreatedAt = createUserMessageCreatedAt(createdAt);
@@ -61,6 +89,13 @@ export function createMessageContainer(
     .append(userMessageCreatedAt)
     .addClass('messageContainer')
     .attr('data-user-message', senderID);
+
+  if (isGroupChat) {
+    const username = createUserMessageUsername(userName);
+    const usernameColor = getUsernameColor(userName);
+    username.css('color', usernameColor);
+    messageContainer.append(username);
+  }
 
   messageContainer.on('contextmenu', function (event) {
     handleContextMenu(event, this, senderID);
@@ -74,6 +109,10 @@ export function createMessageContainer(
   }
 
   return messageContainer;
+}
+
+function createUserMessageUsername(username) {
+  return $('<span>').addClass('spanUsername').text(username);
 }
 
 function createUserMessage(message, messageID) {

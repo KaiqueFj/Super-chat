@@ -55,8 +55,6 @@ export function handleFormSubmission(socket) {
       receivedCount,
     };
 
-    console.log(userMessageData);
-
     socket.emit('send-message', userMessageData);
 
     messageInput.val('');

@@ -37,8 +37,16 @@
 }
 
 .leftMenu::-webkit-scrollbar-track {
-  background: var(--primary-black-color);
+  background-color: var(--primary-black-color);
   border-radius: 10px;
+}
+
+.leftMenu::-webkit-scrollbar-track-piece {
+  background-color: var(--primary-black-color);
+}
+
+.leftMenu::-webkit-scrollbar-corner {
+  background-color: var(--primary-black-color);
 }
 
 .listUser,
@@ -426,7 +434,7 @@
   display: grid;
 
   grid-template-areas:
-    'userMessage userMessage createdAt messageReadIcon'
+    'username . . .'
     'userMessage userMessage createdAt messageReadIcon'
     'userMessage userMessage createdAt messageReadIcon';
 
@@ -444,6 +452,13 @@
   color: var(--text-color-primary);
   background: var(--primary-purple-color);
   transition: background-color 0.3s, color 0.3s;
+}
+
+.spanUsername {
+  font-size: 1.6rem;
+  grid-area: username;
+  font-weight: 500;
+  line-height: 2rem;
 }
 
 .spanMessage {

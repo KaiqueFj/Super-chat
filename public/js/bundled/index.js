@@ -7366,6 +7366,26 @@ parcelHelpers.export(exports, "showUserFound", ()=>showUserFound);
 // Function to handle user search
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
 var _domElementsJs = require("./domElements.js");
+const colors = [
+    "#33FF57",
+    "#F1C40F",
+    "#ff0000",
+    "#E67E22",
+    "#ffffff"
+];
+function getRandomColorFromList() {
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+}
+const userColors = {};
+function getUsernameColor(username) {
+    if (!userColors[username]) {
+        let assignedColor = getRandomColorFromList();
+        while(Object.values(userColors).includes(assignedColor))assignedColor = getRandomColorFromList();
+        userColors[username] = assignedColor;
+    }
+    return userColors[username];
+}
 function formattedTime(isoDateString) {
     if (!isoDateString) return "";
     const date = new Date(isoDateString);
@@ -7399,10 +7419,16 @@ function scrollToMessage(messageID) {
         (0, _domElementsJs.chatContainer).scrollTop(position);
     }
 }
-function createMessageContainer(message, messageID, senderID, createdAt) {
+function createMessageContainer(message, messageID, senderID, createdAt, userName, isGroupChat) {
     const userMessage = createUserMessage(message, messageID);
     const userMessageCreatedAt = createUserMessageCreatedAt(createdAt);
     const messageContainer = $("<div>").append(userMessage).append(userMessageCreatedAt).addClass("messageContainer").attr("data-user-message", senderID);
+    if (isGroupChat) {
+        const username = createUserMessageUsername(userName);
+        const usernameColor = getUsernameColor(userName);
+        username.css("color", usernameColor);
+        messageContainer.append(username);
+    }
     messageContainer.on("contextmenu", function(event) {
         handleContextMenu(event, this, senderID);
     });
@@ -7411,6 +7437,9 @@ function createMessageContainer(message, messageID, senderID, createdAt) {
         messageContainer.append(messageReadIcon);
     } else messageContainer.addClass("owner-false");
     return messageContainer;
+}
+function createUserMessageUsername(username) {
+    return $("<span>").addClass("spanUsername").text(username);
 }
 function createUserMessage(message, messageID) {
     return $("<span>").addClass("spanMessage").text(message).attr("data-message", messageID);
@@ -7632,7 +7661,6 @@ function handleFormSubmission(socket) {
             userThatReceivesMessage,
             receivedCount
         };
-        console.log(userMessageData);
         socket.emit("send-message", userMessageData);
         (0, _domElementsJs.messageInput).val("");
     });
@@ -7739,8 +7767,8 @@ function scrollToMessage(messageID) {
         chatContainer.scrollTop(position);
     }
 }
-function displayMessageInChat(message, messageID, senderID, createdAt) {
-    const messageContainer = (0, _helperFunctionsJs.createMessageContainer)(message, messageID, senderID, createdAt);
+function displayMessageInChat(message, messageID, senderID, createdAt, username, isGroupChat) {
+    const messageContainer = (0, _helperFunctionsJs.createMessageContainer)(message, messageID, senderID, createdAt, username, isGroupChat);
     chatContainer.append(messageContainer);
     return messageContainer;
 }
@@ -7764,13 +7792,20 @@ function socketListeners(socket) {
             readerId: (0, _domElementsJs.userClientId),
             userReceiver: message.userReceiver
         });
-        displayMessageInChat(message.message, message._id, message.user, message.createdAt);
+        // Determine if the message is for a group
+        let isGroupChat = false;
+        if (message.room.startsWith("group_")) isGroupChat = true;
+        const userName = message.userSender || ""; // Assuming message contains userName
+        displayMessageInChat(message.message, message._id, message.user, message.createdAt, userName, isGroupChat);
         scrollToBottom();
     });
     socket.on("getUsersMessage", async (messages)=>{
         $(".messageList").empty();
         const displayPromises = messages.map((message)=>{
-            const messageContainer = displayMessageInChat(message.message, message._id, message.user, message.createdAt);
+            let isGroupChat = false;
+            if (message.room.startsWith("group_")) isGroupChat = true;
+            const userName = message.userSender || "";
+            const messageContainer = displayMessageInChat(message.message, message._id, message.user, message.createdAt, userName, isGroupChat);
             // Emit messageRead event if the message is received and belongs to the recipient
             if (message.user === (0, _domElementsJs.userClientId)) socket.emit("messageRead", {
                 messageId: message._id,

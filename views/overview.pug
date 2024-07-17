@@ -28,7 +28,7 @@ block content
         // Render groups
       .listGroup
         each group in groups
-          .group(data-group-room=group.id)
+          .group(data-group-room=`group_${group.id}`)
             img.group-img(src=`/images/group/${group.groupPhoto || 'default.jpg'}`, alt=`Photo of ${group.customName}`)
             span.groupName= group.customName
 
