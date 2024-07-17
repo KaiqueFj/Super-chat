@@ -7874,12 +7874,14 @@ const handleMenuOptions = ()=>{
         if (currentIcon.includes("fa-regular fa-pen-to-square")) (0, _domElementsJs.leftMenuButton).find("i").removeClass("fa-regular fa-pen-to-square").addClass("fa-solid fa-x");
         else (0, _domElementsJs.leftMenuButton).find("i").removeClass("fa-solid fa-x").addClass("fa-regular fa-pen-to-square");
     });
-    // Hide button when mouse leaves left menu
-    (0, _helperFunctions.handleEvent)((0, _domElementsJs.leftMenu), "mouseleave", ()=>{
-        (0, _domElementsJs.leftMenuButton).removeClass("show");
-        // Close options if they are open
-        if ((0, _domElementsJs.leftMenuOptions).hasClass("show")) (0, _domElementsJs.leftMenuOptions).removeClass("show");
-    });
+    // // Hide button when mouse leaves left menu
+    // handleEvent(leftMenu, 'mouseleave', () => {
+    //   leftMenuButton.removeClass('show');
+    //   // Close options if they are open
+    //   if (leftMenuOptions.hasClass('show')) {
+    //     leftMenuOptions.removeClass('show');
+    //   }
+    // });
     (0, _helperFunctions.handleEvent)((0, _domElementsJs.newGroupIcon), "click", ()=>{
         (0, _helperFunctions.toggleClass)((0, _domElementsJs.containerGroup), "show");
     });
