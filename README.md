@@ -37,5 +37,9 @@ $ git clone https://github.com/KaiqueFj/Super-chat.git
 ## Video 1 
 https://github.com/user-attachments/assets/7981d5af-9216-4bd5-ae08-7c441328dcd0
 
+## Video 2
+https://github.com/user-attachments/assets/f4c0ff70-3041-4baf-a394-bc7f0a3a5900
+
+
 
 ### That´s all folks :D
