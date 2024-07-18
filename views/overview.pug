@@ -68,11 +68,13 @@ block content
         button.settingsBtn
           i.fa-solid.fa-arrow-left
         span.settingsNameHeader New Group
+
       form.form.form-user-data
         .form__group
-          img.form__user-photo.group(src=`/images/user/profile-pic/${user.photo}`, alt='User photo')
+          img.form__user-photo.group-pic(src=`/images/user/profile-pic/default.jpg`, alt='User photo')
           input.form__upload.img(type= 'file', accept='image/*', id='groupPhoto', name='groupPhoto')
           label(for='groupPhoto') Choose new photo
+
         .form__group
           label.form__label.customName(for='customName') Group Name
           input#customName.form__input.customName(type='text', required, name='customName')

@@ -24,6 +24,13 @@ import {
   sunIcon,
   moonIcon,
   menuItemDarkModeText,
+  groups,
+  groupSelected,
+  groupName,
+  leftMenuThumb,
+  leftMenuTrack,
+  leftMenuTrackPiece,
+  leftMenuCorner,
 } from '../handleInteration/domElements.js';
 
 export const toggleBackground = () => {
@@ -37,6 +44,10 @@ export const toggleBackground = () => {
       .add(header)
       .add(main)
       .add(leftMenu)
+      .add(leftMenuThumb)
+      .add(leftMenuTrack)
+      .add(leftMenuTrackPiece)
+      .add(leftMenuCorner)
       .toggleClass('light-mode');
 
     searchUsersContainerLeftMenu
@@ -48,6 +59,7 @@ export const toggleBackground = () => {
     // User username, message, time - white background
     spanUsername
       .add(userNameSelected)
+      .add(groupName)
       .toggleClass('light-mode-color-details-text');
 
     userMessage
@@ -58,9 +70,9 @@ export const toggleBackground = () => {
       .add(barsIcon)
       .toggleClass('light-mode-color-details-subText');
 
-    users.toggleClass('light-mode-color-hover');
+    users.add(groups).toggleClass('light-mode-color-hover');
 
-    usersSelected.toggleClass('light-mode usersselected');
+    usersSelected.add(groupSelected).toggleClass('light-mode usersselected');
 
     messageForm.toggleClass('light-mode-color-container');
 

@@ -103,8 +103,7 @@ header.header
               span.settingsNameHeader Chat Wallpaper
             form.form.form-user-data
               .form__group
-                img.form__user-photo.chat(src=user.wallpaper ? `/images/user/chat-background/${user.wallpaper}`:'', alt='User wallpaper')
-
+                img.form__user-photo.chat(src=user.wallpaper ? `/images/user/chat-background/${user.wallpaper}`:'/images/user/profile-pic/default.jpg', alt='User wallpaper')
                 input.form__upload.img(type= 'file', accept='image/*', id='wallpaper', name='wallpaper')
                 label(for='wallpaper') Choose new Wallpaper
 
