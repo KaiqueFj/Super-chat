@@ -178,18 +178,14 @@ exports.createContact = catchAsync(async (req, res, next) => {
     contactUser: req.body.contactUser,
   });
 
+  // Update the user who is adding the contact
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
     { $push: { contacts: contact._id } },
     { new: true, runValidators: true }
   );
 
-  const updatedContactUser = await User.findByIdAndUpdate(
-    req.body.contactUser,
-    { $push: { contacts: contact._id } },
-    { new: true, runValidators: true }
-  );
-
+  // Respond with the updated user and contact information
   res.status(201).json({
     status: 'success',
     data: {
