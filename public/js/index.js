@@ -1,13 +1,16 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import { signUp } from './signUp';
-import { signIn, logout } from './Login';
-import { toggleBackground } from './toggleBackground';
-import { dropDownMenu } from './dropDownMenu';
-import { updateSettings } from './updateSettings';
-import { settingsMenu, contactsMenu } from './handleUserMenuClick';
-import { createContact } from './addUserContact.js';
+import { signUp } from './handleUserFunctions/signUp.js';
+import { signIn, logout } from './handleUserFunctions/Login';
+import { toggleBackground } from './handleClicks/toggleBackground.js';
+import { dropDownMenu } from './handleClicks/dropDownMenu.js';
+import { updateSettings } from './handleUserFunctions/updateSettings.js';
+import {
+  settingsMenu,
+  contactsMenu,
+} from './handleClicks/handleUserMenuClick.js';
+import { createContact } from './handleUserFunctions/addUserContact.js';
 import {
   handleFormSubmission,
   handleUserClick,
@@ -16,8 +19,8 @@ import {
   handleUserSearchForPhonenumber,
   handleUserSearchForUsers,
   selectedUsers,
-} from './userHandlers.js';
-import { socketListeners } from './messageHandlers.js';
+} from './handleChatFunction/userHandlers.js';
+import { socketListeners } from './handleChatFunction/messageHandlers.js';
 
 import {
   signUpForm,
@@ -38,9 +41,9 @@ import {
   groupForm,
   groupPhoto,
   groupPhotoPrev,
-} from './domElements.js';
-import { handleMenuOptions } from './OptionsMenu.js';
-import { createGroup } from './groupCreate.js';
+} from './handleInteration/domElements.js';
+import { handleMenuOptions } from './handleClicks/OptionsMenu.js';
+import { createGroup } from './/handleUserFunctions/groupCreate.js';
 
 // Ensure that the socket.io client script is loaded
 document.addEventListener('DOMContentLoaded', () => {

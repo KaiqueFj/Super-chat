@@ -586,18 +586,18 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"f2QDv":[function(require,module,exports) {
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _runtime = require("regenerator-runtime/runtime");
-var _signUp = require("./signUp");
-var _login = require("./Login");
-var _toggleBackground = require("./toggleBackground");
-var _dropDownMenu = require("./dropDownMenu");
-var _updateSettings = require("./updateSettings");
-var _handleUserMenuClick = require("./handleUserMenuClick");
-var _addUserContactJs = require("./addUserContact.js");
-var _userHandlersJs = require("./userHandlers.js");
-var _messageHandlersJs = require("./messageHandlers.js");
-var _domElementsJs = require("./domElements.js");
-var _optionsMenuJs = require("./OptionsMenu.js");
-var _groupCreateJs = require("./groupCreate.js");
+var _signUpJs = require("./handleUserFunctions/signUp.js");
+var _login = require("./handleUserFunctions/Login");
+var _toggleBackgroundJs = require("./handleClicks/toggleBackground.js");
+var _dropDownMenuJs = require("./handleClicks/dropDownMenu.js");
+var _updateSettingsJs = require("./handleUserFunctions/updateSettings.js");
+var _handleUserMenuClickJs = require("./handleClicks/handleUserMenuClick.js");
+var _addUserContactJs = require("./handleUserFunctions/addUserContact.js");
+var _userHandlersJs = require("./handleChatFunction/userHandlers.js");
+var _messageHandlersJs = require("./handleChatFunction/messageHandlers.js");
+var _domElementsJs = require("./handleInteration/domElements.js");
+var _optionsMenuJs = require("./handleClicks/OptionsMenu.js");
+var _groupCreateJs = require(".//handleUserFunctions/groupCreate.js");
 // Ensure that the socket.io client script is loaded
 document.addEventListener("DOMContentLoaded", ()=>{
     const socket = io();
@@ -616,7 +616,7 @@ if (0, _domElementsJs.signUpForm) (0, _domElementsJs.signUpForm).addEventListene
     const name = document.querySelector(".inputName").value;
     const email = document.querySelector(".inputEmail").value;
     const password = document.querySelector(".inputPassword").value;
-    (0, _signUp.signUp)(name, email, password);
+    (0, _signUpJs.signUp)(name, email, password);
 });
 if (0, _domElementsJs.signInForm) (0, _domElementsJs.signInForm).addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -666,7 +666,7 @@ if (0, _domElementsJs.updateUserForm) {
         form.append("photo", document.getElementById("photo").files[0]);
         (0, _domElementsJs.userPhoneNumber).textContent = document.getElementById("phoneNumber").value;
         (0, _domElementsJs.userBiography).textContent = document.getElementById("biography").value;
-        await (0, _updateSettings.updateSettings)(form, "info");
+        await (0, _updateSettingsJs.updateSettings)(form, "info");
     });
 }
 if (0, _domElementsJs.updateUserChat) (0, _domElementsJs.chatBackgroundInput).addEventListener("change", ()=>{
@@ -682,14 +682,14 @@ if (0, _domElementsJs.updateUserChat) (0, _domElementsJs.updateUserChat).addEven
     e.preventDefault();
     const form = new FormData();
     form.append("wallpaper", document.getElementById("wallpaper").files[0]);
-    await (0, _updateSettings.updateSettings)(form, "background");
+    await (0, _updateSettingsJs.updateSettings)(form, "background");
 });
 if (0, _domElementsJs.updateUserPassword) (0, _domElementsJs.updateUserPassword).addEventListener("submit", async (e)=>{
     e.preventDefault();
     const currentPassword = document.getElementById("password-current").value;
     const password = document.getElementById("password").value;
     const passwordConfirm = document.getElementById("password-confirm").value;
-    await (0, _updateSettings.updateSettings)({
+    await (0, _updateSettingsJs.updateSettings)({
         currentPassword,
         password,
         passwordConfirm
@@ -706,13 +706,13 @@ if (0, _domElementsJs.createContactContainer) (0, _domElementsJs.createContactCo
         contactUser
     }, "contact");
 });
-(0, _toggleBackground.toggleBackground)();
-(0, _dropDownMenu.dropDownMenu)();
-(0, _handleUserMenuClick.settingsMenu)();
-(0, _handleUserMenuClick.contactsMenu)();
+(0, _toggleBackgroundJs.toggleBackground)();
+(0, _dropDownMenuJs.dropDownMenu)();
+(0, _handleUserMenuClickJs.settingsMenu)();
+(0, _handleUserMenuClickJs.contactsMenu)();
 (0, _optionsMenuJs.handleMenuOptions)();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./signUp":"a26Sx","./Login":"5NPXU","./toggleBackground":"9lNI6","./dropDownMenu":"ezEYc","./updateSettings":"l3cGY","./handleUserMenuClick":"bHIs6","./addUserContact.js":"iREgH","./userHandlers.js":"bUkf8","./messageHandlers.js":"jcuh6","./domElements.js":"9fSnT","./OptionsMenu.js":"iaW6h","./groupCreate.js":"5MeR4"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./handleUserFunctions/signUp.js":"kmAUz","./handleUserFunctions/Login":"2D5hg","./handleClicks/toggleBackground.js":"1dnOt","./handleClicks/dropDownMenu.js":"2A5c6","./handleUserFunctions/updateSettings.js":"iqdDI","./handleClicks/handleUserMenuClick.js":"lvnxT","./handleUserFunctions/addUserContact.js":"8mPQ5","./handleChatFunction/userHandlers.js":"cTard","./handleChatFunction/messageHandlers.js":"gzXlC","./handleInteration/domElements.js":"6Wb4s","./handleClicks/OptionsMenu.js":"4Yy6D",".//handleUserFunctions/groupCreate.js":"fYmAq"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2530,13 +2530,13 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}],"a26Sx":[function(require,module,exports) {
+},{}],"kmAUz":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "signUp", ()=>signUp);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert");
+var _alert = require("../handleAlertPage/alert");
 const signUp = async (name, email, password)=>{
     try {
         const res = await (0, _axiosDefault.default)({
@@ -2559,7 +2559,7 @@ const signUp = async (name, email, password)=>{
     }
 };
 
-},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jo6P5":[function(require,module,exports) {
+},{"axios":"jo6P5","../handleAlertPage/alert":"hgdTX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _axiosJsDefault.default));
@@ -6966,7 +6966,7 @@ Object.entries(HttpStatusCode).forEach(([key, value])=>{
 });
 exports.default = HttpStatusCode;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kxdiQ":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hgdTX":[function(require,module,exports) {
 //Type is 'success' or 'error'
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -6983,14 +6983,14 @@ const showAlert = (type, message)=>{
     window.setTimeout(hideAlert, 5000);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5NPXU":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2D5hg":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "signIn", ()=>signIn);
 parcelHelpers.export(exports, "logout", ()=>logout);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert");
+var _alert = require("../handleAlertPage/alert");
 const signIn = async (email, password)=>{
     try {
         const res = await (0, _axiosDefault.default)({
@@ -7024,11 +7024,11 @@ const logout = async ()=>{
     }
 };
 
-},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9lNI6":[function(require,module,exports) {
+},{"axios":"jo6P5","../handleAlertPage/alert":"hgdTX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1dnOt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "toggleBackground", ()=>toggleBackground);
-var _domElementsJs = require("./domElements.js");
+var _domElementsJs = require("../handleInteration/domElements.js");
 const toggleBackground = ()=>{
     let isSunVisible = true; // Track the current state of the icons
     (0, _domElementsJs.toggleBackgroundButton).on("click", function(e) {
@@ -7057,7 +7057,7 @@ const toggleBackground = ()=>{
     });
 };
 
-},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9fSnT":[function(require,module,exports) {
+},{"../handleInteration/domElements.js":"6Wb4s","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6Wb4s":[function(require,module,exports) {
 // domElements.js
 // Drop downMenu
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -7250,11 +7250,11 @@ function getReceivedMessageCount() {
     return receivedMessageCount;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ezEYc":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2A5c6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "dropDownMenu", ()=>dropDownMenu);
-var _domElementsJs = require("./domElements.js");
+var _domElementsJs = require("../handleInteration/domElements.js");
 const dropDownMenu = ()=>{
     (0, _domElementsJs.dropDownMenuBtn).on("click", function(e) {
         e.preventDefault();
@@ -7262,13 +7262,13 @@ const dropDownMenu = ()=>{
     });
 };
 
-},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports) {
+},{"../handleInteration/domElements.js":"6Wb4s","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iqdDI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert");
+var _alert = require("../handleAlertPage/alert");
 const updateSettings = async (data, type)=>{
     try {
         const urlMap = {
@@ -7293,13 +7293,13 @@ const updateSettings = async (data, type)=>{
     }
 };
 
-},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bHIs6":[function(require,module,exports) {
+},{"axios":"jo6P5","../handleAlertPage/alert":"hgdTX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lvnxT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "settingsMenu", ()=>settingsMenu);
 parcelHelpers.export(exports, "contactsMenu", ()=>contactsMenu);
-var _domElementsJs = require("./domElements.js");
-var _helperFunctionsJs = require("./helperFunctions.js");
+var _domElementsJs = require("../handleInteration/domElements.js");
+var _helperFunctionsJs = require("../handleChatFunction/helperFunctions.js");
 const settingsMenu = ()=>{
     (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.settingGearButton), "click", ()=>{
         (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.ContainerWithUserInformations), "show");
@@ -7341,7 +7341,7 @@ const contactsMenu = ()=>{
     });
 };
 
-},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2iVDl":[function(require,module,exports) {
+},{"../handleInteration/domElements.js":"6Wb4s","../handleChatFunction/helperFunctions.js":"2ti2D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2ti2D":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "formattedTime", ()=>formattedTime);
@@ -7365,7 +7365,7 @@ parcelHelpers.export(exports, "updateSearchResults", ()=>updateSearchResults);
 parcelHelpers.export(exports, "showUserFound", ()=>showUserFound);
 // Function to handle user search
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
-var _domElementsJs = require("./domElements.js");
+var _domElementsJs = require("../handleInteration/domElements.js");
 const colors = [
     "#33FF57",
     "#F1C40F",
@@ -7600,13 +7600,13 @@ function handleUserSearchForUsers() {
     });
 }
 
-},{"./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iREgH":[function(require,module,exports) {
+},{"../handleInteration/domElements.js":"6Wb4s","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8mPQ5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createContact", ()=>createContact);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert");
+var _alert = require("../handleAlertPage/alert");
 const createContact = async (data, type)=>{
     try {
         const urlMap = {
@@ -7629,7 +7629,7 @@ const createContact = async (data, type)=>{
     }
 };
 
-},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUkf8":[function(require,module,exports) {
+},{"axios":"jo6P5","../handleAlertPage/alert":"hgdTX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cTard":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "selectedUsers", ()=>selectedUsers);
@@ -7639,7 +7639,7 @@ parcelHelpers.export(exports, "handleUserGroup", ()=>handleUserGroup);
 parcelHelpers.export(exports, "handleUserSearch", ()=>handleUserSearch);
 parcelHelpers.export(exports, "handleUserSearchForPhonenumber", ()=>handleUserSearchForPhonenumber);
 parcelHelpers.export(exports, "handleUserSearchForUsers", ()=>handleUserSearchForUsers);
-var _domElementsJs = require("./domElements.js");
+var _domElementsJs = require("../handleInteration/domElements.js");
 var _helperFunctionsJs = require("./helperFunctions.js");
 let selectedUsers = [];
 function handleFormSubmission(socket) {
@@ -7749,13 +7749,13 @@ function handleUserSearchForUsers(socket) {
     });
 }
 
-},{"./domElements.js":"9fSnT","./helperFunctions.js":"2iVDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jcuh6":[function(require,module,exports) {
+},{"../handleInteration/domElements.js":"6Wb4s","./helperFunctions.js":"2ti2D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gzXlC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayMessageInChat", ()=>displayMessageInChat);
 parcelHelpers.export(exports, "socketListeners", ()=>socketListeners);
 var _helperFunctionsJs = require("./helperFunctions.js");
-var _domElementsJs = require("./domElements.js");
+var _domElementsJs = require("../handleInteration/domElements.js");
 const chatContainer = $(".messageList");
 function scrollToBottom() {
     chatContainer.scrollTop(chatContainer.prop("scrollHeight"));
@@ -7854,16 +7854,15 @@ function socketListeners(socket) {
     });
 }
 
-},{"./helperFunctions.js":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iaW6h":[function(require,module,exports) {
+},{"./helperFunctions.js":"2ti2D","../handleInteration/domElements.js":"6Wb4s","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Yy6D":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleMenuOptions", ()=>handleMenuOptions);
-var _domElements = require("./domElements");
-var _helperFunctions = require("./helperFunctions");
-var _domElementsJs = require("./domElements.js");
+var _domElementsJs = require("../handleInteration/domElements.js");
+var _helperFunctionsJs = require("../handleChatFunction/helperFunctions.js");
 const handleMenuOptions = ()=>{
-    (0, _helperFunctions.handleEvent)((0, _domElementsJs.leftMenuButton), "click", ()=>{
-        (0, _helperFunctions.toggleClass)((0, _domElementsJs.leftMenuOptions), "show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.leftMenuButton), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.leftMenuOptions), "show");
         // toggle the grow effect between both icons
         const iconElement = (0, _domElementsJs.leftMenuButton).find("i");
         iconElement.removeClass("grow");
@@ -7875,36 +7874,36 @@ const handleMenuOptions = ()=>{
         else (0, _domElementsJs.leftMenuButton).find("i").removeClass("fa-solid fa-x").addClass("fa-regular fa-pen-to-square");
     });
     // Hide button when mouse leaves left menu
-    (0, _helperFunctions.handleEvent)((0, _domElementsJs.leftMenu), "mouseleave", ()=>{
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.leftMenu), "mouseleave", ()=>{
         (0, _domElementsJs.leftMenuButton).removeClass("show");
         // Close options if they are open
         if ((0, _domElementsJs.leftMenuOptions).hasClass("show")) (0, _domElementsJs.leftMenuOptions).removeClass("show");
     });
-    (0, _helperFunctions.handleEvent)((0, _domElementsJs.newGroupIcon), "click", ()=>{
-        (0, _helperFunctions.toggleClass)((0, _domElementsJs.containerGroup), "show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.newGroupIcon), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.containerGroup), "show");
     });
-    (0, _helperFunctions.handleEvent)((0, _domElementsJs.newChatIcon), "click", ()=>{
-        (0, _helperFunctions.toggleClass)((0, _domElements.contactsContainer), "show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.newChatIcon), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.contactsContainer), "show");
     });
     //Click on forwardButton to open groupInfo
-    (0, _helperFunctions.handleEvent)((0, _domElementsJs.forwardGroupButton), "click", ()=>{
-        (0, _helperFunctions.toggleClass)((0, _domElementsJs.groupContainerForm), "show");
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.forwardGroupButton), "click", ()=>{
+        (0, _helperFunctionsJs.toggleClass)((0, _domElementsJs.groupContainerForm), "show");
         (0, _domElementsJs.containerGroup).removeClass("show");
     });
-    (0, _helperFunctions.handleEvent)((0, _domElementsJs.returnBtn), "click", ()=>{
+    (0, _helperFunctionsJs.handleEvent)((0, _domElementsJs.returnBtn), "click", ()=>{
         // Check for specific contexts before toggling
         if ((0, _domElementsJs.groupContainerForm).hasClass("show")) (0, _domElementsJs.groupContainerForm).removeClass("show");
-        else if ((0, _domElementsJs.containerGroup).hasClass("show")) (0, _helperFunctions.removeClass)((0, _domElementsJs.containerGroup), "show");
+        else if ((0, _domElementsJs.containerGroup).hasClass("show")) (0, _helperFunctionsJs.removeClass)((0, _domElementsJs.containerGroup), "show");
     });
 };
 
-},{"./domElements":"9fSnT","./helperFunctions":"2iVDl","./domElements.js":"9fSnT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5MeR4":[function(require,module,exports) {
+},{"../handleInteration/domElements.js":"6Wb4s","../handleChatFunction/helperFunctions.js":"2ti2D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fYmAq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createGroup", ()=>createGroup);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert");
+var _alert = require("../handleAlertPage/alert");
 const createGroup = async (data, type)=>{
     try {
         const urlMap = {
@@ -7927,6 +7926,6 @@ const createGroup = async (data, type)=>{
     }
 };
 
-},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
+},{"axios":"jo6P5","../handleAlertPage/alert":"hgdTX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gTVKZ","f2QDv"], "f2QDv", "parcelRequiredad9")
 
 //# sourceMappingURL=index.js.map
