@@ -20,10 +20,11 @@ block content
             .ball(class=contact.contactUser.online ? 'online' : 'offline')
             span.userName= contact.nickname
 
-            - const lastMessage = messages.find(message => message.userReceiver === contact.contactUser.name);
-            if lastMessage
-              span.userMessage= lastMessage.message
-              span.messageTime= new Date(lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            each message in messages
+              - const lastMessage = messages.find(message => message.userReceiver === contact.nickname);
+              if lastMessage
+                span.userMessage= lastMessage.message
+                span.messageTime= new Date(lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
         // Render groups
       .listGroup
@@ -31,6 +32,16 @@ block content
           .group(data-group-room=`group_${group.id}`)
             img.group-img(src=`/images/group/${group.groupPhoto || 'default.jpg'}`, alt=`Photo of ${group.customName}`)
             span.groupName= group.customName
+
+            each message in messages
+              - const lastMessage = messages.find(message => message.room.startsWith("group_") && group.customName === message.userReceiver);
+              if lastMessage
+                span.groupMessage= lastMessage.message
+                span.groupMessageTime= new Date(lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+
+
+
 
       .circle
         i.fa-regular.fa-pen-to-square

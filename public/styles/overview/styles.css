@@ -126,7 +126,8 @@
   text-overflow: ellipsis;
 }
 
-.users > .userMessage {
+.users > .userMessage,
+.group > .groupMessage {
   grid-area: userMessage;
   font-size: 1.6rem;
   color: var(--text-color-secondary);
@@ -136,7 +137,8 @@
   text-overflow: ellipsis;
 }
 
-.users > .messageTime {
+.users > .messageTime,
+.group > .groupMessageTime {
   grid-area: messageTime;
   text-align: end;
   font-size: 1.4rem;
