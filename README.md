@@ -2,8 +2,6 @@
 
 The following applications aims the use of a simple chat, with the feature to add friends, create groups in a simple and fast way
 
-#
-
 ## Technologies used
 
 - NodeJS
