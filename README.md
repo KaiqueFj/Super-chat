@@ -29,7 +29,7 @@ The following applications aims the use of a simple chat, with the feature to ad
 $ git clone https://github.com/KaiqueFj/Super-chat.git
 # cd Purple-chat
 # npm install
-# npm run start:dev
+# npm run start:prod
 # npm run watch:NodeJS
 
 ```

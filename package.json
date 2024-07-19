@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "SET NODE_ENV=development & nodemon server.js",
+    "start:prod": "SET NODE_ENV=production & nodemon server.js",
     "watch:js": "parcel watch --dist-dir public/js/bundled --no-cache",
     "build:js": "parcel build --dist-dir public/js/bundled --no-cache"
   },

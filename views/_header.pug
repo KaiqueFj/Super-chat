@@ -4,7 +4,7 @@ header.header
       .leftHeader
 
         .dropDownMenuList
-          button.dropBtn
+          button.dropBtn(aria-label="Open menu")
             i.fa-solid.fa-bars
 
           .dropDownItems
@@ -33,10 +33,10 @@ header.header
 
 
             .headerInfo-settings
-              button.settingsBtn
+              button.settingsBtn(aria-label="Close the menu")
                 i.fa-solid.fa-arrow-left
               span.settingsNameHeader Settings
-              button.settingsBtn.edit-user-info
+              button.settingsBtn.edit-user-info(aria-label="Open  menu")
                 i.fa-regular.fa-pen-to-square
 
             .userInfo-settings
@@ -67,7 +67,7 @@ header.header
             //- form to update users 
           .updateUserContainer
             .headerInfo
-              button.settingsBtn.return
+              button.settingsBtn.return(aria-label="Close the menu")
                 i.fa-solid.fa-arrow-left
               span.settingsNameHeader Edit profile
 
@@ -91,14 +91,14 @@ header.header
                 textarea#biography.form__input.biography(type='text', name='biography') #{user.biography}
 
               .form__group.right
-                button.btn.save
+                button.btn.save(aria-label="Save")
                   i.fa-solid.fa-check
 
           //- form to update users background
           .updateUserContainer.chat
 
             .headerInfo
-              button.settingsBtn.return
+              button.settingsBtn.return(aria-label="Close the menu")
                 i.fa-solid.fa-arrow-left
               span.settingsNameHeader Chat Wallpaper
             form.form.form-user-data
@@ -108,13 +108,13 @@ header.header
                 label(for='wallpaper') Choose new Wallpaper
 
               .form__group.right
-                button.btn.save
+                button.btn.save(aria-label="Save")
                   i.fa-solid.fa-check
 
           //- form to update users password
           .updateUserContainer.password
             .headerInfo
-              button.settingsBtn.return
+              button.settingsBtn.return(aria-label="Close the menu")
                 i.fa-solid.fa-arrow-left
               span.settingsNameHeader Change password
 
@@ -130,33 +130,33 @@ header.header
                 input#password-confirm.form__input.password(type='password', required, autocomplete='Password-confirm' name='passwordConfirm')
 
               .form__group.right
-                button.btn.save
+                button.btn.save(aria-label="Save")
                   i.fa-solid.fa-check
 
           //- form to add the contacts
           .updateUserContainer.contacts
             .headerInfo
-              button.settingsBtn.return
+              button.settingsBtn.return(aria-label="Close the menu")
                 i.fa-solid.fa-arrow-left
               span.settingsNameHeader Contacts
 
             form.form.form-user-data
               .form__group
-                label.form__label(for='phoneNumber') Phone Number
+                label.form__label(for='phoneNumberContact') Phone Number
                 input#phoneNumberContact.form__input.phoneNumber(type='tel', required, name='phoneNumber')
               .form__group
-                label.form__label(for='nickName') Nickname
+                label.form__label(for='nickNameContact') Nickname
                 input#nickNameContact.form__input.nickName(type='tel', required, name='nickName')
               .listUser
               .form__group.right
-                button.btn.save
+                button.btn.save(aria-label="Save")
                   i.fa-solid.fa-check
 
 
 
           .contactsContainer
             .headerInfo
-              button.settingsBtn
+              button.settingsBtn(aria-label="Close the menu")
                 i.fa-solid.fa-arrow-left
               span.settingsNameHeader Contact
             .contactsContainerInfo
@@ -168,7 +168,7 @@ header.header
                     img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
                     .ball(class=contact.contactUser.online ? 'online' : 'offline')
                     span.userName= contact.nickname
-              button.circularButton.createContactBtn
+              button.circularButton.createContactBtn(aria-label="Save")
                 i.fa-solid.fa-user-plus
 
 
@@ -193,5 +193,5 @@ header.header
           .buttonSearch
             form.searchForm(action="")
               input.searchInput.hidden(type="text"  placeholder="Search messages...")
-              button.searchTextInChatBtn(type="submit")
+              button.searchTextInChatBtn(type="submit" aria-label="Search messages")
                 i.fa-solid.fa-magnifying-glass

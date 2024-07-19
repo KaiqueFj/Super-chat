@@ -56,7 +56,7 @@ block content
 
     .createGroupContainer
       .headerInfo
-        button.settingsBtn
+        button.settingsBtn(aria-label="Close the menu")
           i.fa-solid.fa-arrow-left
         span.settingsNameHeader Add Members
       .createGroupContainerInfo
@@ -64,19 +64,19 @@ block content
         .listUser
           each contact in contacts
             .users(data-user-room=contact.contactUser.id, data-online=contact.contactUser.online ? 'true' : 'false')
-              label.checkbox-container
-                input.user-checkbox(type='checkbox', name='selectedUsers', value=contact.contactUser.id)
+              label.checkbox-container(for='checkboxContainer')
+                input.user-checkbox(type='checkbox', name='selectedUsers', id="checkboxContainer" value=contact.contactUser.id)
                 span.checkmark
               img.user-img(src=`/images/user/profile-pic/${contact.contactUser.photo || 'default.jpg'}`, alt=`Photo of ${contact.contactUser.name}`)
               span.userName= contact.nickname
 
 
-        button.circularButton.forwardGroup
+        button.circularButton.forwardGroup(aria-label="Forward")
           i.fa-solid.fa-arrow-right
 
     .updateUserContainer.groupInfo
       .headerInfo
-        button.settingsBtn
+        button.settingsBtn(aria-label="Close the menu")
           i.fa-solid.fa-arrow-left
         span.settingsNameHeader New Group
 
@@ -92,7 +92,7 @@ block content
         h3.chat-member-head 
         .chatMemberList
         .form__group.right
-          button.btn.save(type="submit")
+          button.btn.save(type="submit" aria-label="Save")
             i.fa-solid.fa-check
 
     .messageFormContainer(style=(user.wallpaper ? `background-image: url('/images/user/chat-background/${user.wallpaper}')` : ''))
@@ -104,6 +104,6 @@ block content
         form.form-input(action="")
           .inputBox
             input.inputMessage(placeholder="Message")
-            button(type="submit")
+            button(type="submit" aria-label="Submit")
               i.fa-regular.fa-paper-plane
 
