@@ -14,7 +14,7 @@ server.listen(PORT, () => {
 });
 
 const DB = process.env.DATABASE.replace(
-  '<password>',
+  '<db_password>',
   process.env.DATABASE_PASSWORD
 );
 
